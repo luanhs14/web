@@ -1,0 +1,79 @@
+{
+  "Rossi": {
+    "posicao": "gol",
+    "preco": 8.0
+  },
+  "Adriano": {
+    "posicao": "gol",
+    "preco": 7.0
+  },
+  "C. Miguel": {
+    "posicao": "gol",
+    "preco": 6.0
+  },
+  "F. Luís": {
+    "posicao": "tec",
+    "preco": 12.0
+  },
+  "Fernando Diniz": {
+    "posicao": "tec",
+    "preco": 10.0
+  },
+  "L. Pereira": {
+    "posicao": "zag",
+    "preco": 15.0
+  },
+  "G. Gómez": {
+    "posicao": "zag",
+    "preco": 12.0
+  },
+  "Murilo": {
+    "posicao": "zag",
+    "preco": 10.0
+  },
+  "K. Bruno": {
+    "posicao": "lat",
+    "preco": 8.0
+  },
+  "William": {
+    "posicao": "lat",
+    "preco": 7.0
+  },
+  "Arrascaeta": {
+    "posicao": "mei",
+    "preco": 18.0
+  },
+  "M. Pereira": {
+    "posicao": "mei",
+    "preco": 15.0
+  },
+  "Carrascal": {
+    "posicao": "mei",
+    "preco": 12.0
+  },
+  "V. Roque": {
+    "posicao": "ata",
+    "preco": 16.0
+  },
+  "Vitor Roque": {
+    "posicao": "ata",
+    "preco": 16.0
+  },
+  "K. Jorge": {
+    "posicao": "ata",
+    "preco": 14.0
+  },
+  "Kaio Jorge": {
+    "posicao": "ata",
+    "preco": 14.0
+  },
+  "S. Lino": {
+    "posicao": "ata",
+    "preco": 12.0
+  },
+  "F. López": {
+    "posicao": "ata",
+    "preco": 10.0
+  }
+}
+

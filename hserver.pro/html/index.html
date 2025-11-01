@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hserver.pro - Portal de Projetos</title>
+    <style>
+        :root{
+            --bg-primary: #0a0e27;
+            --bg-secondary: #151932;
+            --surface: #1e2139;
+            --surface-hover: #252847;
+            --text-primary: #e4e6eb;
+            --text-secondary: #9ca3af;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --border: rgba(255,255,255,0.06);
+            --border-hover: rgba(99,102,241,0.3);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.5);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *{
+            box-sizing:border-box;
+            margin:0;
+            padding:0;
+        }
+
+        html,body{
+            height:100%;
+        }
+
+        body{
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:32px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before{
+            content: '';
+            position: fixed;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(99,102,241,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 60%, rgba(139,92,246,0.06) 0%, transparent 50%);
+            animation: drift 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-5%, 5%) rotate(2deg); }
+        }
+
+        .wrap{
+            width:100%;
+            max-width:1100px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding:48px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+
+        header{
+            display:flex;
+            gap:24px;
+            align-items:center;
+            justify-content:space-between;
+            margin-bottom:48px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand{
+            display:flex;
+            gap:16px;
+            align-items:center;
+        }
+
+        .logo{
+            width:60px;
+            height:60px;
+            border-radius:14px;
+            background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:white;
+            font-weight:700;
+            font-size:24px;
+            letter-spacing: -1px;
+            box-shadow: 0 8px 24px rgba(99,102,241,0.3);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .logo::after{
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 14px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .logo:hover::after{
+            opacity: 1;
+        }
+
+        .logo:hover{
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(99,102,241,0.4);
+        }
+
+        h1{
+            font-size:1.75rem;
+            font-weight:700;
+            color:var(--text-primary);
+            letter-spacing:-0.5px;
+            margin-bottom: 4px;
+        }
+
+        .subtitle{
+            color:var(--text-secondary);
+            font-size:0.95rem;
+            font-weight: 400;
+        }
+
+        .controls{
+            display:flex;
+            gap:12px;
+            align-items:center;
+        }
+
+        .search{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            background: var(--surface);
+            padding:10px 18px;
+            border-radius:12px;
+            border:1px solid var(--border);
+            min-width:240px;
+            transition: var(--transition);
+        }
+
+        .search:focus-within{
+            border-color: var(--accent);
+            background: var(--surface-hover);
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+        }
+
+        .search svg{
+            opacity: 0.5;
+            transition: var(--transition);
+        }
+
+        .search:focus-within svg{
+            opacity: 1;
+        }
+
+        .search input{
+            border:0;
+            background:transparent;
+            outline:0;
+            font-size:0.95rem;
+            color:var(--text-primary);
+            width:100%;
+            font-family: inherit;
+        }
+
+        .search input::placeholder{
+            color: var(--text-secondary);
+        }
+
+        .btn{
+            background: var(--accent);
+            color:white;
+            padding:10px 20px;
+            border-radius:12px;
+            border:0;
+            cursor:pointer;
+            font-weight:600;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+            transition: var(--transition);
+            font-family: inherit;
+            white-space: nowrap;
+        }
+
+        .btn:hover{
+            background: var(--accent-hover);
+            box-shadow: 0 6px 20px rgba(99,102,241,0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn:active{
+            transform: translateY(0);
+        }
+
+        .btn:focus-visible{
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .projects-grid{
+            display:grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap:24px;
+        }
+
+        .empty-state{
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon{
+            font-size: 3.5rem;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .project-card{
+            background: var(--surface);
+            border-radius:14px;
+            padding:24px;
+            text-decoration:none;
+            color:inherit;
+            border:1px solid var(--border);
+            transition: var(--transition);
+            display:flex;
+            flex-direction:column;
+            gap:16px;
+            min-height:180px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before{
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(99,102,241,0.05), transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .project-card:hover::before{
+            opacity: 1;
+        }
+
+        .project-card:hover{
+            transform:translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--border-hover);
+            background: var(--surface-hover);
+        }
+
+        .project-card:focus-visible{
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .project-card.coming-soon{
+            opacity: 0.5;
+        }
+
+        .project-card.coming-soon:hover{
+            opacity: 0.7;
+        }
+
+        .project-top{
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-icon{
+            font-size:2.5rem;
+            width:56px;
+            height:56px;
+            border-radius:12px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background: rgba(99,102,241,0.1);
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .project-card:hover .project-icon{
+            transform: scale(1.1);
+            background: rgba(99,102,241,0.15);
+        }
+
+        .project-name{
+            font-weight:700;
+            font-size:1.25rem;
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-desc{
+            color:var(--text-secondary);
+            font-size:0.95rem;
+            line-height: 1.6;
+            flex:1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .status{
+            display:inline-flex;
+            align-items:center;
+            gap:6px;
+            padding:6px 12px;
+            border-radius:8px;
+            font-size:0.8rem;
+            font-weight:600;
+            width:max-content;
+            flex-shrink: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status::before{
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-live{
+            background: rgba(16,185,129,0.15);
+            color: var(--success);
+        }
+
+        .status-live::before{
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        .status-dev{
+            background: rgba(245,158,11,0.15);
+            color: var(--warning);
+        }
+
+        .status-dev::before{
+            background: var(--warning);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 currentColor; }
+            50% { opacity: 0.6; box-shadow: 0 0 0 2px currentColor; }
+        }
+
+        .muted-note{
+            margin-top:32px;
+            color:var(--text-secondary);
+            font-size:0.9rem;
+            text-align:center;
+            padding: 20px;
+            background: rgba(99,102,241,0.05);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        /* Accessibility */
+        .skip-link{
+            position:absolute;
+            left:-9999px;
+            top:auto;
+            width:1px;
+            height:1px;
+            overflow:hidden;
+        }
+
+        .skip-link:focus{
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: auto;
+            height: auto;
+            padding: 12px 20px;
+            background: var(--accent);
+            color: white;
+            border-radius: 8px;
+            z-index: 9999;
+            text-decoration: none;
+        }
+
+        :focus-visible{
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+            border-radius: 8px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width:768px){
+            .wrap{
+                padding: 32px 24px;
+            }
+
+            header{
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+                margin-bottom: 32px;
+                padding-bottom: 24px;
+            }
+
+            .brand{
+                width: 100%;
+            }
+
+            .controls{
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search{
+                width: 100%;
+                min-width: 0;
+            }
+
+            .btn{
+                width: 100%;
+                justify-content: center;
+            }
+
+            h1{
+                font-size: 1.5rem;
+            }
+
+            .projects-grid{
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a class="skip-link" href="#main">Pular para conteúdo</a>
+
+    <main class="wrap" id="main">
+        <header>
+            <div class="brand">
+                <div class="logo" aria-hidden="true">HS</div>
+                <div>
+                    <h1 id="page-title">hserver.pro</h1>
+                    <div class="subtitle">Portal de Projetos e Aplicações</div>
+                </div>
+            </div>
+
+            <div class="controls" role="region" aria-label="Controles">
+                <div class="search">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                        <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                        <path d="m21 21-4.35-4.35" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <input id="search" type="search" placeholder="Buscar projetos..." aria-label="Buscar projetos" />
+                </div>
+                <button class="btn" id="new-btn" title="Novo projeto">+ Novo</button>
+            </div>
+        </header>
+
+        <section class="projects-grid" id="projects" aria-live="polite" aria-label="Lista de projetos">
+            <a href="/fifa" class="project-card" data-name="projeto fifa sistema gerenciamento campeonatos">
+                <div class="project-top">
+                    <div class="project-icon" aria-hidden="true">⚽</div>
+                    <div class="status status-live" title="Online">Online</div>
+                </div>
+                <div class="project-name">Projeto FIFA</div>
+                <div class="project-desc">Sistema de gerenciamento de campeonatos com tabelas, calendários e estatísticas.</div>
+            </a>
+
+            <a href="/hubstudy" class="project-card" data-name="hubstudy plataforma estudos colaborativos curso aprendizado">
+                <div class="project-top">
+                    <div class="project-icon" aria-hidden="true">📚</div>
+                    <div class="status status-dev" title="Em desenvolvimento">Dev</div>
+                </div>
+                <div class="project-name">HubStudy</div>
+                <div class="project-desc">Plataforma de estudos colaborativos com recursos de sala, quizzes e notas.</div>
+            </a>
+
+            <button class="project-card coming-soon" tabindex="0" data-name="novo projeto em breve privado seguranca" aria-label="Novo Projeto - Em breve">
+                <div class="project-top">
+                    <div class="project-icon" aria-hidden="true">🔒</div>
+                    <div class="status status-dev">Planejamento</div>
+                </div>
+                <div class="project-name">Novo Projeto</div>
+                <div class="project-desc">Em breve — funcionalidades de segurança e controle de acesso.</div>
+            </button>
+
+            <button class="project-card coming-soon" tabindex="0" data-name="em breve novidades atualizacoes" aria-label="Em Breve - Novidades">
+                <div class="project-top">
+                    <div class="project-icon" aria-hidden="true">🚀</div>
+                    <div class="status status-dev">Em Breve</div>
+                </div>
+                <div class="project-name">Novidades</div>
+                <div class="project-desc">Integrações, deploys automatizados e monitoramento em tempo real.</div>
+            </button>
+        </section>
+
+        <div class="muted-note">💡 Use a busca para filtrar projetos ou navegue com Tab</div>
+    </main>
+
+    <script>
+        (function(){
+            const input = document.getElementById('search');
+            const grid = document.getElementById('projects');
+            const cards = Array.from(grid.querySelectorAll('.project-card'));
+
+            function updateSearch() {
+                const q = input.value.trim().toLowerCase();
+                let visibleCount = 0;
+
+                cards.forEach(card => {
+                    const text = (card.dataset.name || card.textContent).toLowerCase();
+                    const shouldShow = !q || text.includes(q);
+                    card.style.display = shouldShow ? '' : 'none';
+                    if(shouldShow) visibleCount++;
+                });
+
+                let emptyState = grid.querySelector('.empty-state');
+                if(visibleCount === 0 && q){
+                    if(!emptyState){
+                        emptyState = document.createElement('div');
+                        emptyState.className = 'empty-state';
+                        grid.appendChild(emptyState);
+                    }
+                    emptyState.innerHTML = '<div class="empty-state-icon">🔍</div><p>Nenhum projeto encontrado para "<strong>' + input.value + '</strong>"</p>';
+                    emptyState.style.display = '';
+                } else if(emptyState){
+                    emptyState.style.display = 'none';
+                }
+            }
+
+            input.addEventListener('input', updateSearch);
+
+            grid.addEventListener('click', e => {
+                const target = e.target.closest('.project-card');
+                if(target && target.classList.contains('coming-soon')){
+                    target.style.transform = 'scale(0.98)';
+                    setTimeout(() => target.style.transform = '', 100);
+                }
+            });
+
+            document.getElementById('new-btn').addEventListener('click', function(){
+                const originalText = this.textContent;
+                this.textContent = '✓ Criando...';
+                this.disabled = true;
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.disabled = false;
+                }, 1000);
+            });
+        })();
+    </script>
+</body>
+</html>
