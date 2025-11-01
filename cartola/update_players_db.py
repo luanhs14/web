@@ -47,7 +47,7 @@ def update_db_via_api():
     try:
         # Exemplo de URL - ajuste conforme necessário
         url = "https://api.cartolafc.globo.com/atletas/mercado"
-        response = requests.get(url)
+        response = requests.get(url, timeout=10)  # Timeout de 10 segundos
         
         if response.status_code == 200:
             data = response.json()

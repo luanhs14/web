@@ -7,6 +7,7 @@ import pytesseract
 from PIL import Image, ImageEnhance, ImageFilter
 import json
 import logging
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeoutError
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -81,7 +82,6 @@ JOGADORES_DB = {
     # Jogadores adicionais da imagem exemplo
     'L. Ortiz': {'posicao': 'zag', 'preco': 7.0},
     'L Ortiz': {'posicao': 'zag', 'preco': 7.0},  # Variação OCR
-    'L Ortiz': {'posicao': 'zag', 'preco': 7.0},  # Variação
     'Bruno Pereira Ortiz': {'posicao': 'zag', 'preco': 7.0},  # OCR errado - na verdade é L. Ortiz
     'Piquerez': {'posicao': 'lat', 'preco': 10.0},
     # Mais variações baseadas nos erros do OCR
@@ -144,12 +144,11 @@ def extract_players_from_text(text):
     players = []
     
     # Palavras a ignorar (palavras comuns que não são nomes de jogadores)
-    ignore_words = {'cartola', 'cartoletas', 'c$', 'preco', 'preço', 'rodada', 
-                   'escalacao', 'escalação', 'time', 'gol', 'ata', 'mei', 'zag', 
-                   'lat', 'tec', 'pal', 'cru', 'fla', 'atletico', 'flamengo', 
+    ignore_words = {'cartola', 'cartoletas', 'c$', 'preco', 'preço', 'rodada',
+                   'escalacao', 'escalação', 'time', 'gol', 'ata', 'mei', 'zag',
+                   'lat', 'tec', 'pal', 'cru', 'fla', 'atletico', 'flamengo',
                    'palmeiras', 'cruzeiro', 'sao paulo', 'corinthians',
-                   'qto', 'uma', 'qilr', 'qt', 'mult', 'flu', 'migul', 'wit',
-                   'carrascal'}  # Palavras soltas que aparecem no OCR errado
+                   'qto', 'uma', 'qilr', 'qt', 'mult', 'flu', 'migul', 'wit'}  # Palavras soltas que aparecem no OCR errado
     
     # Palavras muito curtas que geralmente são erros do OCR
     invalid_short_words = {'qto', 'uma', 'qil', 'qt', 'fl', 'mg', 'br'}
@@ -362,26 +361,35 @@ def extract_video_id(url):
             return match.group(1)
     return None
 
-def get_youtube_transcript(video_id):
-    """Obtém legendas do YouTube"""
+def _get_transcript_internal(video_id):
+    """Função interna para obter transcrição (usada com timeout)"""
+    from youtube_transcript_api import YouTubeTranscriptApi
+
+    # Tenta obter legendas em português
     try:
-        from youtube_transcript_api import YouTubeTranscriptApi
-        
-        # Tenta obter legendas em português
+        transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=['pt', 'pt-BR', 'pt-PT'])
+    except Exception:
+        # Tenta inglês se português não estiver disponível
         try:
-            transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=['pt', 'pt-BR', 'pt-PT'])
-        except:
-            # Tenta inglês se português não estiver disponível
-            try:
-                transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=['en'])
-            except:
-                # Tenta qualquer idioma disponível
-                transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
-                transcript = transcript_list.find_generated_transcript(['pt', 'en']).fetch()
-        
-        # Junta todo o texto das legendas
-        text = ' '.join([entry['text'] for entry in transcript])
-        return text, None
+            transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=['en'])
+        except Exception:
+            # Tenta qualquer idioma disponível
+            transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+            transcript = transcript_list.find_generated_transcript(['pt', 'en']).fetch()
+
+    # Junta todo o texto das legendas
+    return ' '.join([entry['text'] for entry in transcript])
+
+def get_youtube_transcript(video_id):
+    """Obtém legendas do YouTube com timeout de 30 segundos"""
+    try:
+        # Usa ThreadPoolExecutor para adicionar timeout
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            future = executor.submit(_get_transcript_internal, video_id)
+            text = future.result(timeout=30)  # Timeout de 30 segundos
+            return text, None
+    except FuturesTimeoutError:
+        return None, "Timeout ao tentar obter legendas do YouTube (>30s)"
     except Exception as e:
         return None, str(e)
 
@@ -610,10 +618,52 @@ def calculate_lineup():
 def load_players_db():
     """Endpoint para carregar/atualizar base de dados de jogadores"""
     global JOGADORES_DB
+
+    if not request.json:
+        return jsonify({'error': 'Dados JSON não fornecidos'}), 400
+
     data = request.json
-    JOGADORES_DB.update(data.get('players', {}))
+    players = data.get('players', {})
+
+    # Validar estrutura dos dados
+    valid_positions = {'gol', 'zag', 'lat', 'mei', 'ata', 'tec'}
+    invalid_players = []
+
+    for name, info in players.items():
+        if not isinstance(info, dict):
+            invalid_players.append(f"{name}: deve ser um dicionário")
+            continue
+
+        if 'posicao' not in info:
+            invalid_players.append(f"{name}: falta campo 'posicao'")
+            continue
+
+        if 'preco' not in info:
+            invalid_players.append(f"{name}: falta campo 'preco'")
+            continue
+
+        if info['posicao'] not in valid_positions:
+            invalid_players.append(f"{name}: posição inválida '{info['posicao']}'")
+            continue
+
+        try:
+            float(info['preco'])
+        except (TypeError, ValueError):
+            invalid_players.append(f"{name}: preço deve ser numérico")
+            continue
+
+    if invalid_players:
+        return jsonify({
+            'error': 'Dados inválidos encontrados',
+            'invalid_players': invalid_players
+        }), 400
+
+    JOGADORES_DB.update(players)
     return jsonify({'success': True, 'count': len(JOGADORES_DB)})
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Em desenvolvimento use: export FLASK_DEBUG=1
+    # Em produção, use Gunicorn (não execute este bloco)
+    debug_mode = os.getenv('FLASK_DEBUG', '0') == '1'
+    app.run(debug=debug_mode, host='127.0.0.1', port=5000)
 
