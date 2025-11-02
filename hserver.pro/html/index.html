@@ -315,11 +315,39 @@
             background: rgba(99,102,241,0.1);
             flex-shrink: 0;
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-icon::before{
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.2));
+            opacity: 0;
+            transition: var(--transition);
         }
 
         .project-card:hover .project-icon{
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(5deg);
             background: rgba(99,102,241,0.15);
+        }
+
+        .project-card:hover .project-icon::before{
+            opacity: 1;
+        }
+
+        /* Custom icon colors for each project */
+        .project-card[data-category="sports"] .project-icon{
+            background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(16,185,129,0.15));
+        }
+
+        .project-card[data-category="education"] .project-icon{
+            background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(99,102,241,0.15));
+        }
+
+        .project-card[data-category="games"] .project-icon{
+            background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(217,70,239,0.15));
         }
 
         .project-name{
@@ -386,6 +414,83 @@
             50% { opacity: 0.6; box-shadow: 0 0 0 2px currentColor; }
         }
 
+        .filters{
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            padding: 20px;
+            background: var(--surface);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .filter-btn{
+            padding: 10px 20px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before{
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .filter-btn:hover{
+            border-color: var(--accent);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active{
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+        }
+
+        .filter-btn.active::before{
+            opacity: 1;
+        }
+
+        .project-card{
+            animation: fadeInUp 0.5s ease-out backwards;
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .project-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-card.hidden{
+            display: none;
+        }
+
         .muted-note{
             margin-top:32px;
             color:var(--text-secondary);
@@ -395,6 +500,67 @@
             background: rgba(99,102,241,0.05);
             border-radius: 12px;
             border: 1px solid var(--border);
+        }
+
+        footer{
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-links{
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a{
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .footer-links a:hover{
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .stats{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+            padding: 20px;
+            background: var(--surface);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-item{
+            text-align: center;
+            padding: 12px;
+        }
+
+        .stat-value{
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .stat-label{
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* Accessibility */
@@ -438,6 +604,10 @@
 
         /* Responsive */
         @media (max-width:768px){
+            body{
+                padding: 20px 16px;
+            }
+
             .wrap{
                 padding: 32px 24px;
             }
@@ -474,9 +644,65 @@
                 font-size: 1.5rem;
             }
 
+            .stats{
+                grid-template-columns: 1fr;
+                padding: 16px 12px;
+                gap: 12px;
+                margin-bottom: 24px;
+            }
+
+            .stat-item{
+                padding: 16px 12px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .stat-item:last-child{
+                border-bottom: none;
+            }
+
+            .stat-value{
+                font-size: 1.75rem;
+                margin-bottom: 6px;
+            }
+
+            .stat-label{
+                font-size: 0.8rem;
+            }
+
+            .filters{
+                padding: 16px;
+                gap: 8px;
+            }
+
+            .filter-btn{
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+
             .projects-grid{
                 grid-template-columns: 1fr;
                 gap: 16px;
+            }
+
+            .project-card{
+                min-height: 160px;
+                padding: 20px;
+            }
+
+            .project-icon{
+                width: 48px;
+                height: 48px;
+                font-size: 2rem;
+            }
+
+            .project-name{
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (min-width:769px) and (max-width:1024px){
+            .projects-grid{
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -506,8 +732,30 @@
             </div>
         </header>
 
+        <div class="stats" role="region" aria-label="Estatísticas">
+            <div class="stat-item">
+                <div class="stat-value">4</div>
+                <div class="stat-label">Projetos Ativos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Online</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">24/7</div>
+                <div class="stat-label">Disponibilidade</div>
+            </div>
+        </div>
+
+        <div class="filters" role="region" aria-label="Filtros de categoria">
+            <button class="filter-btn active" data-filter="all">Todos</button>
+            <button class="filter-btn" data-filter="sports">Esportes</button>
+            <button class="filter-btn" data-filter="education">Educação</button>
+            <button class="filter-btn" data-filter="games">Jogos</button>
+        </div>
+
         <section class="projects-grid" id="projects" aria-live="polite" aria-label="Lista de projetos">
-            <a href="/fifa" class="project-card" data-name="projeto fifa sistema gerenciamento campeonatos">
+            <a href="/fifa" class="project-card" data-name="projeto fifa sistema gerenciamento campeonatos" data-category="sports">
                 <div class="project-top">
                     <div class="project-icon" aria-hidden="true">⚽</div>
                     <div class="status status-live" title="Online">Online</div>
@@ -516,7 +764,7 @@
                 <div class="project-desc">Sistema de gerenciamento de campeonatos com tabelas, calendários e estatísticas.</div>
             </a>
 
-            <a href="/hubstudy" class="project-card" data-name="hubstudy plataforma estudos colaborativos curso aprendizado">
+            <a href="/hubstudy" class="project-card" data-name="hubstudy plataforma estudos colaborativos curso aprendizado" data-category="education">
                 <div class="project-top">
                     <div class="project-icon" aria-hidden="true">📚</div>
                     <div class="status status-dev" title="Em desenvolvimento">Dev</div>
@@ -525,26 +773,52 @@
                 <div class="project-desc">Plataforma de estudos colaborativos com recursos de sala, quizzes e notas.</div>
             </a>
 
-            <button class="project-card coming-soon" tabindex="0" data-name="novo projeto em breve privado seguranca" aria-label="Novo Projeto - Em breve">
+            <a href="/cartola" class="project-card" data-name="cartola fantasy league futebol estatisticas pontuacao" data-category="sports">
                 <div class="project-top">
-                    <div class="project-icon" aria-hidden="true">🔒</div>
-                    <div class="status status-dev">Planejamento</div>
+                    <div class="project-icon" aria-hidden="true">🏆</div>
+                    <div class="status status-live" title="Online">Online</div>
                 </div>
-                <div class="project-name">Novo Projeto</div>
-                <div class="project-desc">Em breve — funcionalidades de segurança e controle de acesso.</div>
-            </button>
+                <div class="project-name">Cartola Pro</div>
+                <div class="project-desc">Ferramentas avançadas para Cartola FC: análises, estatísticas e gestão de times.</div>
+            </a>
 
-            <button class="project-card coming-soon" tabindex="0" data-name="em breve novidades atualizacoes" aria-label="Em Breve - Novidades">
+            <a href="/dayz" class="project-card" data-name="dayz servidor comunidade survival multiplayer" data-category="games">
                 <div class="project-top">
-                    <div class="project-icon" aria-hidden="true">🚀</div>
-                    <div class="status status-dev">Em Breve</div>
+                    <div class="project-icon" aria-hidden="true">🎮</div>
+                    <div class="status status-live" title="Online">Online</div>
                 </div>
-                <div class="project-name">Novidades</div>
-                <div class="project-desc">Integrações, deploys automatizados e monitoramento em tempo real.</div>
-            </button>
+                <div class="project-name">DayZ Server</div>
+                <div class="project-desc">Servidor de DayZ com mods exclusivos, painel de controle e estatísticas de jogadores.</div>
+            </a>
         </section>
 
         <div class="muted-note">💡 Use a busca para filtrar projetos ou navegue com Tab</div>
+
+        <footer>
+            <div class="footer-links">
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+                <a href="mailto:contato@hserver.pro">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="5" width="18" height="14" rx="2"/>
+                        <path d="m3 7 9 6 9-6"/>
+                    </svg>
+                    Contato
+                </a>
+                <a href="/docs">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                    </svg>
+                    Documentação
+                </a>
+            </div>
+            <p>&copy; 2024 hserver.pro - Todos os direitos reservados</p>
+        </footer>
     </main>
 
     <script>
@@ -552,34 +826,66 @@
             const input = document.getElementById('search');
             const grid = document.getElementById('projects');
             const cards = Array.from(grid.querySelectorAll('.project-card'));
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            let currentFilter = 'all';
 
-            function updateSearch() {
+            function updateDisplay() {
                 const q = input.value.trim().toLowerCase();
                 let visibleCount = 0;
 
-                cards.forEach(card => {
+                cards.forEach((card, index) => {
                     const text = (card.dataset.name || card.textContent).toLowerCase();
-                    const shouldShow = !q || text.includes(q);
-                    card.style.display = shouldShow ? '' : 'none';
-                    if(shouldShow) visibleCount++;
+                    const category = card.dataset.category;
+                    const matchesSearch = !q || text.includes(q);
+                    const matchesFilter = currentFilter === 'all' || category === currentFilter;
+                    const shouldShow = matchesSearch && matchesFilter;
+
+                    if(shouldShow){
+                        card.classList.remove('hidden');
+                        card.style.display = '';
+                        card.style.animation = 'none';
+                        setTimeout(() => {
+                            card.style.animation = `fadeInUp 0.5s ease-out ${index * 0.1}s backwards`;
+                        }, 10);
+                        visibleCount++;
+                    } else {
+                        card.classList.add('hidden');
+                        card.style.display = 'none';
+                    }
                 });
 
                 let emptyState = grid.querySelector('.empty-state');
-                if(visibleCount === 0 && q){
+                if(visibleCount === 0){
                     if(!emptyState){
                         emptyState = document.createElement('div');
                         emptyState.className = 'empty-state';
                         grid.appendChild(emptyState);
                     }
-                    emptyState.innerHTML = '<div class="empty-state-icon">🔍</div><p>Nenhum projeto encontrado para "<strong>' + input.value + '</strong>"</p>';
+                    if(q){
+                        emptyState.innerHTML = '<div class="empty-state-icon">🔍</div><p>Nenhum projeto encontrado para "<strong>' + input.value + '</strong>"</p>';
+                    } else {
+                        emptyState.innerHTML = '<div class="empty-state-icon">📂</div><p>Nenhum projeto nesta categoria</p>';
+                    }
                     emptyState.style.display = '';
                 } else if(emptyState){
                     emptyState.style.display = 'none';
                 }
             }
 
-            input.addEventListener('input', updateSearch);
+            // Search functionality
+            input.addEventListener('input', updateDisplay);
 
+            // Filter functionality
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function(){
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.filter;
+                    updateDisplay();
+                });
+            });
+
+            // Card interactions
             grid.addEventListener('click', e => {
                 const target = e.target.closest('.project-card');
                 if(target && target.classList.contains('coming-soon')){
@@ -588,6 +894,7 @@
                 }
             });
 
+            // New button
             document.getElementById('new-btn').addEventListener('click', function(){
                 const originalText = this.textContent;
                 this.textContent = '✓ Criando...';
@@ -596,6 +903,81 @@
                     this.textContent = originalText;
                     this.disabled = false;
                 }, 1000);
+            });
+
+            // Keyboard navigation for filters
+            filterBtns.forEach((btn, index) => {
+                btn.addEventListener('keydown', e => {
+                    if(e.key === 'ArrowRight'){
+                        e.preventDefault();
+                        filterBtns[(index + 1) % filterBtns.length].focus();
+                    } else if(e.key === 'ArrowLeft'){
+                        e.preventDefault();
+                        filterBtns[(index - 1 + filterBtns.length) % filterBtns.length].focus();
+                    }
+                });
+            });
+
+            // Add smooth scroll behavior
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e){
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if(target){
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Animate stats on load
+            const animateValue = (element, start, end, duration) => {
+                const isNumber = !isNaN(end);
+                if(!isNumber) return;
+
+                const range = end - start;
+                const increment = range / (duration / 16);
+                let current = start;
+
+                const timer = setInterval(() => {
+                    current += increment;
+                    if((increment > 0 && current >= end) || (increment < 0 && current <= end)){
+                        current = end;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.round(current);
+                }, 16);
+            };
+
+            const statValues = document.querySelectorAll('.stat-value');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting){
+                        const target = entry.target;
+                        const endValue = parseInt(target.textContent);
+                        if(!isNaN(endValue)){
+                            animateValue(target, 0, endValue, 1500);
+                        }
+                        observer.unobserve(target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            statValues.forEach(stat => {
+                if(!isNaN(parseInt(stat.textContent))){
+                    observer.observe(stat);
+                }
+            });
+
+            // Update copyright year
+            const footer = document.querySelector('footer p');
+            if(footer){
+                const currentYear = new Date().getFullYear();
+                footer.textContent = footer.textContent.replace('2024', currentYear);
+            }
+
+            // Add loading state
+            window.addEventListener('load', () => {
+                document.body.classList.add('loaded');
             });
         })();
     </script>

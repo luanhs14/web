@@ -7,16 +7,45 @@ import pytesseract
 from PIL import Image, ImageEnhance, ImageFilter
 import json
 import logging
+from logging.handlers import RotatingFileHandler
 from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeoutError
+import threading
+import unicodedata
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
+app.config['MAX_JSON_SIZE'] = 5 * 1024 * 1024  # 5MB max JSON size
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 
-# Configurar logging
-logging.basicConfig(level=logging.INFO)
+# Configurações de processamento de imagem
+MAX_IMAGE_PIXELS = 16000000  # 4000x4000 pixels máximo
+MIN_IMAGE_WIDTH = 800  # Largura mínima para OCR
+
+# Lock para sincronização da base de dados global
+db_lock = threading.Lock()
+
+# Configurar logging com rotação
+if not os.path.exists('logs'):
+    os.makedirs('logs')
+
+# Handler com rotação (máximo 10MB por arquivo, mantém 5 backups)
+file_handler = RotatingFileHandler('logs/cartola.log', maxBytes=10485760, backupCount=5, encoding='utf-8')
+file_handler.setLevel(logging.INFO)
+file_handler.setFormatter(logging.Formatter(
+    '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+))
+
+# Handler para console
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+console_handler.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
+
+# Configurar logger
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+logger.addHandler(file_handler)
+logger.addHandler(console_handler)
 
 # Configuração do Tesseract (ajuste se necessário)
 # Para Linux/Mac, geralmente funciona sem configuração
@@ -41,6 +70,16 @@ for path in possible_paths:
 if tesseract_cmd:
     pytesseract.pytesseract.tesseract_cmd = tesseract_cmd
     logger.info(f"Tesseract encontrado em: {tesseract_cmd}")
+
+    # Verifica se o idioma português está instalado
+    try:
+        available_langs = pytesseract.get_languages(config='')
+        if 'por' in available_langs:
+            logger.info("Idioma português disponível no Tesseract")
+        else:
+            logger.warning("AVISO: Idioma português NÃO instalado no Tesseract. Instale com: sudo apt-get install tesseract-ocr-por")
+    except Exception as e:
+        logger.warning(f"Não foi possível verificar idiomas do Tesseract: {e}")
 else:
     logger.warning("Tesseract não encontrado. Verifique a instalação.")
 
@@ -110,32 +149,142 @@ JOGADORES_DB = {
 }
 
 # Tenta carregar base de dados de arquivo JSON se existir
-try:
-    if os.path.exists('players_db.json'):
+def load_players_database():
+    """Carrega base de dados de jogadores de arquivo JSON com validação robusta"""
+    if not os.path.exists('players_db.json'):
+        logger.info("Arquivo players_db.json não encontrado, usando base de dados padrão")
+        return {}
+
+    try:
+        # Verifica tamanho do arquivo
+        file_size = os.path.getsize('players_db.json')
+        if file_size > app.config['MAX_JSON_SIZE']:
+            logger.error(f"Arquivo players_db.json muito grande ({file_size} bytes). Limite: {app.config['MAX_JSON_SIZE']} bytes")
+            return {}
+
+        # Carrega e valida JSON
         with open('players_db.json', 'r', encoding='utf-8') as f:
             db_from_file = json.load(f)
-            JOGADORES_DB.update(db_from_file)
-except Exception as e:
-    print(f"Aviso: Não foi possível carregar players_db.json: {e}")
+
+        # Valida estrutura
+        if not isinstance(db_from_file, dict):
+            logger.error("Arquivo players_db.json deve conter um objeto JSON (dicionário)")
+            return {}
+
+        # Valida cada jogador
+        valid_positions = {'gol', 'zag', 'lat', 'mei', 'ata', 'tec'}
+        validated_players = {}
+        invalid_count = 0
+
+        for name, info in db_from_file.items():
+            if not isinstance(info, dict):
+                invalid_count += 1
+                continue
+
+            if 'posicao' not in info or 'preco' not in info:
+                invalid_count += 1
+                continue
+
+            if info['posicao'] not in valid_positions:
+                invalid_count += 1
+                continue
+
+            try:
+                float(info['preco'])
+                validated_players[name] = info
+            except (TypeError, ValueError):
+                invalid_count += 1
+
+        if invalid_count > 0:
+            logger.warning(f"{invalid_count} jogadores inválidos ignorados de players_db.json")
+
+        logger.info(f"Base de dados carregada com sucesso: {len(validated_players)} jogadores de players_db.json")
+        return validated_players
+
+    except json.JSONDecodeError as e:
+        logger.error(f"Erro ao decodificar players_db.json: {e}")
+        return {}
+    except Exception as e:
+        logger.error(f"Erro inesperado ao carregar players_db.json: {e}")
+        return {}
+
+# Carrega base de dados externa
+external_db = load_players_database()
+JOGADORES_DB.update(external_db)
+
+# Rate limiting simples baseado em memória
+from collections import defaultdict
+from time import time
+from functools import wraps
+
+# Estrutura: {ip: [(timestamp1, endpoint1), (timestamp2, endpoint2), ...]}
+request_history = defaultdict(list)
+RATE_LIMIT_REQUESTS = 30  # Máximo de requisições
+RATE_LIMIT_WINDOW = 60    # Janela de tempo em segundos (1 minuto)
+rate_limit_lock = threading.Lock()
+
+def rate_limit(f):
+    """Decorador para limitar taxa de requisições por IP"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # Obtém IP do cliente
+        if request.headers.get('X-Forwarded-For'):
+            client_ip = request.headers.get('X-Forwarded-For').split(',')[0]
+        else:
+            client_ip = request.remote_addr or 'unknown'
+
+        current_time = time()
+        endpoint = request.endpoint or 'unknown'
+
+        with rate_limit_lock:
+            # Remove requisições antigas (fora da janela de tempo)
+            request_history[client_ip] = [
+                (ts, ep) for ts, ep in request_history[client_ip]
+                if current_time - ts < RATE_LIMIT_WINDOW
+            ]
+
+            # Conta requisições na janela de tempo
+            recent_requests = len(request_history[client_ip])
+
+            if recent_requests >= RATE_LIMIT_REQUESTS:
+                logger.warning(f"Rate limit excedido para IP {client_ip} no endpoint {endpoint}")
+                return jsonify({
+                    'error': 'Muitas requisições. Tente novamente em alguns instantes.',
+                    'retry_after': RATE_LIMIT_WINDOW
+                }), 429
+
+            # Adiciona requisição atual ao histórico
+            request_history[client_ip].append((current_time, endpoint))
+
+        return f(*args, **kwargs)
+    return decorated_function
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 def normalize_name(name):
-    """Normaliza nome para comparação"""
+    """Normaliza nome para comparação removendo todos os acentos e caracteres especiais"""
     name = name.lower().strip()
-    # Remove acentos básicos
+
+    # Remove acentos usando unicodedata (método robusto que cobre todos os caracteres)
+    # NFD = Normalização de Forma Canônica Decomposta
+    # Remove combining characters (acentos, til, cedilha, etc)
+    nfd = unicodedata.normalize('NFD', name)
+    name = ''.join(char for char in nfd if unicodedata.category(char) != 'Mn')
+
+    # Substitui caracteres especiais manualmente que não são marcas combinadas
     replacements = {
-        'á': 'a', 'à': 'a', 'ã': 'a', 'â': 'a',
-        'é': 'e', 'ê': 'e',
-        'í': 'i',
-        'ó': 'o', 'ô': 'o', 'õ': 'o',
-        'ú': 'u',
-        'ç': 'c'
+        'ø': 'o',  # Norueguês
+        'ð': 'd',  # Islandês
+        'þ': 'th', # Islandês
+        'ß': 'ss', # Alemão
+        'æ': 'ae', # Dinamarquês/Norueguês
+        'œ': 'oe', # Francês
     }
     for old, new in replacements.items():
         name = name.replace(old, new)
+
     return name
 
 def extract_players_from_text(text):
@@ -285,29 +434,42 @@ def match_player(name, jogadores_db):
     return None, None
 
 def preprocess_image(image):
-    """Melhora a imagem para OCR"""
+    """Melhora a imagem para OCR com controle de memória"""
+    width, height = image.size
+    pixels = width * height
+
+    # PROTEÇÃO DE MEMÓRIA: Redimensiona imagens muito grandes
+    if pixels > MAX_IMAGE_PIXELS:
+        # Calcula escala para reduzir até o limite
+        scale = (MAX_IMAGE_PIXELS / pixels) ** 0.5
+        new_width = int(width * scale)
+        new_height = int(height * scale)
+        logger.warning(f"Imagem muito grande ({width}x{height}). Redimensionando para {new_width}x{new_height}")
+        image = image.resize((new_width, new_height), Image.Resampling.LANCZOS)
+        width, height = new_width, new_height
+
     # Converte para escala de cinza (melhora precisão)
     if image.mode != 'L':
         image = image.convert('L')
-    
+
     # Aumenta contraste
     enhancer = ImageEnhance.Contrast(image)
     image = enhancer.enhance(1.5)
-    
+
     # Aumenta nitidez
     enhancer = ImageEnhance.Sharpness(image)
     image = enhancer.enhance(2.0)
-    
+
     # Redimensiona se muito pequena (melhora OCR)
-    width, height = image.size
-    if width < 800:
-        scale = 800 / width
+    if width < MIN_IMAGE_WIDTH:
+        scale = MIN_IMAGE_WIDTH / width
         new_size = (int(width * scale), int(height * scale))
         image = image.resize(new_size, Image.Resampling.LANCZOS)
-    
+        logger.info(f"Imagem redimensionada de {width}x{height} para {new_size[0]}x{new_size[1]} para melhorar OCR")
+
     # Aplica filtro para reduzir ruído
     image = image.filter(ImageFilter.MedianFilter(size=3))
-    
+
     return image
 
 def process_image(image_path):
@@ -398,6 +560,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/process_youtube', methods=['POST'])
+@rate_limit
 def process_youtube():
     """Processa links do YouTube extraindo legendas"""
     data = request.json
@@ -476,6 +639,7 @@ def process_youtube():
     })
 
 @app.route('/upload', methods=['POST'])
+@rate_limit
 def upload_files():
     if 'files' not in request.files:
         return jsonify({'error': 'Nenhum arquivo enviado'}), 400
@@ -562,6 +726,7 @@ def upload_files():
     })
 
 @app.route('/calculate_lineup', methods=['POST'])
+@rate_limit
 def calculate_lineup():
     """Calcula a escalação final baseada nos jogadores mais escolhidos"""
     data = request.json
@@ -615,6 +780,7 @@ def calculate_lineup():
     })
 
 @app.route('/load_players_db', methods=['POST'])
+@rate_limit
 def load_players_db():
     """Endpoint para carregar/atualizar base de dados de jogadores"""
     global JOGADORES_DB
@@ -622,8 +788,22 @@ def load_players_db():
     if not request.json:
         return jsonify({'error': 'Dados JSON não fornecidos'}), 400
 
+    # Verifica tamanho do payload
+    content_length = request.content_length
+    if content_length and content_length > app.config['MAX_JSON_SIZE']:
+        return jsonify({
+            'error': f'Payload muito grande. Máximo: {app.config["MAX_JSON_SIZE"]} bytes'
+        }), 413
+
     data = request.json
     players = data.get('players', {})
+
+    if not isinstance(players, dict):
+        return jsonify({'error': 'Campo "players" deve ser um dicionário'}), 400
+
+    # Limita quantidade de jogadores por requisição (proteção DoS)
+    if len(players) > 10000:
+        return jsonify({'error': 'Máximo de 10.000 jogadores por requisição'}), 400
 
     # Validar estrutura dos dados
     valid_positions = {'gol', 'zag', 'lat', 'mei', 'ata', 'tec'}
@@ -655,11 +835,16 @@ def load_players_db():
     if invalid_players:
         return jsonify({
             'error': 'Dados inválidos encontrados',
-            'invalid_players': invalid_players
+            'invalid_players': invalid_players[:100]  # Limita mensagens de erro
         }), 400
 
-    JOGADORES_DB.update(players)
-    return jsonify({'success': True, 'count': len(JOGADORES_DB)})
+    # PROTEÇÃO CONTRA RACE CONDITION: Usa lock para atualizar base de dados
+    with db_lock:
+        JOGADORES_DB.update(players)
+        total_count = len(JOGADORES_DB)
+
+    logger.info(f"Base de dados atualizada com {len(players)} novos jogadores. Total: {total_count}")
+    return jsonify({'success': True, 'count': total_count, 'updated': len(players)})
 
 if __name__ == '__main__':
     # Em desenvolvimento use: export FLASK_DEBUG=1
