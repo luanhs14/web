@@ -710,7 +710,7 @@ function FIFACareerAssistant() {
             {/* Header */}
             <header className="bg-gray-800 border-b border-gray-700">
                 <div className="container mx-auto px-4 py-4">
-                    <h1 className="text-3xl font-bold text-green-400">⚽ FIFA Career Mode Assistant</h1>
+                    <h1 className="text-3xl font-bold text-green-400">⚽ FIFA - Modo Carreira</h1>
                     <p className="text-gray-400 mt-1">Gerencie seu modo carreira como um profissional</p>
                 </div>
             </header>
