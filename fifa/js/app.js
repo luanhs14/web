@@ -457,32 +457,30 @@ function FIFACareerAssistant() {
 
     // Dashboard
     const Dashboard = () => {
-        const available = budget - spent;
         const totalValue = currentSquad.reduce((sum, p) => sum + (p.value || 0), 0);
+        const totalInterestValue = scouts.reduce((sum, p) => sum + (p.value || 0), 0);
         const avgAge = currentSquad.length > 0
             ? (currentSquad.reduce((sum, p) => sum + p.age, 0) / currentSquad.length).toFixed(1)
             : 0;
+        const topSquadPlayers = [...currentSquad]
+            .sort((a, b) => (b.overall || 0) - (a.overall || 0))
+            .slice(0, 5);
+        const topAcademyPlayers = [...academy]
+            .sort((a, b) => ((b.potential ?? b.overall ?? 0) - (a.potential ?? a.overall ?? 0)))
+            .slice(0, 3);
 
         return (
             <div className="space-y-6">
                 <h2 className="text-3xl font-bold">Dashboard</h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-gray-800 rounded-lg p-6">
-                        <div className="text-sm text-gray-400 mb-1">Orçamento Total</div>
-                        <div className="text-2xl font-bold text-green-400">{formatValue(budget)}</div>
-                    </div>
-                    <div className="bg-gray-800 rounded-lg p-6">
-                        <div className="text-sm text-gray-400 mb-1">Gasto</div>
-                        <div className="text-2xl font-bold text-red-400">{formatValue(spent)}</div>
-                    </div>
-                    <div className="bg-gray-800 rounded-lg p-6">
-                        <div className="text-sm text-gray-400 mb-1">Disponível</div>
-                        <div className="text-2xl font-bold text-blue-400">{formatValue(available)}</div>
-                    </div>
-                    <div className="bg-gray-800 rounded-lg p-6">
-                        <div className="text-sm text-gray-400 mb-1">Valor do Elenco</div>
+                        <div className="text-sm text-gray-400 mb-1">Valor do Elenco Atual</div>
                         <div className="text-2xl font-bold text-yellow-400">{formatValue(totalValue)}</div>
+                    </div>
+                    <div className="bg-gray-800 rounded-lg p-6">
+                        <div className="text-sm text-gray-400 mb-1">Valor Total dos Jogadores em Interesse</div>
+                        <div className="text-2xl font-bold text-green-400">{formatValue(totalInterestValue)}</div>
                     </div>
                 </div>
 
@@ -525,6 +523,52 @@ function FIFACareerAssistant() {
                                 <span className="font-bold">{positionsNeeded.filter(p => p.priority === 'Alta').length}</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div className="bg-gray-800 rounded-lg p-6">
+                        <h3 className="text-xl font-bold mb-4">Top 5 do Elenco Atual</h3>
+                        {topSquadPlayers.length > 0 ? (
+                            <div className="space-y-2">
+                                {topSquadPlayers.map(player => (
+                                    <div key={player.id} className="flex justify-between items-center bg-gray-700 p-3 rounded">
+                                        <div>
+                                            <div className="font-bold">{player.name}</div>
+                                            <div className="text-sm text-gray-400">{player.position}</div>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="font-semibold text-blue-300">OVR {player.overall || '-'}{player.potential ? ` / POT ${player.potential}` : ''}</div>
+                                            <div className="text-sm text-gray-400">{formatValue(player.value)}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-gray-400">Cadastre jogadores no elenco para visualizar os destaques.</p>
+                        )}
+                    </div>
+
+                    <div className="bg-gray-800 rounded-lg p-6">
+                        <h3 className="text-xl font-bold mb-4">Top 3 da Base</h3>
+                        {topAcademyPlayers.length > 0 ? (
+                            <div className="space-y-2">
+                                {topAcademyPlayers.map(player => (
+                                    <div key={player.id} className="flex justify-between items-center bg-gray-700 p-3 rounded">
+                                        <div>
+                                            <div className="font-bold">{player.name}</div>
+                                            <div className="text-sm text-gray-400">{player.position}</div>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="font-semibold text-green-300">OVR {player.overall || '-'}{player.potential ? ` / POT ${player.potential}` : ''}</div>
+                                            <div className="text-sm text-gray-400">{formatValue(player.value)}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-gray-400">Cadastre talentos da base para acompanhar os principais destaques.</p>
+                        )}
                     </div>
                 </div>
 
