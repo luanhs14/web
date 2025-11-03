@@ -11,6 +11,8 @@ from logging.handlers import RotatingFileHandler
 from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeoutError
 import threading
 import unicodedata
+import requests
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -86,67 +88,11 @@ else:
 # Criar pasta de uploads se não existir
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-# Base de dados simplificada de jogadores (você pode expandir isso)
-# Formato: {'nome_jogador': {'posicao': 'gol|tec|zag|lat|mei|ata', 'preco': float}}
-JOGADORES_DB = {
-    # Goleiros
-    'Rossi': {'posicao': 'gol', 'preco': 8.0},
-    'Adriano': {'posicao': 'gol', 'preco': 7.0},
-    'C. Miguel': {'posicao': 'gol', 'preco': 6.0},
-    # Técnicos
-    'F. Luís': {'posicao': 'tec', 'preco': 12.0},
-    'Fernando Diniz': {'posicao': 'tec', 'preco': 10.0},
-    # Zagueiros
-    'L. Pereira': {'posicao': 'zag', 'preco': 15.0},
-    'G. Gómez': {'posicao': 'zag', 'preco': 12.0},
-    'Murilo': {'posicao': 'zag', 'preco': 10.0},
-    # Laterais
-    'K. Bruno': {'posicao': 'lat', 'preco': 8.0},
-    'William': {'posicao': 'lat', 'preco': 7.0},
-    # Meias
-    'Arrascaeta': {'posicao': 'mei', 'preco': 18.0},
-    'Arrascae': {'posicao': 'mei', 'preco': 18.0},  # Variação OCR
-    'M. Pereira': {'posicao': 'mei', 'preco': 15.0},
-    'Carrascal': {'posicao': 'mei', 'preco': 12.0},
-    # Atacantes
-    'V. Roque': {'posicao': 'ata', 'preco': 16.0},
-    'V Roque': {'posicao': 'ata', 'preco': 16.0},  # Variação OCR
-    'K. Jorge': {'posicao': 'ata', 'preco': 14.0},
-    'K Jorge': {'posicao': 'ata', 'preco': 14.0},  # Variação OCR
-    'S. Lino': {'posicao': 'ata', 'preco': 12.0},
-    'F. López': {'posicao': 'ata', 'preco': 10.0},
-    'F López': {'posicao': 'ata', 'preco': 10.0},  # Variação OCR
-    'Vitor Roque': {'posicao': 'ata', 'preco': 16.0},
-    'Kaio Jorge': {'posicao': 'ata', 'preco': 14.0},
-    # Jogadores adicionais da imagem exemplo
-    'L. Ortiz': {'posicao': 'zag', 'preco': 7.0},
-    'L Ortiz': {'posicao': 'zag', 'preco': 7.0},  # Variação OCR
-    'Bruno Pereira Ortiz': {'posicao': 'zag', 'preco': 7.0},  # OCR errado - na verdade é L. Ortiz
-    'Piquerez': {'posicao': 'lat', 'preco': 10.0},
-    # Mais variações baseadas nos erros do OCR
-    'Bruno Pereira': {'posicao': 'zag', 'preco': 15.0},  # Pode ser L. Pereira
-    'Pereira': {'posicao': 'zag', 'preco': 15.0},  # Genérico - pode ser L. ou M. Pereira
-    # Mais jogadores comuns do Cartola
-    'Gabriel': {'posicao': 'gol', 'preco': 8.0},
-    'Marcos': {'posicao': 'gol', 'preco': 7.0},
-    'Rafael': {'posicao': 'gol', 'preco': 6.0},
-    'T. Tchê Tchê': {'posicao': 'mei', 'preco': 12.0},
-    'Tchê Tchê': {'posicao': 'mei', 'preco': 12.0},
-    'Gerson': {'posicao': 'mei', 'preco': 14.0},
-    'Bruno Henrique': {'posicao': 'ata', 'preco': 15.0},
-    'B. Henrique': {'posicao': 'ata', 'preco': 15.0},
-    'Pedro': {'posicao': 'ata', 'preco': 13.0},
-    'Gabigol': {'posicao': 'ata', 'preco': 14.0},
-    'Yuri Alberto': {'posicao': 'ata', 'preco': 12.0},
-    'Y. Alberto': {'posicao': 'ata', 'preco': 12.0},
-    'Calleri': {'posicao': 'ata', 'preco': 13.0},
-    'Marquinhos': {'posicao': 'zag', 'preco': 11.0},
-    'Arboleda': {'posicao': 'zag', 'preco': 10.0},
-    'Fabricio Bruno': {'posicao': 'zag', 'preco': 9.0},
-    'F. Bruno': {'posicao': 'zag', 'preco': 9.0},
-    'Ayrton Lucas': {'posicao': 'lat', 'preco': 9.0},
-    'A. Lucas': {'posicao': 'lat', 'preco': 9.0},
-}
+# Base de dados de jogadores
+# NOTA: Esta base é carregada automaticamente da API oficial do Cartola FC
+# Esta seção serve apenas como fallback caso a API esteja indisponível
+# A API carrega 746+ jogadores atualizados automaticamente a cada 6 horas
+JOGADORES_DB = {}
 
 # Tenta carregar base de dados de arquivo JSON se existir
 def load_players_database():
@@ -208,7 +154,93 @@ def load_players_database():
         logger.error(f"Erro inesperado ao carregar players_db.json: {e}")
         return {}
 
-# Carrega base de dados externa
+def load_players_from_cartola_api():
+    """Carrega jogadores diretamente da API do Cartola FC com cache"""
+    cache_file = 'cartola_api_cache.json'
+    cache_duration = timedelta(hours=6)  # Atualiza a cada 6 horas
+
+    # Mapeamento de IDs de posição para abreviações
+    posicoes_map = {
+        1: 'gol',
+        2: 'lat',
+        3: 'zag',
+        4: 'mei',
+        5: 'ata',
+        6: 'tec'
+    }
+
+    # Verifica se existe cache válido
+    if os.path.exists(cache_file):
+        try:
+            file_time = datetime.fromtimestamp(os.path.getmtime(cache_file))
+            if datetime.now() - file_time < cache_duration:
+                with open(cache_file, 'r', encoding='utf-8') as f:
+                    cached_data = json.load(f)
+                    logger.info(f"✅ Usando cache da API Cartola FC: {len(cached_data)} jogadores (cache válido por mais {cache_duration - (datetime.now() - file_time)})")
+                    return cached_data
+        except Exception as e:
+            logger.warning(f"Erro ao ler cache: {e}")
+
+    # Busca dados da API
+    try:
+        logger.info("📡 Buscando jogadores da API do Cartola FC...")
+        response = requests.get('https://api.cartolafc.globo.com/atletas/mercado', timeout=15)
+        response.raise_for_status()
+        data = response.json()
+
+        atletas = data.get('atletas', [])
+        players_db = {}
+
+        for atleta in atletas:
+            nome = atleta.get('apelido', '').strip()
+            posicao_id = atleta.get('posicao_id')
+            preco = atleta.get('preco_num', 0.0)
+
+            # Pula jogadores sem nome ou posição
+            if not nome or posicao_id not in posicoes_map:
+                continue
+
+            posicao = posicoes_map[posicao_id]
+
+            # Adiciona ao banco de dados
+            players_db[nome] = {
+                'posicao': posicao,
+                'preco': float(preco)
+            }
+
+        # Salva cache
+        try:
+            with open(cache_file, 'w', encoding='utf-8') as f:
+                json.dump(players_db, f, ensure_ascii=False, indent=2)
+            logger.info(f"✅ {len(players_db)} jogadores carregados da API e salvos em cache!")
+        except Exception as e:
+            logger.warning(f"Não foi possível salvar cache: {e}")
+
+        return players_db
+
+    except requests.RequestException as e:
+        logger.error(f"❌ Erro ao buscar da API do Cartola FC: {e}")
+
+        # Tenta usar cache antigo se existir
+        if os.path.exists(cache_file):
+            try:
+                with open(cache_file, 'r', encoding='utf-8') as f:
+                    cached_data = json.load(f)
+                    logger.warning(f"⚠️ Usando cache antigo: {len(cached_data)} jogadores")
+                    return cached_data
+            except Exception:
+                pass
+
+        return {}
+    except Exception as e:
+        logger.error(f"❌ Erro inesperado ao carregar da API: {e}")
+        return {}
+
+# Carrega jogadores da API do Cartola FC
+api_players = load_players_from_cartola_api()
+JOGADORES_DB.update(api_players)
+
+# Carrega base de dados externa (arquivo JSON personalizado)
 external_db = load_players_database()
 JOGADORES_DB.update(external_db)
 
@@ -286,6 +318,112 @@ def normalize_name(name):
         name = name.replace(old, new)
 
     return name
+
+def extract_players_from_youtube_text(text, jogadores_db):
+    """Extrai nomes de jogadores ESCALADOS do texto de legendas do YouTube
+
+    Usa análise HÍBRIDA:
+    1. CONTEXTO: Busca frases-chave de escalação positiva
+    2. FREQUÊNCIA: Se mencionado 3+ vezes, provavelmente foi escalado
+    3. FILTRO NEGATIVO: Ignora contexto negativo (não vou, evitar, fora, etc)
+    """
+
+    # Normaliza o texto
+    text_normalized = normalize_name(text)
+    text_lower = text.lower()
+
+    # Divide em sentenças para análise de contexto
+    sentences = re.split(r'[.!?\n]+', text_lower)
+
+    # Palavras-chave POSITIVAS (indicam escalação)
+    positive_keywords = [
+        'vou escalar', 'vou de', 'vou com', 'recomendo', 'recomendacao',
+        'boa opcao', 'vai bem', 'meu time', 'minha escalacao', 'escolhi',
+        'botei', 'coloquei', 'destaque', 'aposta', 'certeza', 'confio',
+        'gosto', 'vale a pena', 'pode ir', 'pode escalar', 'tranquilo',
+        'seguro', 'mandatario', 'obrigatorio', 'essencial', 'fundamental'
+    ]
+
+    # Palavras-chave NEGATIVAS (indicam NÃO escalação)
+    negative_keywords = [
+        'nao vou', 'nao recomendo', 'evitar', 'fora', 'tirei', 'evito',
+        'cuidado', 'risco', 'duvida', 'talvez', 'incerto', 'banco',
+        'suplente', 'desfalque', 'lesionado', 'suspenso', 'nao vale',
+        'caro demais', 'muito caro', 'nao compensa'
+    ]
+
+    players_found = []
+    counted_players = set()
+
+    # Percorre todos os jogadores da base de dados
+    for player_name, player_info in jogadores_db.items():
+        player_normalized = normalize_name(player_name)
+        player_lower = player_name.lower()
+
+        # Pula se já contamos esse jogador
+        if player_normalized in counted_players:
+            continue
+
+        # PASSO 1: Conta quantas vezes o jogador é mencionado
+        pattern = r'\b' + re.escape(player_normalized) + r'\b'
+        matches = re.findall(pattern, text_normalized)
+        mention_count = len(matches)
+
+        # Se não encontrou pelo nome completo, tenta pelo sobrenome
+        if mention_count == 0:
+            name_parts = player_name.split()
+            if len(name_parts) > 1:
+                last_name = name_parts[-1]
+                if len(last_name) >= 5:
+                    last_name_normalized = normalize_name(last_name)
+                    pattern = r'\b' + re.escape(last_name_normalized) + r'\b'
+                    matches = re.findall(pattern, text_normalized)
+                    mention_count = len(matches)
+
+        # Se não foi mencionado, pula
+        if mention_count == 0:
+            continue
+
+        # PASSO 2: Análise de contexto
+        positive_context = 0
+        negative_context = 0
+
+        for sentence in sentences:
+            # Verifica se o jogador está nesta sentença
+            if player_normalized in normalize_name(sentence) or player_lower in sentence:
+                # Conta contexto positivo
+                for keyword in positive_keywords:
+                    if keyword in sentence:
+                        positive_context += 1
+
+                # Conta contexto negativo
+                for keyword in negative_keywords:
+                    if keyword in sentence:
+                        negative_context += 1
+
+        # PASSO 3: DECISÃO HÍBRIDA
+        # Critérios para considerar ESCALADO:
+        is_escalated = False
+
+        # Critério 1: Contexto positivo explícito (palavras-chave)
+        if positive_context > 0 and negative_context == 0:
+            is_escalated = True
+
+        # Critério 2: Mencionado 3+ vezes SEM contexto negativo (frequência alta)
+        elif mention_count >= 3 and negative_context == 0:
+            is_escalated = True
+
+        # Critério 3: Mencionado 5+ vezes mesmo com algum contexto negativo
+        # (provavelmente foi muito discutido = escalado)
+        elif mention_count >= 5 and negative_context <= 1:
+            is_escalated = True
+
+        # Se foi considerado escalado, adiciona à lista
+        if is_escalated:
+            players_found.append(player_name)
+            counted_players.add(player_normalized)
+
+    return players_found
 
 def extract_players_from_text(text):
     """Extrai nomes de jogadores do texto OCR ou legendas"""
@@ -527,20 +665,41 @@ def _get_transcript_internal(video_id):
     """Função interna para obter transcrição (usada com timeout)"""
     from youtube_transcript_api import YouTubeTranscriptApi
 
-    # Tenta obter legendas em português
     try:
-        transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=['pt', 'pt-BR', 'pt-PT'])
-    except Exception:
+        # Cria instância da API
+        api = YouTubeTranscriptApi()
+
+        # Lista transcrições disponíveis
+        transcript_list = api.list(video_id)
+
+        # Tenta obter legendas em português primeiro
+        try:
+            transcript = transcript_list.find_transcript(['pt', 'pt-BR', 'pt-PT'])
+            fetched = transcript.fetch()
+            return ' '.join([snippet.text for snippet in fetched])
+        except Exception:
+            pass
+
         # Tenta inglês se português não estiver disponível
         try:
-            transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=['en'])
+            transcript = transcript_list.find_transcript(['en', 'en-US', 'en-GB'])
+            fetched = transcript.fetch()
+            return ' '.join([snippet.text for snippet in fetched])
         except Exception:
-            # Tenta qualquer idioma disponível
-            transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
-            transcript = transcript_list.find_generated_transcript(['pt', 'en']).fetch()
+            pass
 
-    # Junta todo o texto das legendas
-    return ' '.join([entry['text'] for entry in transcript])
+        # Tenta obter qualquer transcrição disponível
+        for transcript in transcript_list:
+            try:
+                fetched = transcript.fetch()
+                return ' '.join([snippet.text for snippet in fetched])
+            except Exception:
+                continue
+
+        raise Exception("Nenhuma transcrição disponível para este vídeo")
+
+    except Exception as e:
+        raise Exception(f"Não foi possível obter legendas. Verifique se o vídeo tem legendas disponíveis. Erro: {str(e)}")
 
 def get_youtube_transcript(video_id):
     """Obtém legendas do YouTube com timeout de 30 segundos"""
@@ -589,9 +748,9 @@ def process_youtube():
                 'error': f'Erro ao obter legendas: {error}'
             })
             continue
-        
-        # Extrai jogadores das legendas
-        players = extract_players_from_text(transcript_text)
+
+        # Extrai jogadores das legendas usando função específica para YouTube
+        players = extract_players_from_youtube_text(transcript_text, JOGADORES_DB)
         all_players.extend(players)
         
         processing_results.append({
@@ -732,14 +891,14 @@ def calculate_lineup():
     data = request.json
     player_data = data.get('player_data', {})
     
-    # Agrupa por posição
+    # Agrupa por posição (ordem de exibição)
     by_position = {
         'gol': [],
-        'tec': [],
         'zag': [],
         'lat': [],
         'mei': [],
-        'ata': []
+        'ata': [],
+        'tec': []
     }
     
     for player_name, info in player_data.items():
@@ -754,14 +913,14 @@ def calculate_lineup():
                 'variants': info.get('variants', [])
             })
     
-    # Ordena por contagem e pega os top N
+    # Ordena por contagem decrescente (mostra TODOS os jogadores)
     lineup = {
-        'gol': sorted(by_position['gol'], key=lambda x: x['count'], reverse=True)[:1],
-        'tec': sorted(by_position['tec'], key=lambda x: x['count'], reverse=True)[:1],
-        'zag': sorted(by_position['zag'], key=lambda x: x['count'], reverse=True)[:2],
-        'lat': sorted(by_position['lat'], key=lambda x: x['count'], reverse=True)[:2],
-        'mei': sorted(by_position['mei'], key=lambda x: x['count'], reverse=True)[:3],
-        'ata': sorted(by_position['ata'], key=lambda x: x['count'], reverse=True)[:3],
+        'gol': sorted(by_position['gol'], key=lambda x: x['count'], reverse=True),
+        'tec': sorted(by_position['tec'], key=lambda x: x['count'], reverse=True),
+        'zag': sorted(by_position['zag'], key=lambda x: x['count'], reverse=True),
+        'lat': sorted(by_position['lat'], key=lambda x: x['count'], reverse=True),
+        'mei': sorted(by_position['mei'], key=lambda x: x['count'], reverse=True),
+        'ata': sorted(by_position['ata'], key=lambda x: x['count'], reverse=True),
     }
     
     # Para jogadores sem posição definida, tenta inferir pelo contexto ou lista todos
@@ -776,7 +935,7 @@ def calculate_lineup():
     
     return jsonify({
         'lineup': lineup,
-        'unknown_players': sorted(unknown_players, key=lambda x: x['count'], reverse=True)[:10]
+        'unknown_players': sorted(unknown_players, key=lambda x: x['count'], reverse=True)
     })
 
 @app.route('/load_players_db', methods=['POST'])

@@ -1,10 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Projeto FIFA</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FIFA Career Mode Assistant - Gerencie seu modo carreira como um profissional">
+    <meta name="keywords" content="FIFA, Career Mode, Football, Soccer, Manager, Assistant">
+    <meta name="author" content="FIFA Career Assistant">
+    <title>FIFA Career Mode Assistant</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚽</text></svg>">
+
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- React e ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Babel Standalone para JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Lucide Icons (opcional) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Estilos Customizados -->
+    <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
-    <h1>Projeto FIFA - Em Desenvolvimento</h1>
-    <p>Site do projeto FIFA em breve!</p>
+<body class="bg-gray-900 text-gray-100">
+    <!-- Container principal da aplicação React -->
+    <div id="root"></div>
+
+    <!-- Script principal da aplicação -->
+    <script type="text/babel" src="js/app.js"></script>
 </body>
 </html>
