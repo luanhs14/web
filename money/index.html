@@ -1,3 +1,903 @@
-<html>
-Projeto Money!
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #0e1117;
+            --surface: #161b22;
+            --surface-alt: #1f2632;
+            --surface-hover: rgba(56, 139, 253, 0.12);
+            --text: #f7f9fc;
+            --text-muted: #a1acbe;
+            --primary: #388bfd;
+            --success: #34d399;
+            --danger: #f87171;
+            --warning: #facc15;
+            --border: #2d3644;
+            --shadow: rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 2.5rem clamp(1rem, 5vw, 3rem);
+            background: radial-gradient(circle at top left, rgba(56, 139, 253, 0.25), rgba(56, 139, 253, 0) 55%),
+                        radial-gradient(circle at top right, rgba(34, 197, 94, 0.25), rgba(34, 197, 94, 0) 45%),
+                        var(--surface);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 12px 45px -15px rgba(56, 139, 253, 0.35);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 700;
+        }
+
+        header p {
+            margin-top: 0.75rem;
+            margin-bottom: 0;
+            color: var(--text-muted);
+            max-width: 720px;
+            line-height: 1.6;
+        }
+
+        main {
+            flex: 1;
+            padding: 2.5rem clamp(1rem, 5vw, 3rem) 4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.75rem;
+        }
+
+        .card {
+            background: linear-gradient(180deg, var(--surface) 0%, var(--surface-alt) 100%);
+            border-radius: 18px;
+            padding: 1.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 18px 30px -25px var(--shadow);
+            transition: transform 0.2s ease, border 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56, 139, 253, 0.35);
+            box-shadow: 0 28px 40px -20px rgba(56, 139, 253, 0.28);
+        }
+
+        .card h2 {
+            margin: 0 0 0.85rem;
+            font-size: 1.25rem;
+        }
+
+        .card p, .card li {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .card li + li {
+            margin-top: 0.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem 1.25rem;
+            margin-top: 1.25rem;
+        }
+
+        label {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        input, select, button, textarea {
+            font: inherit;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            padding: 0.7rem 0.85rem;
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text);
+            transition: border 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: rgba(56, 139, 253, 0.7);
+            box-shadow: 0 0 0 3px rgba(56, 139, 253, 0.12);
+            background: rgba(56, 139, 253, 0.08);
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        button {
+            cursor: pointer;
+            font-weight: 600;
+            border: none;
+            background: linear-gradient(135deg, rgba(56, 139, 253, 0.95), rgba(56, 139, 253, 0.75));
+            color: white;
+            padding: 0.85rem 1.35rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 30px -18px rgba(56, 139, 253, 0.6);
+        }
+
+        button.secondary {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        button.secondary:hover {
+            border-color: rgba(56, 139, 253, 0.5);
+            box-shadow: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+            border-radius: 18px;
+            background: linear-gradient(180deg, var(--surface) 0%, var(--surface-alt) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 18px 30px -25px var(--shadow);
+        }
+
+        thead {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        th, td {
+            padding: 1rem 0.9rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        th {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+        }
+
+        tbody tr:hover {
+            background: rgba(56, 139, 253, 0.05);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        td:first-child, th:first-child {
+            text-align: left;
+        }
+
+        .amount {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.3rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-muted);
+        }
+
+        .pill.upcoming {
+            background: rgba(250, 204, 21, 0.18);
+            color: var(--warning);
+        }
+
+        .pill.overdue {
+            background: rgba(248, 113, 113, 0.18);
+            color: var(--danger);
+        }
+
+        .pill.paid {
+            background: rgba(52, 211, 153, 0.18);
+            color: var(--success);
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.35rem;
+        }
+
+        .checkbox-grid label {
+            flex-direction: row;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .checkbox-grid input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .months-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .months-container button {
+            align-self: flex-start;
+            font-size: 0.8rem;
+            padding: 0.4rem 0.75rem;
+        }
+
+        .table-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .table-actions button {
+            font-size: 0.9rem;
+            padding: 0.6rem 1.1rem;
+        }
+
+        .account-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .account-actions button {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.35rem 0.65rem;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            font-size: 0.8rem;
+        }
+
+        .account-actions button:hover {
+            border-color: rgba(56, 139, 253, 0.65);
+        }
+
+        .insight-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .insight-list li::before {
+            content: '\2022';
+            color: var(--primary);
+            display: inline-block;
+            width: 1.2rem;
+            margin-left: -1.2rem;
+        }
+
+        .notification-log {
+            max-height: 240px;
+            overflow-y: auto;
+            padding: 0.75rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .notification-log span {
+            display: block;
+        }
+
+        .footer-note {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 1024px) {
+            main {
+                padding-bottom: 2rem;
+            }
+
+            table {
+                font-size: 0.95rem;
+            }
+
+            th, td {
+                padding: 0.85rem 0.6rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 2.25rem 1.25rem;
+            }
+
+            main {
+                padding: 2rem 1.25rem 2.5rem;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            th, td {
+                white-space: nowrap;
+            }
+        }
+    </style>
+    <script defer src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+            const storageKey = 'money-planner-accounts';
+            const defaultData = [
+                {
+                    id: crypto.randomUUID(),
+                    name: 'Plano de Saúde - Aparecida',
+                    dueDay: 5,
+                    amount: 808.61,
+                    notes: 'Plano familiar Unimed',
+                    months: months.reduce((acc, month) => ({ ...acc, [month]: false }), {})
+                },
+                {
+                    id: crypto.randomUUID(),
+                    name: 'Financiamento Moto',
+                    dueDay: 8,
+                    amount: 380,
+                    notes: 'Banco do Brasil',
+                    months: months.reduce((acc, month) => ({ ...acc, [month]: false }), {})
+                }
+            ];
+
+            let accounts = loadAccounts();
+            let notificationLog = [];
+
+            const addAccountForm = document.querySelector('#add-account-form');
+            const accountsTableBody = document.querySelector('#accounts-table-body');
+            const totalAnnualElement = document.querySelector('#total-annual');
+            const totalMonthlyElement = document.querySelector('#total-monthly');
+            const importButton = document.querySelector('#import-data');
+            const exportButton = document.querySelector('#export-data');
+            const templateButton = document.querySelector('#add-template');
+            const notificationForm = document.querySelector('#notification-form');
+            const notificationStatus = document.querySelector('#notification-status');
+            const notificationList = document.querySelector('#notification-log');
+            const checkAllMonthsBtn = document.querySelector('#check-all-months');
+            const uncheckAllMonthsBtn = document.querySelector('#uncheck-all-months');
+
+            initializeEmailJS();
+            render();
+            highlightUpcomingPayments();
+
+            addAccountForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const formData = new FormData(addAccountForm);
+                const name = formData.get('name').trim();
+                const dueDay = Number(formData.get('dueDay'));
+                const amount = Number(formData.get('amount'));
+                const notes = formData.get('notes').trim();
+                const includeMonths = formData.getAll('activeMonths');
+
+                if (!name || !dueDay || !amount) {
+                    addAccountForm.reportValidity();
+                    return;
+                }
+
+                const monthsState = months.reduce((acc, month) => {
+                    acc[month] = includeMonths.length ? includeMonths.includes(month) : false;
+                    return acc;
+                }, {});
+
+                accounts.push({
+                    id: crypto.randomUUID(),
+                    name,
+                    dueDay,
+                    amount,
+                    notes,
+                    months: monthsState
+                });
+
+                addAccountForm.reset();
+                saveAccounts();
+                render();
+            });
+
+            importButton.addEventListener('click', () => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'application/json';
+                input.addEventListener('change', () => {
+                    const file = input.files?.[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = ({ target }) => {
+                        try {
+                            const parsed = JSON.parse(target.result);
+                            if (Array.isArray(parsed)) {
+                                accounts = parsed;
+                                saveAccounts();
+                                render();
+                                logNotification('Dados importados com sucesso.');
+                            } else {
+                                throw new Error('Arquivo inválido');
+                            }
+                        } catch (error) {
+                            alert('Não foi possível importar: ' + error.message);
+                        }
+                    };
+                    reader.readAsText(file);
+                });
+                input.click();
+            });
+
+            exportButton.addEventListener('click', () => {
+                const blob = new Blob([JSON.stringify(accounts, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `money-planner-${new Date().getFullYear()}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                logNotification('Exportação baixada. Guarde seu backup com segurança.');
+            });
+
+            templateButton.addEventListener('click', () => {
+                if (confirm('Isso irá substituir suas contas atuais por um modelo demonstrativo. Deseja continuar?')) {
+                    accounts = structuredClone(defaultData);
+                    saveAccounts();
+                    render();
+                    logNotification('Modelo inicial carregado. Personalize com suas próprias contas.');
+                }
+            });
+
+            checkAllMonthsBtn.addEventListener('click', () => {
+                accounts = accounts.map(account => ({
+                    ...account,
+                    months: Object.fromEntries(months.map(month => [month, true]))
+                }));
+                saveAccounts();
+                render();
+            });
+
+            uncheckAllMonthsBtn.addEventListener('click', () => {
+                accounts = accounts.map(account => ({
+                    ...account,
+                    months: Object.fromEntries(months.map(month => [month, false]))
+                }));
+                saveAccounts();
+                render();
+            });
+
+            notificationForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const formData = new FormData(notificationForm);
+                const serviceId = formData.get('serviceId').trim();
+                const templateId = formData.get('templateId').trim();
+                const publicKey = formData.get('publicKey').trim();
+                const emailTo = formData.get('email').trim();
+                const daysAhead = Number(formData.get('daysAhead')) || 5;
+
+                if (!serviceId || !templateId || !publicKey || !emailTo) {
+                    alert('Preencha todas as credenciais do EmailJS e o e-mail de destino.');
+                    return;
+                }
+
+                window.emailjs.init(publicKey);
+
+                const today = new Date();
+                const currentMonthIndex = today.getMonth();
+                const currentMonthName = months[currentMonthIndex];
+                const upcoming = accounts.filter(account => {
+                    const dueDate = new Date(today.getFullYear(), currentMonthIndex, account.dueDay);
+                    if (dueDate < today) {
+                        dueDate.setMonth(dueDate.getMonth() + 1);
+                    }
+                    const diffDays = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+                    const paid = account.months[currentMonthName];
+                    return diffDays <= daysAhead && !paid;
+                });
+
+                if (!upcoming.length) {
+                    alert('Nenhuma conta pendente dentro do período informado.');
+                    return;
+                }
+
+                const templateParams = {
+                    email_to: emailTo,
+                    subject: 'Lembrete de contas a pagar',
+                    message_html: upcoming.map(account => `Conta: <strong>${account.name}</strong><br>Dia: ${String(account.dueDay).padStart(2, '0')}<br>Valor: R$ ${account.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`).join('<br><br>'),
+                    summary: upcoming.map(account => `${account.name} - dia ${String(account.dueDay).padStart(2, '0')} - R$ ${account.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`).join('\n')
+                };
+
+                try {
+                    await window.emailjs.send(serviceId, templateId, templateParams);
+                    notificationStatus.textContent = 'Lembrete enviado com sucesso!';
+                    notificationStatus.style.color = 'var(--success)';
+                    logNotification(`E-mail enviado para ${emailTo} com ${upcoming.length} contas pendentes.`);
+                } catch (error) {
+                    notificationStatus.textContent = 'Não foi possível enviar o e-mail. Verifique as credenciais.';
+                    notificationStatus.style.color = 'var(--danger)';
+                    logNotification('Falha ao enviar e-mail: ' + error.message);
+                }
+            });
+
+            document.querySelector('#enable-browser-notifications').addEventListener('click', async () => {
+                if (!('Notification' in window)) {
+                    alert('Seu navegador não suporta notificações.');
+                    return;
+                }
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    logNotification('Notificações no navegador ativadas. Manter a aba aberta para receber alertas.');
+                    scheduleBrowserNotifications();
+                }
+            });
+
+            function scheduleBrowserNotifications() {
+                const now = new Date();
+                const upcoming = getUpcomingPayments(1);
+                upcoming.forEach(item => {
+                    const msUntil = item.dueDate - now;
+                    if (msUntil > 0) {
+                        setTimeout(() => {
+                            new Notification('Conta a pagar hoje', {
+                                body: `${item.name} vence hoje (R$ ${item.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })})`,
+                                icon: 'https://cdn-icons-png.flaticon.com/512/2983/2983731.png'
+                            });
+                        }, msUntil);
+                    }
+                });
+            }
+
+            function getUpcomingPayments(daysAhead = 7) {
+                const today = new Date();
+                return accounts.map(account => {
+                    const dueDate = new Date(today.getFullYear(), today.getMonth(), account.dueDay);
+                    if (dueDate < today) {
+                        dueDate.setMonth(dueDate.getMonth() + 1);
+                    }
+                    return {
+                        ...account,
+                        dueDate,
+                        daysUntil: Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24))
+                    };
+                }).filter(item => item.daysUntil <= daysAhead);
+            }
+
+            function highlightUpcomingPayments() {
+                const insightsList = document.querySelector('#insights-list');
+                const today = new Date();
+                const currentMonth = months[today.getMonth()];
+                const upcoming = getUpcomingPayments(5);
+                const overdue = accounts.filter(account => {
+                    const dueDate = new Date(today.getFullYear(), today.getMonth(), account.dueDay);
+                    return dueDate < today && !account.months[currentMonth];
+                });
+
+                const allPaid = accounts.every(account => account.months[currentMonth]);
+
+                const fragments = [];
+                if (upcoming.length) {
+                    fragments.push(`🔔 ${upcoming.length} conta(s) vencem nos próximos dias. Revise o checklist.`);
+                }
+                if (overdue.length) {
+                    fragments.push(`⚠️ ${overdue.length} conta(s) estão atrasadas neste mês.`);
+                }
+                if (allPaid && accounts.length) {
+                    fragments.push('✅ Todas as contas do mês atual estão pagas. Excelente!');
+                }
+                if (!fragments.length) {
+                    fragments.push('📅 Nenhum alerta para hoje. Mantenha os pagamentos em dia!');
+                }
+
+                insightsList.innerHTML = fragments.map(item => `<li>${item}</li>`).join('');
+            }
+
+            function render() {
+                accountsTableBody.innerHTML = '';
+                const today = new Date();
+                const currentMonth = months[today.getMonth()];
+                let totalAnnual = 0;
+                let totalMonthly = 0;
+
+                accounts.sort((a, b) => a.dueDay - b.dueDay).forEach(account => {
+                    totalAnnual += account.amount * months.filter(month => account.months[month] !== null).length;
+                    if (!account.months[currentMonth]) {
+                        totalMonthly += account.amount;
+                    }
+
+                    const tr = document.createElement('tr');
+                    const dueDate = new Date(today.getFullYear(), today.getMonth(), account.dueDay);
+                    let status = 'Pendente';
+                    let pillClass = '';
+
+                    if (account.months[currentMonth]) {
+                        status = 'Pago';
+                        pillClass = 'paid';
+                    } else if (dueDate < today) {
+                        status = 'Em atraso';
+                        pillClass = 'overdue';
+                    } else if ((dueDate - today) / (1000 * 60 * 60 * 24) <= 5) {
+                        status = 'Vencimento próximo';
+                        pillClass = 'upcoming';
+                    }
+
+                    tr.innerHTML = `
+                        <td>
+                            <div style="display:flex; flex-direction:column; gap:0.25rem; align-items:flex-start;">
+                                <strong>${account.name}</strong>
+                                ${account.notes ? `<span class="pill">${account.notes}</span>` : ''}
+                            </div>
+                        </td>
+                        <td>${String(account.dueDay).padStart(2, '0')}</td>
+                        <td class="amount">R$ ${account.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                        ${months.map(month => `
+                            <td>
+                                <input type="checkbox" ${account.months[month] ? 'checked' : ''} data-account="${account.id}" data-month="${month}">
+                            </td>
+                        `).join('')}
+                        <td>
+                            <span class="pill ${pillClass}">${status}</span>
+                        </td>
+                        <td>
+                            <div class="account-actions">
+                                <button data-action="duplicate" data-id="${account.id}">Duplicar</button>
+                                <button data-action="delete" data-id="${account.id}">Excluir</button>
+                            </div>
+                        </td>
+                    `;
+
+                    accountsTableBody.appendChild(tr);
+                });
+
+                totalAnnualElement.textContent = `R$ ${totalAnnual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+                totalMonthlyElement.textContent = `R$ ${totalMonthly.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+
+                accountsTableBody.querySelectorAll('input[type="checkbox"]').forEach(input => {
+                    input.addEventListener('change', () => {
+                        const id = input.dataset.account;
+                        const month = input.dataset.month;
+                        const account = accounts.find(item => item.id === id);
+                        if (!account) return;
+                        account.months[month] = input.checked;
+                        saveAccounts();
+                        highlightUpcomingPayments();
+                        render();
+                    });
+                });
+
+                accountsTableBody.querySelectorAll('button[data-action]').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const id = button.dataset.id;
+                        const account = accounts.find(item => item.id === id);
+                        if (!account) return;
+                        if (button.dataset.action === 'delete') {
+                            if (confirm(`Deseja excluir ${account.name}?`)) {
+                                accounts = accounts.filter(item => item.id !== id);
+                                saveAccounts();
+                                render();
+                                highlightUpcomingPayments();
+                            }
+                        }
+                        if (button.dataset.action === 'duplicate') {
+                            accounts.push({
+                                ...structuredClone(account),
+                                id: crypto.randomUUID(),
+                                months: Object.fromEntries(months.map(month => [month, false]))
+                            });
+                            saveAccounts();
+                            render();
+                        }
+                    });
+                });
+            }
+
+            function loadAccounts() {
+                try {
+                    const stored = localStorage.getItem(storageKey);
+                    if (!stored) {
+                        return structuredClone(defaultData);
+                    }
+                    const parsed = JSON.parse(stored);
+                    return Array.isArray(parsed) ? parsed : structuredClone(defaultData);
+                } catch (error) {
+                    console.error('Erro ao carregar dados, usando padrão.', error);
+                    return structuredClone(defaultData);
+                }
+            }
+
+            function saveAccounts() {
+                localStorage.setItem(storageKey, JSON.stringify(accounts));
+            }
+
+            function initializeEmailJS() {
+                if (!('emailjs' in window)) return;
+                // EmailJS será inicializado com a chave pública informada pelo usuário.
+            }
+
+            function logNotification(message) {
+                const timestamp = new Date().toLocaleString('pt-BR');
+                notificationLog.unshift(`[${timestamp}] ${message}`);
+                notificationList.innerHTML = notificationLog.slice(0, 20).map(item => `<span>${item}</span>`).join('');
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Money Planner</h1>
+        <p>
+            Organize todas as suas contas recorrentes em um só lugar. Cadastre pagamentos, acompanhe o checklist mês a mês, receba lembretes gratuitos por e-mail ou direto no navegador e mantenha seu planejamento sempre atualizado.
+        </p>
+    </header>
+    <main>
+        <section class="cards-grid">
+            <article class="card">
+                <h2>Nova conta recorrente</h2>
+                <p>Cadastre aqui as contas fixas que fazem parte da sua rotina mensal.</p>
+                <form id="add-account-form">
+                    <div class="form-grid">
+                        <label>Nome da conta
+                            <input type="text" name="name" placeholder="Ex.: Plano de Saúde" required>
+                        </label>
+                        <label>Dia do vencimento
+                            <input type="number" name="dueDay" min="1" max="31" required>
+                        </label>
+                        <label>Valor mensal (R$)
+                            <input type="number" name="amount" min="0" step="0.01" required>
+                        </label>
+                        <label>Observações
+                            <textarea name="notes" placeholder="Banco, contrato, responsável..."></textarea>
+                        </label>
+                    </div>
+                    <div class="months-container">
+                        <strong>Meses ativos</strong>
+                        <div class="checkbox-grid">
+                            <label><input type="checkbox" name="activeMonths" value="Jan" checked> Jan</label>
+                            <label><input type="checkbox" name="activeMonths" value="Fev" checked> Fev</label>
+                            <label><input type="checkbox" name="activeMonths" value="Mar" checked> Mar</label>
+                            <label><input type="checkbox" name="activeMonths" value="Abr" checked> Abr</label>
+                            <label><input type="checkbox" name="activeMonths" value="Mai" checked> Mai</label>
+                            <label><input type="checkbox" name="activeMonths" value="Jun" checked> Jun</label>
+                            <label><input type="checkbox" name="activeMonths" value="Jul" checked> Jul</label>
+                            <label><input type="checkbox" name="activeMonths" value="Ago" checked> Ago</label>
+                            <label><input type="checkbox" name="activeMonths" value="Set" checked> Set</label>
+                            <label><input type="checkbox" name="activeMonths" value="Out" checked> Out</label>
+                            <label><input type="checkbox" name="activeMonths" value="Nov" checked> Nov</label>
+                            <label><input type="checkbox" name="activeMonths" value="Dez" checked> Dez</label>
+                        </div>
+                    </div>
+                    <div style="margin-top:1.5rem; display:flex; gap:0.75rem; flex-wrap:wrap;">
+                        <button type="submit">Adicionar conta</button>
+                        <button type="reset" class="secondary">Limpar</button>
+                    </div>
+                </form>
+            </article>
+            <article class="card">
+                <h2>Insights rápidos</h2>
+                <ul class="insight-list" id="insights-list"></ul>
+                <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.05); margin: 1.25rem 0;">
+                <p><strong>Total restante no mês:</strong> <span id="total-monthly">R$ 0,00</span></p>
+                <p><strong>Impacto anual estimado:</strong> <span id="total-annual">R$ 0,00</span></p>
+                <p class="footer-note">Dica: clique em "Duplicar" para criar rapidamente uma nova conta parecida, alterando apenas os detalhes necessários.</p>
+            </article>
+            <article class="card">
+                <h2>Lembretes gratuitos</h2>
+                <p>Use o EmailJS (plano gratuito) para enviar lembretes com as contas que vencem em breve. Basta criar uma conta, configurar um serviço de e-mail e informar os dados abaixo.</p>
+                <form id="notification-form" class="form-grid">
+                    <label>Service ID
+                        <input type="text" name="serviceId" placeholder="service_xxxxx" required>
+                    </label>
+                    <label>Template ID
+                        <input type="text" name="templateId" placeholder="template_xxxxx" required>
+                    </label>
+                    <label>Public Key
+                        <input type="text" name="publicKey" placeholder="XXXXXX" required>
+                    </label>
+                    <label>E-mail para lembrar
+                        <input type="email" name="email" placeholder="voce@email.com" required>
+                    </label>
+                    <label>Antecedência (dias)
+                        <input type="number" name="daysAhead" min="1" max="30" value="5">
+                    </label>
+                    <div style="display:flex; align-items:flex-end;">
+                        <button type="submit">Enviar lembrete agora</button>
+                    </div>
+                </form>
+                <p id="notification-status" style="margin-top:1rem; color: var(--text-muted);"></p>
+                <div class="notification-log" id="notification-log"></div>
+                <div style="margin-top:1rem; display:flex; gap:0.75rem; flex-wrap:wrap;">
+                    <button id="enable-browser-notifications" class="secondary">Ativar alertas no navegador</button>
+                    <a href="https://www.emailjs.com/docs/tutorial/overview/" target="_blank" rel="noopener" style="text-decoration:none;">
+                        <button type="button" class="secondary">Como configurar o EmailJS</button>
+                    </a>
+                </div>
+            </article>
+        </section>
+
+        <section>
+            <div class="table-actions">
+                <button id="add-template" class="secondary">Carregar modelo demonstrativo</button>
+                <button id="import-data" class="secondary">Importar JSON</button>
+                <button id="export-data" class="secondary">Exportar JSON</button>
+                <button id="check-all-months" class="secondary">Marcar todos</button>
+                <button id="uncheck-all-months" class="secondary">Desmarcar todos</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Conta</th>
+                        <th>Dia</th>
+                        <th>Valor</th>
+                        <th>Jan</th>
+                        <th>Fev</th>
+                        <th>Mar</th>
+                        <th>Abr</th>
+                        <th>Mai</th>
+                        <th>Jun</th>
+                        <th>Jul</th>
+                        <th>Ago</th>
+                        <th>Set</th>
+                        <th>Out</th>
+                        <th>Nov</th>
+                        <th>Dez</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="accounts-table-body"></tbody>
+            </table>
+        </section>
+    </main>
+</body>
 </html>
