@@ -1,10 +1,905 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HubStudy</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+            --brand: #6759ff;
+            --brand-dark: #4b3cf0;
+            --accent: #31c48d;
+            --bg: #0f172a;
+            --card: rgba(15, 23, 42, 0.8);
+            --text: #0f172a;
+            --muted: #475569;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f5f3ff 100%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.9);
+            color: #fff;
+            padding: 2.5rem 1.5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(103, 89, 255, 0.25), transparent 55%),
+                        radial-gradient(circle at bottom left, rgba(49, 196, 141, 0.2), transparent 50%);
+            pointer-events: none;
+        }
+
+        header h1 {
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            margin: 0;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        header p {
+            margin: 0.5rem auto 0;
+            max-width: 640px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        main {
+            flex: 1;
+            width: min(1120px, 92%);
+            margin: -3rem auto 0;
+            display: grid;
+            gap: 2rem;
+        }
+
+        section {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(14px);
+            border-radius: 22px;
+            padding: 1.8rem;
+            box-shadow: 0 24px 48px rgba(15, 23, 42, 0.12);
+            position: relative;
+            overflow: hidden;
+        }
+
+        section::before {
+            content: "";
+            position: absolute;
+            inset: -60% 35% auto -40%;
+            height: 240px;
+            background: radial-gradient(circle, rgba(103, 89, 255, 0.16), transparent 70%);
+            z-index: 0;
+        }
+
+        section > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            margin-top: 0;
+            font-size: 1.65rem;
+            letter-spacing: 0.02em;
+            color: var(--brand-dark);
+        }
+
+        h2 span {
+            display: inline-flex;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            align-items: center;
+            justify-content: center;
+            background: rgba(103, 89, 255, 0.12);
+            color: var(--brand-dark);
+        }
+
+        form {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            color: var(--muted);
+        }
+
+        input[type="text"],
+        input[type="datetime-local"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            background: rgba(248, 250, 252, 0.9);
+            font: inherit;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--brand);
+            box-shadow: 0 0 0 4px rgba(103, 89, 255, 0.18);
+            background: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 96px;
+        }
+
+        button {
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem 1.4rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        button.primary {
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+            color: #fff;
+            box-shadow: 0 16px 30px rgba(103, 89, 255, 0.3);
+        }
+
+        button.secondary {
+            background: rgba(103, 89, 255, 0.12);
+            color: var(--brand-dark);
+        }
+
+        button.destructive {
+            background: rgba(239, 68, 68, 0.14);
+            color: #b91c1c;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 32px rgba(15, 23, 42, 0.18);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .grid-two {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .subject-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .subject-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.1rem;
+            background: rgba(248, 250, 252, 0.88);
+            border-radius: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            transition: border 0.2s ease, transform 0.2s ease;
+        }
+
+        .subject-card.completed {
+            border-color: rgba(49, 196, 141, 0.4);
+            background: rgba(49, 196, 141, 0.12);
+            color: #0f5132;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-1px);
+        }
+
+        .subject-info strong {
+            font-size: 1.05rem;
+            display: block;
+        }
+
+        .subject-info span {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .progress {
+            margin-top: 1.5rem;
+            background: rgba(241, 245, 249, 0.96);
+            border-radius: 14px;
+            padding: 1rem;
+        }
+
+        .progress-bar {
+            height: 12px;
+            border-radius: 10px;
+            background: rgba(148, 163, 184, 0.25);
+            overflow: hidden;
+            margin-top: 0.65rem;
+        }
+
+        .progress-bar span {
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(135deg, var(--accent) 0%, #22c55e 100%);
+            width: 0;
+            transition: width 0.4s ease;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(248, 250, 252, 0.9);
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: rgba(103, 89, 255, 0.08);
+        }
+
+        th, td {
+            padding: 0.95rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.24);
+            font-size: 0.95rem;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .empty-state {
+            padding: 1.2rem;
+            text-align: center;
+            color: var(--muted);
+            background: rgba(248, 250, 252, 0.9);
+            border-radius: 16px;
+            border: 1px dashed rgba(148, 163, 184, 0.4);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.85rem;
+            border-radius: 999px;
+            padding: 0.3rem 0.75rem;
+            background: rgba(103, 89, 255, 0.12);
+            color: var(--brand-dark);
+        }
+
+        .badge.success {
+            background: rgba(49, 196, 141, 0.15);
+            color: #0f5132;
+        }
+
+        .upcoming-list {
+            display: grid;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .upcoming-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            background: rgba(248, 250, 252, 0.9);
+        }
+
+        .ideas {
+            display: grid;
+            gap: 0.75rem;
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .ideas li::marker {
+            color: var(--brand-dark);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2.5rem 1rem 1.5rem;
+            color: rgba(15, 23, 42, 0.6);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                margin-top: -2.5rem;
+                gap: 1.5rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+
+            .subject-card {
+                grid-template-columns: 1fr;
+                text-align: left;
+            }
+
+            .subject-card button {
+                justify-self: flex-start;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>HubStudy - Em Desenvolvimento</h1>
-    <p>Plataforma de estudos em desenvolvimento!</p>
+    <header>
+        <h1>HubStudy</h1>
+        <p>Planeje, acompanhe e nunca mais perca prazos importantes dos seus estudos. Tudo em um único painel organizado e gratuito.</p>
+    </header>
+
+    <main>
+        <section id="subjects">
+            <h2><span>📚</span> Organização de Matérias</h2>
+            <form id="subject-form">
+                <div class="grid-two">
+                    <label>
+                        Nome da matéria
+                        <input type="text" id="subject-name" placeholder="Ex.: Matemática Financeira" required>
+                    </label>
+                    <label>
+                        Objetivo da semana (opcional)
+                        <input type="text" id="subject-goal" placeholder="Ex.: Revisar capítulo 3">
+                    </label>
+                </div>
+                <label>
+                    Observações
+                    <textarea id="subject-notes" placeholder="Referências, links úteis ou tópicos a priorizar"></textarea>
+                </label>
+                <button type="submit" class="primary">Adicionar matéria à lista</button>
+            </form>
+
+            <div class="progress" aria-live="polite">
+                <div class="grid-two" style="align-items:center;">
+                    <div>
+                        <strong id="progress-label">0 de 0 concluídas</strong>
+                        <span id="progress-caption" style="display:block;color:var(--muted);margin-top:0.25rem;">Marque as caixas abaixo conforme finalizar seus estudos.</span>
+                    </div>
+                    <span class="badge success" id="progress-percentage">0%</span>
+                </div>
+                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <span id="progress-bar"></span>
+                </div>
+            </div>
+
+            <div id="subject-list" class="subject-list" aria-live="polite"></div>
+            <p id="subjects-empty" class="empty-state" hidden>Comece adicionando uma matéria para acompanhar o seu progresso semanal.</p>
+        </section>
+
+        <section id="important-dates">
+            <h2><span>🗓️</span> Calendário de Provas &amp; Entregas</h2>
+            <form id="event-form">
+                <div class="grid-two">
+                    <label>
+                        Nome do evento
+                        <input type="text" id="event-title" placeholder="Ex.: Prova de Física" required>
+                    </label>
+                    <label>
+                        Quando acontece?
+                        <input type="datetime-local" id="event-datetime" required>
+                    </label>
+                </div>
+                <div class="grid-two">
+                    <label>
+                        Como deseja ser lembrado?
+                        <select id="event-reminder">
+                            <option value="15">15 minutos antes</option>
+                            <option value="60" selected>1 hora antes</option>
+                            <option value="180">3 horas antes</option>
+                            <option value="1440">1 dia antes</option>
+                            <option value="2880">2 dias antes</option>
+                            <option value="10080">1 semana antes</option>
+                        </select>
+                    </label>
+                    <label>
+                        Preparação concluída?
+                        <select id="event-status">
+                            <option value="pendente" selected>Em progresso</option>
+                            <option value="revisado">Revisado</option>
+                            <option value="concluido">Concluído</option>
+                        </select>
+                    </label>
+                </div>
+                <label>
+                    Detalhes adicionais
+                    <textarea id="event-description" placeholder="Conteúdos que serão cobrados, links de inscrição, sala, professor..."></textarea>
+                </label>
+                <button type="submit" class="primary">Registrar evento</button>
+            </form>
+
+            <div id="events-container"></div>
+            <p id="events-empty" class="empty-state" hidden>Nenhuma data importante registrada ainda. Inclua provas, simulados ou entregas para receber lembretes.</p>
+        </section>
+
+        <section id="notifications">
+            <h2><span>🔔</span> Lembretes inteligentes</h2>
+            <p>Ative os lembretes do navegador para receber notificações gratuitas no computador ou celular. Você também pode exportar cada evento para o seu calendário favorito.</p>
+            <div class="grid-two">
+                <div>
+                    <button id="enable-notifications" class="secondary">Ativar notificações do navegador</button>
+                    <p id="notification-status" style="color:var(--muted);margin-top:0.65rem;">Permita o envio de notificações para ser avisado automaticamente no horário configurado.</p>
+                </div>
+                <div>
+                    <button id="export-all" class="secondary">Exportar agenda (.ics)</button>
+                    <p style="color:var(--muted);margin-top:0.65rem;">Importe o arquivo no Google Agenda, Outlook ou calendário do celular para sincronizar lembretes.</p>
+                </div>
+            </div>
+
+            <h3 style="margin-top:1.8rem;">Próximos eventos</h3>
+            <div id="upcoming-list" class="upcoming-list"></div>
+            <p id="upcoming-empty" class="empty-state" hidden>Os próximos eventos aparecerão aqui automaticamente.</p>
+        </section>
+
+        <section id="suggestions">
+            <h2><span>💡</span> Ideias futuras para o HubStudy</h2>
+            <ul class="ideas">
+                <li>Dashboard com gráfico semanal de horas dedicadas por matéria.</li>
+                <li>Integração com Google Classroom ou Moodle para puxar datas automaticamente.</li>
+                <li>Geração de planos de estudo com inteligência artificial com base no tempo disponível.</li>
+                <li>Modo foco com contagem regressiva (Pomodoro) e bloqueio de distrações.</li>
+                <li>App mobile com sincronização em nuvem utilizando um banco de dados leve (ex.: Supabase ou Firebase gratuito).</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        Construído com HTML, CSS e JavaScript puro — mantendo tudo simples, rápido e 100% gratuito.
+    </footer>
+
+    <script>
+        const subjectForm = document.getElementById('subject-form');
+        const subjectList = document.getElementById('subject-list');
+        const subjectsEmpty = document.getElementById('subjects-empty');
+        const progressLabel = document.getElementById('progress-label');
+        const progressCaption = document.getElementById('progress-caption');
+        const progressPercentage = document.getElementById('progress-percentage');
+        const progressBar = document.getElementById('progress-bar');
+        const progressBarWrapper = document.querySelector('.progress-bar');
+
+        const eventForm = document.getElementById('event-form');
+        const eventsContainer = document.getElementById('events-container');
+        const eventsEmpty = document.getElementById('events-empty');
+        const upcomingList = document.getElementById('upcoming-list');
+        const upcomingEmpty = document.getElementById('upcoming-empty');
+
+        const enableNotificationsButton = document.getElementById('enable-notifications');
+        const notificationStatus = document.getElementById('notification-status');
+        const exportAllButton = document.getElementById('export-all');
+
+        let subjects = loadFromStorage('hubstudy-subjects');
+        let events = loadFromStorage('hubstudy-events');
+
+        function loadFromStorage(key) {
+            try {
+                return JSON.parse(localStorage.getItem(key)) || [];
+            } catch (error) {
+                console.error('Erro ao carregar dados do localStorage', error);
+                return [];
+            }
+        }
+
+        function saveToStorage(key, data) {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        function createId(prefix) {
+            return `${prefix}-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+        }
+
+        function renderSubjects() {
+            subjectList.innerHTML = '';
+            if (!subjects.length) {
+                subjectsEmpty.hidden = false;
+                return;
+            }
+            subjectsEmpty.hidden = true;
+            subjects.forEach(subject => {
+                const card = document.createElement('article');
+                card.className = `subject-card${subject.completed ? ' completed' : ''}`;
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = Boolean(subject.completed);
+                checkbox.setAttribute('aria-label', `Marcar ${subject.name} como concluída`);
+                checkbox.addEventListener('change', () => toggleSubject(subject.id, checkbox.checked));
+
+                const info = document.createElement('div');
+                info.className = 'subject-info';
+                info.innerHTML = `<strong>${subject.name}</strong>` +
+                    (subject.goal ? `<span>Objetivo: ${subject.goal}</span>` : '') +
+                    (subject.notes ? `<span>${subject.notes}</span>` : '');
+
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'destructive';
+                deleteButton.type = 'button';
+                deleteButton.innerText = 'Remover';
+                deleteButton.addEventListener('click', () => deleteSubject(subject.id));
+
+                card.append(checkbox, info, deleteButton);
+                subjectList.appendChild(card);
+            });
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = subjects.length;
+            const completed = subjects.filter(subject => subject.completed).length;
+            const percentage = total ? Math.round((completed / total) * 100) : 0;
+            progressLabel.textContent = `${completed} de ${total} concluídas`;
+            progressPercentage.textContent = `${percentage}%`;
+            progressCaption.textContent = total ? 'Continue avançando no seu plano de estudos.' : 'Marque as caixas abaixo conforme finalizar seus estudos.';
+            progressBar.style.width = `${percentage}%`;
+            progressBarWrapper.setAttribute('aria-valuenow', percentage.toString());
+        }
+
+        function toggleSubject(id, completed) {
+            subjects = subjects.map(subject => subject.id === id ? { ...subject, completed } : subject);
+            saveToStorage('hubstudy-subjects', subjects);
+            renderSubjects();
+        }
+
+        function deleteSubject(id) {
+            subjects = subjects.filter(subject => subject.id !== id);
+            saveToStorage('hubstudy-subjects', subjects);
+            renderSubjects();
+        }
+
+        subjectForm.addEventListener('submit', event => {
+            event.preventDefault();
+            const name = document.getElementById('subject-name').value.trim();
+            if (!name) return;
+
+            const subject = {
+                id: createId('subject'),
+                name,
+                goal: document.getElementById('subject-goal').value.trim(),
+                notes: document.getElementById('subject-notes').value.trim(),
+                completed: false,
+                createdAt: new Date().toISOString()
+            };
+
+            subjects.push(subject);
+            saveToStorage('hubstudy-subjects', subjects);
+            subjectForm.reset();
+            renderSubjects();
+        });
+
+        function renderEvents() {
+            eventsContainer.innerHTML = '';
+            if (!events.length) {
+                eventsEmpty.hidden = false;
+                return;
+            }
+            eventsEmpty.hidden = true;
+
+            const table = document.createElement('table');
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Evento</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+            `;
+
+            const tbody = document.createElement('tbody');
+            const sortedEvents = [...events].sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+            sortedEvents.forEach(event => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <strong>${event.title}</strong><br>
+                        <span style="color:var(--muted); font-size:0.9rem;">${event.description || 'Sem observações adicionais.'}</span>
+                    </td>
+                    <td>${formatDate(event.datetime)}<br><span class="badge">Lembrete: ${formatReminder(event.reminder)}</span></td>
+                    <td><span class="badge ${event.status === 'concluido' ? 'success' : ''}">${formatStatus(event.status)}</span></td>
+                `;
+
+                const actionsCell = document.createElement('td');
+                actionsCell.style.display = 'flex';
+                actionsCell.style.flexDirection = 'column';
+                actionsCell.style.gap = '0.5rem';
+
+                const toggleStatusButton = document.createElement('button');
+                toggleStatusButton.className = 'secondary';
+                toggleStatusButton.type = 'button';
+                toggleStatusButton.textContent = event.status === 'concluido' ? 'Marcar como pendente' : 'Marcar como concluído';
+                toggleStatusButton.addEventListener('click', () => toggleEventStatus(event.id));
+
+                const exportButton = document.createElement('button');
+                exportButton.className = 'secondary';
+                exportButton.type = 'button';
+                exportButton.textContent = 'Exportar (.ics)';
+                exportButton.addEventListener('click', () => exportSingleEvent(event));
+
+                const shareButton = document.createElement('button');
+                shareButton.className = 'secondary';
+                shareButton.type = 'button';
+                shareButton.textContent = 'Enviar por e-mail';
+                shareButton.addEventListener('click', () => shareByEmail(event));
+
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'destructive';
+                deleteButton.type = 'button';
+                deleteButton.textContent = 'Excluir';
+                deleteButton.addEventListener('click', () => deleteEvent(event.id));
+
+                actionsCell.append(toggleStatusButton, exportButton, shareButton, deleteButton);
+                row.appendChild(actionsCell);
+                tbody.appendChild(row);
+            });
+
+            table.appendChild(tbody);
+            eventsContainer.appendChild(table);
+            updateUpcomingEvents();
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString('pt-BR', {
+                weekday: 'short',
+                day: '2-digit',
+                month: 'short',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function formatReminder(minutes) {
+            const value = Number(minutes);
+            if (value >= 10080) return '1 semana antes';
+            if (value >= 2880) return `${value / 1440} dias antes`;
+            if (value >= 1440) return '1 dia antes';
+            if (value >= 120) return `${value / 60} horas antes`;
+            if (value >= 60) return '1 hora antes';
+            return `${value} minutos antes`;
+        }
+
+        function formatStatus(status) {
+            switch (status) {
+                case 'revisado':
+                    return 'Revisado';
+                case 'concluido':
+                    return 'Concluído';
+                default:
+                    return 'Em progresso';
+            }
+        }
+
+        function toggleEventStatus(id) {
+            events = events.map(event => {
+                if (event.id !== id) return event;
+                const newStatus = event.status === 'concluido' ? 'pendente' : 'concluido';
+                return { ...event, status: newStatus };
+            });
+            saveToStorage('hubstudy-events', events);
+            renderEvents();
+        }
+
+        function deleteEvent(id) {
+            events = events.filter(event => event.id !== id);
+            saveToStorage('hubstudy-events', events);
+            renderEvents();
+        }
+
+        function shareByEmail(event) {
+            const subject = encodeURIComponent(`Lembrete: ${event.title}`);
+            const body = encodeURIComponent(`Olá!\n\nSegue o lembrete registrado no HubStudy:\n- Evento: ${event.title}\n- Data: ${formatDate(event.datetime)}\n- Status: ${formatStatus(event.status)}\n- Observações: ${event.description || 'Nenhuma'}\n\nBons estudos!`);
+            window.location.href = `mailto:?subject=${subject}&body=${body}`;
+        }
+
+        function exportSingleEvent(event) {
+            const icsContent = generateICS([event]);
+            downloadICS(icsContent, `${event.title.replace(/\s+/g, '-').toLowerCase()}.ics`);
+        }
+
+        function downloadICS(content, filename) {
+            const blob = new Blob([content], { type: 'text/calendar;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        function generateICS(eventsToExport) {
+            const lines = [
+                'BEGIN:VCALENDAR',
+                'VERSION:2.0',
+                'PRODID:-//HubStudy//PT-BR'
+            ];
+
+            eventsToExport.forEach(event => {
+                const startDate = new Date(event.datetime);
+                const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+                lines.push(
+                    'BEGIN:VEVENT',
+                    `UID:${event.id}@hubstudy`,
+                    `DTSTAMP:${formatICSDate(new Date())}`,
+                    `DTSTART:${formatICSDate(startDate)}`,
+                    `DTEND:${formatICSDate(endDate)}`,
+                    `SUMMARY:${escapeICS(event.title)}`,
+                    `DESCRIPTION:${escapeICS(event.description || '')}`,
+                    'END:VEVENT'
+                );
+            });
+
+            lines.push('END:VCALENDAR');
+            return lines.join('\r\n');
+        }
+
+        function formatICSDate(date) {
+            const pad = (number) => String(number).padStart(2, '0');
+            return `${date.getUTCFullYear()}${pad(date.getUTCMonth() + 1)}${pad(date.getUTCDate())}T${pad(date.getUTCHours())}${pad(date.getUTCMinutes())}${pad(date.getUTCSeconds())}Z`;
+        }
+
+        function escapeICS(text) {
+            return text
+                .replace(/\r?\n/g, '\\n')
+                .replace(/,/g, '\\,')
+                .replace(/;/g, '\\;');
+        }
+
+        eventForm.addEventListener('submit', event => {
+            event.preventDefault();
+            const title = document.getElementById('event-title').value.trim();
+            const datetime = document.getElementById('event-datetime').value;
+            if (!title || !datetime) {
+                return;
+            }
+
+            const newEvent = {
+                id: createId('event'),
+                title,
+                datetime,
+                reminder: Number(document.getElementById('event-reminder').value),
+                status: document.getElementById('event-status').value,
+                description: document.getElementById('event-description').value.trim(),
+                notified: false
+            };
+
+            events.push(newEvent);
+            saveToStorage('hubstudy-events', events);
+            eventForm.reset();
+            renderEvents();
+        });
+
+        function updateUpcomingEvents() {
+            upcomingList.innerHTML = '';
+            const now = new Date();
+            const upcoming = events
+                .filter(event => new Date(event.datetime) >= now)
+                .sort((a, b) => new Date(a.datetime) - new Date(b.datetime))
+                .slice(0, 5);
+
+            if (!upcoming.length) {
+                upcomingEmpty.hidden = false;
+                return;
+            }
+
+            upcomingEmpty.hidden = true;
+
+            upcoming.forEach(event => {
+                const item = document.createElement('div');
+                item.className = 'upcoming-item';
+                item.innerHTML = `
+                    <div>
+                        <strong>${event.title}</strong>
+                        <div style="color:var(--muted); font-size:0.9rem;">${formatDate(event.datetime)}</div>
+                    </div>
+                    <span class="badge">${formatReminder(event.reminder)}</span>
+                `;
+                upcomingList.appendChild(item);
+            });
+        }
+
+        function checkNotifications() {
+            if (!('Notification' in window)) {
+                notificationStatus.textContent = 'Seu navegador não suporta notificações. Utilize a exportação para calendário como alternativa.';
+                return;
+            }
+
+            if (Notification.permission !== 'granted') {
+                return;
+            }
+
+            const now = new Date();
+            events = events.map(event => {
+                if (event.notified) {
+                    return event;
+                }
+                const eventDate = new Date(event.datetime);
+                const remindMoment = new Date(eventDate.getTime() - event.reminder * 60000);
+
+                if (now >= remindMoment && now <= new Date(eventDate.getTime() + 15 * 60000)) {
+                    new Notification('Lembrete HubStudy', {
+                        body: `${event.title} em ${formatDate(event.datetime)}`,
+                        icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%236759ff"><path d="M12 22a2 2 0 0 0 2-2H10a2 2 0 0 0 2 2Zm6-6V11a6 6 0 0 0-5-5.91V4a1 1 0 1 0-2 0v1.09A6 6 0 0 0 6 11v5l-2 2v1h16v-1Z"/></svg>'
+                    });
+                    return { ...event, notified: true };
+                }
+                return event;
+            });
+            saveToStorage('hubstudy-events', events);
+        }
+
+        enableNotificationsButton.addEventListener('click', async () => {
+            if (!('Notification' in window)) {
+                notificationStatus.textContent = 'Seu navegador não suporta notificações push. Use o exportar para calendário para receber alertas.';
+                return;
+            }
+
+            const permission = await Notification.requestPermission();
+            if (permission === 'granted') {
+                notificationStatus.textContent = 'Perfeito! Você receberá lembretes automáticos conforme configurado.';
+                checkNotifications();
+            } else if (permission === 'denied') {
+                notificationStatus.textContent = 'Notificações bloqueadas. Você pode alterar isso nas configurações do navegador.';
+            } else {
+                notificationStatus.textContent = 'Notificações pendentes. O navegador perguntará novamente mais tarde.';
+            }
+        });
+
+        exportAllButton.addEventListener('click', () => {
+            if (!events.length) {
+                notificationStatus.textContent = 'Adicione eventos antes de exportar a agenda.';
+                return;
+            }
+            const content = generateICS(events);
+            downloadICS(content, 'hubstudy-agenda.ics');
+        });
+
+        renderSubjects();
+        renderEvents();
+        updateUpcomingEvents();
+        checkNotifications();
+        setInterval(checkNotifications, 60 * 1000);
+    </script>
 </body>
 </html>
