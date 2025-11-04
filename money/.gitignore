@@ -1,0 +1,16 @@
+node_modules/
+*.db
+*.db-shm
+*.db-wal
+.env
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+*.bak
+*.backup
+index.html.backup
+data.json
+server.js
+package-lock.json

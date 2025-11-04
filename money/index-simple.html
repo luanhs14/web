@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Planner - TESTE SIMPLES</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #0e1117;
+            color: #fff;
+        }
+        header {
+            background: #161b22;
+            padding: 20px;
+            border-bottom: 2px solid #2d3644;
+        }
+        .tab-nav {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: #a1acbe;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .tab-btn.active {
+            color: #388bfd;
+            border-bottom-color: #388bfd;
+        }
+        .tab-btn:hover {
+            color: #388bfd;
+        }
+        main {
+            padding: 20px;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .card {
+            background: #161b22;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #2d3644;
+        }
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid;
+        }
+        .alert.success {
+            background: rgba(52, 211, 153, 0.2);
+            border-color: #34d399;
+            color: #34d399;
+        }
+        .alert.info {
+            background: rgba(56, 139, 253, 0.2);
+            border-color: #388bfd;
+            color: #388bfd;
+        }
+        button.test-btn {
+            background: #388bfd;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button.test-btn:hover {
+            background: #2c6bbf;
+        }
+        #debug-log {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .debug-line {
+            margin: 2px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>💰 Money Planner - TESTE SIMPLES</h1>
+        <p style="color: #a1acbe; margin-top: 10px;">Versão de teste sem bibliotecas externas</p>
+
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="dashboard">🏠 Dashboard</button>
+            <button class="tab-btn" data-tab="accounts">📝 Contas</button>
+            <button class="tab-btn" data-tab="settings">⚙️ Config</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="card">
+                <h2>🏠 Dashboard</h2>
+                <div class="alert success">
+                    ✅ Você está vendo a aba DASHBOARD
+                </div>
+                <p style="color: #a1acbe; margin-top: 15px;">
+                    Esta é a aba principal onde aparecem estatísticas e gráficos.
+                </p>
+                <button class="test-btn" onclick="testAPI()">Testar API</button>
+                <button class="test-btn" onclick="testTabs()">Testar Troca de Abas</button>
+                <button class="test-btn" onclick="clearDebug()">Limpar Debug</button>
+            </div>
+
+            <div class="card">
+                <h2>🐛 Debug Console</h2>
+                <div id="debug-log">
+                    <div class="debug-line">[INICIO] Aguardando testes...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accounts Tab -->
+        <div id="accounts" class="tab-content">
+            <div class="card">
+                <h2>📝 Contas</h2>
+                <div class="alert info">
+                    ℹ️ Você está vendo a aba CONTAS
+                </div>
+                <p style="color: #a1acbe; margin-top: 15px;">
+                    Aqui você adiciona e gerencia suas contas mensais.
+                </p>
+                <div style="margin-top: 20px;">
+                    <strong>Se você está vendo este texto, as abas estão funcionando! ✅</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settings" class="tab-content">
+            <div class="card">
+                <h2>⚙️ Configurações</h2>
+                <div class="alert info">
+                    ℹ️ Você está vendo a aba CONFIGURAÇÕES
+                </div>
+                <p style="color: #a1acbe; margin-top: 15px;">
+                    Aqui você configura notificações e EmailJS.
+                </p>
+                <div style="margin-top: 20px;">
+                    <strong>Se você está vendo este texto, as abas estão funcionando! ✅</strong>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Log de debug
+        function debugLog(msg, type = 'info') {
+            const log = document.getElementById('debug-log');
+            const time = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#f00' : type === 'success' ? '#0f0' : '#0ff';
+            const line = document.createElement('div');
+            line.className = 'debug-line';
+            line.style.color = color;
+            line.textContent = `[${time}] ${msg}`;
+            log.appendChild(line);
+            log.scrollTop = log.scrollHeight;
+            console.log(msg);
+        }
+
+        function clearDebug() {
+            document.getElementById('debug-log').innerHTML = '<div class="debug-line">[LIMPO] Log resetado</div>';
+        }
+
+        // Sistema de abas
+        debugLog('🚀 Iniciando sistema de abas...', 'info');
+
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        debugLog(`✅ Encontrados ${tabBtns.length} botões de abas`, 'success');
+        debugLog(`✅ Encontrados ${tabContents.length} conteúdos de abas`, 'success');
+
+        tabBtns.forEach(btn => {
+            const tabName = btn.getAttribute('data-tab');
+            debugLog(`  - Botão registrado: ${btn.textContent.trim()} (${tabName})`);
+
+            btn.addEventListener('click', () => {
+                debugLog(`🖱️ Clique detectado na aba: ${tabName}`, 'info');
+
+                // Remover active de todos
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                // Adicionar active no clicado
+                btn.classList.add('active');
+                const targetContent = document.getElementById(tabName);
+
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                    debugLog(`✅ Aba ${tabName} ativada com sucesso!`, 'success');
+                } else {
+                    debugLog(`❌ Conteúdo da aba ${tabName} não encontrado!`, 'error');
+                }
+            });
+        });
+
+        debugLog('✅ Event listeners configurados', 'success');
+
+        // Teste de API
+        async function testAPI() {
+            debugLog('🧪 Testando API...', 'info');
+            try {
+                const response = await fetch('/api/health');
+                const data = await response.json();
+
+                if (data.success) {
+                    debugLog('✅ API respondendo: ' + data.message, 'success');
+                } else {
+                    debugLog('❌ API retornou erro', 'error');
+                }
+            } catch (error) {
+                debugLog('❌ Erro ao conectar com API: ' + error.message, 'error');
+            }
+        }
+
+        // Teste de troca de abas
+        function testTabs() {
+            debugLog('🧪 Testando troca automática de abas...', 'info');
+
+            const tabs = ['dashboard', 'accounts', 'settings'];
+            let index = 0;
+
+            const interval = setInterval(() => {
+                const tabName = tabs[index];
+                const btn = document.querySelector(`[data-tab="${tabName}"]`);
+
+                if (btn) {
+                    btn.click();
+                    debugLog(`🔄 Trocando para: ${tabName}`, 'info');
+                    index++;
+
+                    if (index >= tabs.length) {
+                        clearInterval(interval);
+                        debugLog('✅ Teste de abas completo!', 'success');
+                    }
+                } else {
+                    debugLog(`❌ Botão ${tabName} não encontrado`, 'error');
+                    clearInterval(interval);
+                }
+            }, 1500);
+        }
+
+        // Log inicial
+        debugLog('✅✅✅ Sistema pronto!', 'success');
+        debugLog('💡 Clique nas abas acima ou use os botões de teste', 'info');
+    </script>
+</body>
+</html>

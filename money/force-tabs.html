@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Forçado - Abas Visíveis</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial; background: #0e1117; color: white; padding: 20px; }
+
+        /* CSS FORÇADO - garantir visibilidade */
+        header {
+            background: #161b22 !important;
+            padding: 20px !important;
+            border: 3px solid red !important; /* Borda vermelha para debug */
+            margin-bottom: 20px !important;
+        }
+
+        .tab-nav {
+            display: flex !important;
+            gap: 10px !important;
+            margin-top: 15px !important;
+            border: 2px solid yellow !important; /* Borda amarela para debug */
+            padding: 10px !important;
+        }
+
+        .tab-btn {
+            background: #388bfd !important;
+            color: white !important;
+            border: 2px solid white !important;
+            padding: 15px 30px !important;
+            cursor: pointer !important;
+            font-size: 18px !important;
+            font-weight: bold !important;
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            z-index: 9999 !important;
+            position: relative !important;
+        }
+
+        .tab-btn.active {
+            background: #0f0 !important;
+            color: #000 !important;
+        }
+
+        .tab-content {
+            display: none !important;
+            padding: 20px !important;
+            border: 2px solid blue !important;
+            margin-top: 20px !important;
+        }
+
+        .tab-content.active {
+            display: block !important;
+            background: #1f2632 !important;
+        }
+
+        .test-box {
+            background: #f00;
+            color: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-box">
+        ⚠️ TESTE DE VISIBILIDADE FORÇADA ⚠️
+    </div>
+
+    <header>
+        <h1>💰 Teste de Abas - CSS Forçado</h1>
+        <p>Se as abas não aparecerem aqui, o problema é do NAVEGADOR ou CLOUDFLARE bloqueando o HTML</p>
+
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="dashboard">🏠 DASHBOARD</button>
+            <button class="tab-btn" data-tab="accounts">📝 CONTAS</button>
+            <button class="tab-btn" data-tab="settings">⚙️ CONFIG</button>
+        </nav>
+    </header>
+
+    <main>
+        <div id="dashboard" class="tab-content active">
+            <h2>🏠 ABA DASHBOARD ATIVA</h2>
+            <p>Se você está vendo este texto com fundo azul, a aba Dashboard está funcionando!</p>
+        </div>
+
+        <div id="accounts" class="tab-content">
+            <h2>📝 ABA CONTAS</h2>
+            <p>Se você está vendo este texto com fundo azul, a aba Contas está funcionando!</p>
+        </div>
+
+        <div id="settings" class="tab-content">
+            <h2>⚙️ ABA CONFIGURAÇÕES</h2>
+            <p>Se você está vendo este texto com fundo azul, a aba Config está funcionando!</p>
+        </div>
+    </main>
+
+    <div class="test-box" style="background: #0f0; color: #000;">
+        ✅ FIM DO TESTE - Se você viu os botões coloridos acima, o HTML funciona!
+    </div>
+
+    <script>
+        console.log('🧪 TESTE FORÇADO iniciando...');
+
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        console.log('Botões encontrados:', tabBtns.length);
+
+        tabBtns.forEach(btn => {
+            console.log('- Botão:', btn.textContent, 'Tab:', btn.dataset.tab);
+
+            btn.addEventListener('click', () => {
+                const tabName = btn.dataset.tab;
+                console.log('🖱️ Clique em:', tabName);
+
+                // Remover active de todos
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                // Adicionar active
+                btn.classList.add('active');
+                document.getElementById(tabName).classList.add('active');
+
+                console.log('✅ Aba trocada para:', tabName);
+            });
+        });
+
+        console.log('✅ Sistema de abas configurado');
+    </script>
+</body>
+</html>

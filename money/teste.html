@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TESTE - Money Planner</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #0e1117;
+            color: #f7f9fc;
+            padding: 20px;
+        }
+
+        .header {
+            background: #161b22;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            border-bottom: 2px solid #2d3644;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: #a1acbe;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-size: 16px;
+        }
+
+        .tab-btn.active {
+            color: #388bfd;
+            border-bottom-color: #388bfd;
+        }
+
+        .tab-content {
+            display: none;
+            background: #161b22;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .success {
+            color: #34d399;
+            font-size: 24px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧪 TESTE - Money Planner</h1>
+        <p>Se você vê as 3 abas abaixo, o código funciona!</p>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="tab1">🏠 Dashboard</button>
+            <button class="tab-btn" data-tab="tab2">📝 Contas</button>
+            <button class="tab-btn" data-tab="tab3">⚙️ Config</button>
+        </div>
+    </div>
+
+    <div id="tab1" class="tab-content active">
+        <h2>✅ TAB 1 - Dashboard</h2>
+        <p class="success">✓ Se você vê isso, o código funciona!</p>
+        <p>Clique nas abas acima para testar.</p>
+    </div>
+
+    <div id="tab2" class="tab-content">
+        <h2>✅ TAB 2 - Contas</h2>
+        <p class="success">✓ Aba 2 funcionando!</p>
+    </div>
+
+    <div id="tab3" class="tab-content">
+        <h2>✅ TAB 3 - Configurações</h2>
+        <p class="success">✓ Aba 3 funcionando!</p>
+    </div>
+
+    <script>
+        console.log('✅ JavaScript carregou!');
+
+        // Event listeners para as abas
+        document.querySelectorAll('.tab-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                console.log('Clique na aba:', button.dataset.tab);
+
+                // Remover active de todos
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                // Adicionar active ao clicado
+                button.classList.add('active');
+                document.getElementById(button.dataset.tab).classList.add('active');
+            });
+        });
+
+        console.log('✅ Event listeners configurados!');
+    </script>
+</body>
+</html>
