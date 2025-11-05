@@ -1,54 +1,96 @@
 const axios = require('axios');
+
+const sampleMatches = require('../data/sampleMatches.json');
+const sampleTeams = require('../data/sampleTeams.json');
 require('dotenv').config();
 
+const baseURL = process.env.FOOTBALL_DATA_API_URL || 'https://api.football-data.org/v4';
+const apiToken = process.env.FOOTBALL_DATA_API_TOKEN;
+
 const apiClient = axios.create({
-  baseURL: process.env.API_FUTEBOL_URL,
-  headers: {
-    'Authorization': `Bearer ${process.env.API_FUTEBOL_KEY}`
-  },
+  baseURL,
   timeout: 10000
 });
 
+if (apiToken) {
+  apiClient.defaults.headers['X-Auth-Token'] = apiToken;
+}
+
+function buildFallbackResponse(type) {
+  if (type === 'teams') {
+    return {
+      source: 'fallback',
+      teams: sampleTeams.teams
+    };
+  }
+
+  return {
+    source: 'fallback',
+    competition: sampleMatches.competition,
+    matches: sampleMatches.matches
+  };
+}
+
 class ApiService {
-  
-  // Buscar jogos do Brasileirão Série A
-  async buscarJogosBrasileiro(temporada = 2025) {
+  // Buscar jogos do Brasileirão Série A (Football-Data.org)
+  async buscarJogosBrasileiro(temporada = process.env.FOOTBALL_DATA_SEASON || new Date().getFullYear()) {
+    if (!apiToken) {
+      console.warn('⚠️ Nenhuma chave FOOTBALL_DATA_API_TOKEN encontrada. Usando dados de exemplo.');
+      return buildFallbackResponse('matches');
+    }
+
     try {
-      console.log('🔍 Buscando jogos do Brasileirão...');
-      
-      // Endpoint pode variar - ajustar conforme documentação da API
-      const response = await apiClient.get('/campeonatos/10/rodadas', {
-        params: {
-          temporada: temporada
-        }
+      console.log('🔍 Buscando jogos do Brasileirão (Football-Data.org)...');
+      const response = await apiClient.get('/competitions/BSA/matches', {
+        params: { season: temporada }
       });
-      
-      return response.data;
+
+      return {
+        source: 'api',
+        competition: response.data.competition,
+        matches: response.data.matches || []
+      };
     } catch (error) {
-      console.error('❌ Erro ao buscar jogos:', error.message);
-      throw error;
+      console.error('❌ Erro ao buscar jogos na Football-Data.org:', error.message);
+      return buildFallbackResponse('matches');
     }
   }
 
   // Buscar detalhes de uma partida específica
   async buscarDetalhePartida(partidaId) {
+    if (!apiToken) {
+      const partida = sampleMatches.matches.find((match) => match.id === Number(partidaId));
+      return partida || null;
+    }
+
     try {
-      const response = await apiClient.get(`/partidas/${partidaId}`);
+      const response = await apiClient.get(`/matches/${partidaId}`);
       return response.data;
     } catch (error) {
       console.error('❌ Erro ao buscar detalhes da partida:', error.message);
-      throw error;
+      return null;
     }
   }
 
   // Buscar times do Brasileirão
-  async buscarTimes(campeonatoId = 10) {
+  async buscarTimes(campeonatoId = 'BSA', temporada = process.env.FOOTBALL_DATA_SEASON || new Date().getFullYear()) {
+    if (!apiToken) {
+      console.warn('⚠️ Sem token para Football-Data.org. Retornando times de exemplo.');
+      return buildFallbackResponse('teams');
+    }
+
     try {
-      const response = await apiClient.get(`/campeonatos/${campeonatoId}/times`);
-      return response.data;
+      const response = await apiClient.get(`/competitions/${campeonatoId}/teams`, {
+        params: { season: temporada }
+      });
+
+      return {
+        source: 'api',
+        teams: response.data.teams || []
+      };
     } catch (error) {
       console.error('❌ Erro ao buscar times:', error.message);
-      throw error;
+      return buildFallbackResponse('teams');
     }
   }
 }

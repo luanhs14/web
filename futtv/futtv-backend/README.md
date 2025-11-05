@@ -1,108 +1,95 @@
 # 🎯 FutTV Backend
 
-API REST para o site FutTV - onde assistir jogos do Brasileirão.
+API REST gratuita para o site FutTV - onde assistir jogos do Brasileirão Série A.
+
+## ✅ O que foi configurado
+- Integração com a API gratuita [Football-Data.org](https://www.football-data.org/) (com fallback automático usando dados de exemplo)
+- Cache dos jogos em PostgreSQL
+- Seeds automáticos de emissoras populares
+- Cron jobs para sincronização periódica
+- CORS preparado para o domínio `https://futtv.hserver.pro`
 
 ## 🚀 Instalação
 
-### 1. Instalar dependências
+### 1. Dependências
 ```bash
 npm install
 ```
 
-### 2. Configurar variáveis de ambiente
-Edite o arquivo `.env` com suas credenciais:
-- `DB_HOST`, `DB_USER`, `DB_PASSWORD`: dados do PostgreSQL
-- `API_FUTEBOL_KEY`: sua chave da API Futebol
-
-### 3. Criar banco de dados
+### 2. Variáveis de ambiente
+Copie o arquivo `.env.example` para `.env` e ajuste as informações:
 ```bash
-# No PostgreSQL, criar o banco:
-createdb futtv_db
+cp .env.example .env
+```
+Principais variáveis:
+- `PORT` → porta do servidor (default `3333`)
+- `ALLOWED_ORIGINS` → domínios autorizados (já inclui `https://futtv.hserver.pro`)
+- `FOOTBALL_DATA_API_TOKEN` → chave gratuita obtida na Football-Data.org (opcional, porém recomendada)
+- Credenciais do PostgreSQL (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`)
 
-# Ou via psql:
-psql -U seu_usuario -c "CREATE DATABASE futtv_db;"
+> 💡 Sem token a API utiliza dados fictícios atuais para manter o projeto funcional.
+
+### 3. Banco de dados gratuito
+Você pode usar um PostgreSQL local (Docker) sem custo:
+```bash
+docker run --name futtv-postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=futtv -p 5432:5432 -d postgres:15
 ```
 
-### 4. Rodar migrations
+### 4. Rodar migrations e seeds
 ```bash
 npm run migrate
 ```
+Isso cria as tabelas e cadastra emissoras padrão automaticamente.
 
-### 5. Popular emissoras (manual)
-Execute no PostgreSQL:
-```sql
-INSERT INTO emissoras_streams (nome, tipo, logo_url) VALUES
-('Globo', 'TV', 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Logotipo_da_Rede_Globo.svg/320px-Logotipo_da_Rede_Globo.svg.png'),
-('SporTV', 'TV', 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Sportv_logo_2011.png/320px-Sportv_logo_2011.png'),
-('Premiere', 'Streaming', 'https://upload.wikimedia.org/wikipedia/pt/thumb/9/98/Premiere_FC_logo.svg/320px-Premiere_FC_logo.svg.png'),
-('TNT Sports', 'TV', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/TNT_Sports_2021_logo.svg/320px-TNT_Sports_2021_logo.svg.png'),
-('Amazon Prime', 'Streaming', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/320px-Amazon_Prime_Video_logo.svg.png');
-```
-
-### 6. Iniciar servidor
+### 5. Executar o servidor
 ```bash
-# Produção
-npm start
-
-# Desenvolvimento (com nodemon)
+# Ambiente de desenvolvimento (hot reload)
 npm run dev
+
+# Ambiente de produção
+npm start
 ```
 
-## 📡 Endpoints
+A API ficará disponível em `http://localhost:3333` (ou na porta configurada).
 
-### Health Check
-```
-GET /api/health
-```
-
-### Próximos Jogos (48h)
-```
-GET /api/jogos/proximos
-```
-
-### Jogos por Data
-```
-GET /api/jogos?data=2025-11-10
-```
-
-### Jogos por Rodada
-```
-GET /api/jogos/rodada/15
-```
-
-### Listar Times
-```
-GET /api/times
-```
-
-### Listar Emissoras
-```
-GET /api/emissoras
-```
-
-### Sincronizar Manualmente
-```
-POST /api/sync
-```
+## 📡 Endpoints Principais
+- `GET /api/health` → status da API
+- `GET /api/jogos/proximos` → próximos jogos (48h)
+- `GET /api/jogos?data=YYYY-MM-DD` → jogos por data
+- `GET /api/jogos/rodada/:rodada` → jogos por rodada (1-38)
+- `GET /api/times` → lista de times armazenados
+- `GET /api/emissoras` → emissoras cadastradas
+- `POST /api/sync` → força sincronização manual
 
 ## 🔄 Sincronização Automática
-
-O sistema sincroniza automaticamente:
-- A cada 30 minutos
-- Backup a cada 6 horas
+- A cada 30 minutos (cron `*/30 * * * *`)
+- Rotina de backup a cada 6 horas
+- Sincronização automática no boot (`AUTO_SYNC_ON_BOOT=true`)
 
 ## 🛠️ Stack Tecnológica
-
 - Node.js + Express
-- PostgreSQL
-- Axios (API calls)
-- node-cron (tarefas agendadas)
-- Helmet + CORS (segurança)
+- PostgreSQL + `pg`
+- Axios
+- node-cron
+- Helmet, Compression e CORS
 
-## 📝 Notas
+## 🌐 Deploy
+Configure o reverse proxy apontando `https://futtv.hserver.pro` para a porta do backend (`3333`).
 
-- Ajuste os endpoints da API Futebol conforme documentação
-- A sincronização pode demorar na primeira vez
-- Configure CORS para permitir seu domínio frontend
+Exemplo Nginx:
+```nginx
+location /api/ {
+    proxy_pass http://127.0.0.1:3333/api/;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+```
 
-## ⚽ Pronto para o jogo!
+## 📋 Checklist de Produção
+- [ ] Rodar `npm run migrate`
+- [ ] Definir `FOOTBALL_DATA_API_TOKEN`
+- [ ] Configurar HTTPS no proxy (`futtv.hserver.pro`)
+- [ ] Habilitar monitoração/logs (PM2, Docker, etc.)
+
+## ⚽ Bora para o jogo!

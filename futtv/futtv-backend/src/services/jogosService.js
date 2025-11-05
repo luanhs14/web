@@ -1,22 +1,56 @@
 const pool = require('../config/database');
 const apiService = require('./apiService');
 
+const FALLBACK_INTERVAL_HOURS = 3;
+
+function mapStatus(status) {
+  const normalized = (status || '').toUpperCase();
+
+  if (['IN_PLAY', 'PAUSED', 'LIVE'].includes(normalized)) {
+    return 'live';
+  }
+
+  if (['FINISHED', 'AWARDED'].includes(normalized)) {
+    return 'finished';
+  }
+
+  if (['POSTPONED', 'SUSPENDED', 'CANCELLED'].includes(normalized)) {
+    return 'postponed';
+  }
+
+  return 'scheduled';
+}
+
+function extractScore(score = {}) {
+  const fullTime = score.fullTime || {};
+
+  return {
+    casa: Number.isFinite(fullTime.home) ? fullTime.home : null,
+    visitante: Number.isFinite(fullTime.away) ? fullTime.away : null
+  };
+}
+
 class JogosService {
 
   // Sincronizar jogos da API com o banco de dados
   async sincronizarJogos() {
+    const temporada = process.env.FOOTBALL_DATA_SEASON || new Date().getFullYear();
+
     try {
       console.log('🔄 Iniciando sincronização de jogos...');
-      
-      const dadosApi = await apiService.buscarJogosBrasileiro();
-      
-      if (!dadosApi || !dadosApi.partidas) {
-        console.log('⚠️ Nenhum dado retornado da API');
+      const { matches, source } = await apiService.buscarJogosBrasileiro(temporada);
+
+      if (!matches || matches.length === 0) {
+        console.log('⚠️ Nenhum dado retornado para sincronizar.');
         return;
       }
 
-      for (const partida of dadosApi.partidas) {
-        await this.salvarOuAtualizarJogo(partida);
+      console.log(`📡 Fonte dos dados: ${source === 'api' ? 'Football-Data.org' : 'dados de exemplo'}`);
+
+      const isFallback = source !== 'api';
+
+      for (const [index, partida] of matches.entries()) {
+        await this.salvarOuAtualizarJogo(partida, { isFallback, index });
       }
 
       console.log('✅ Sincronização concluída!');
@@ -26,59 +60,64 @@ class JogosService {
   }
 
   // Salvar ou atualizar um jogo
-  async salvarOuAtualizarJogo(partida) {
+  async salvarOuAtualizarJogo(partida, options = {}) {
     const client = await pool.connect();
-    
-    try {
-      // Verificar se o time casa existe, senão criar
-      const timeCasa = await this.obterOuCriarTime(partida.time_mandante, client);
-      const timeVisitante = await this.obterOuCriarTime(partida.time_visitante, client);
 
-      // Verificar se o jogo já existe
+    try {
+      const { isFallback = false, index = 0 } = options;
+
+      const rodada = partida.matchday || null;
+      const status = mapStatus(partida.status);
+      const score = extractScore(partida.score);
+      const local = partida.venue || 'Local a definir';
+
+      const dataHorario = isFallback
+        ? new Date(Date.now() + index * FALLBACK_INTERVAL_HOURS * 60 * 60 * 1000).toISOString()
+        : partida.utcDate;
+
+      const timeCasa = await this.obterOuCriarTime(partida.homeTeam, client);
+      const timeVisitante = await this.obterOuCriarTime(partida.awayTeam, client);
+
       const jogoExistente = await client.query(
         'SELECT id FROM jogos WHERE api_id = $1',
-        [partida.partida_id]
+        [partida.id]
       );
 
+      const parametrosBase = [
+        rodada,
+        dataHorario,
+        local,
+        timeCasa ? timeCasa.id : null,
+        timeVisitante ? timeVisitante.id : null,
+        status,
+        score.casa,
+        score.visitante
+      ];
+
       if (jogoExistente.rows.length > 0) {
-        // Atualizar jogo existente
         await client.query(`
-          UPDATE jogos 
-          SET rodada = $1, 
-              data_horario = $2, 
+          UPDATE jogos
+          SET rodada = $1,
+              data_horario = $2,
               local_nome = $3,
-              status = $4,
-              placar_casa = $5,
-              placar_visitante = $6,
+              time_casa_id = $4,
+              time_visitante_id = $5,
+              status = $6,
+              placar_casa = $7,
+              placar_visitante = $8,
               updated_at = CURRENT_TIMESTAMP
-          WHERE api_id = $7
-        `, [
-          partida.rodada,
-          partida.data_realizacao,
-          partida.estadio?.nome_popular || 'A definir',
-          partida.status || 'scheduled',
-          partida.placar_mandante || 0,
-          partida.placar_visitante || 0,
-          partida.partida_id
-        ]);
+          WHERE api_id = $9
+        `, [...parametrosBase, partida.id]);
       } else {
-        // Inserir novo jogo
         await client.query(`
           INSERT INTO jogos (
-            api_id, rodada, data_horario, local_nome, 
+            api_id, rodada, data_horario, local_nome,
             time_casa_id, time_visitante_id, status,
             placar_casa, placar_visitante
           ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
         `, [
-          partida.partida_id,
-          partida.rodada,
-          partida.data_realizacao,
-          partida.estadio?.nome_popular || 'A definir',
-          timeCasa.id,
-          timeVisitante.id,
-          partida.status || 'scheduled',
-          partida.placar_mandante || 0,
-          partida.placar_visitante || 0
+          partida.id,
+          ...parametrosBase
         ]);
       }
     } catch (error) {
@@ -90,27 +129,49 @@ class JogosService {
 
   // Obter ou criar time
   async obterOuCriarTime(dadosTime, client) {
-    if (!dadosTime || !dadosTime.nome_popular) {
+    if (!dadosTime || (!dadosTime.name && !dadosTime.shortName)) {
       return null;
     }
 
+    const nome = dadosTime.name || dadosTime.shortName;
+    const rawAbreviacao = dadosTime.tla || dadosTime.shortName || nome.substring(0, 3);
+    const abreviacao = rawAbreviacao ? rawAbreviacao.toUpperCase().slice(0, 10) : null;
+    const logo = dadosTime.crest || null;
+    const apiId = dadosTime.id || null;
+
     const timeExistente = await client.query(
-      'SELECT id FROM times WHERE nome = $1',
-      [dadosTime.nome_popular]
+      'SELECT id FROM times WHERE api_id = $1 OR nome = $2 LIMIT 1',
+      [apiId, nome]
     );
 
     if (timeExistente.rows.length > 0) {
-      return timeExistente.rows[0];
+      const existente = timeExistente.rows[0];
+
+      await client.query(`
+        UPDATE times
+        SET abreviacao = COALESCE($1, abreviacao),
+            logo_url = COALESCE($2, logo_url),
+            api_id = COALESCE($3, api_id)
+        WHERE id = $4
+      `, [
+        abreviacao || null,
+        logo,
+        apiId,
+        existente.id
+      ]);
+
+      return existente;
     }
 
     const novoTime = await client.query(`
-      INSERT INTO times (nome, abreviacao, logo_url)
-      VALUES ($1, $2, $3)
+      INSERT INTO times (nome, abreviacao, logo_url, api_id)
+      VALUES ($1, $2, $3, $4)
       RETURNING id
     `, [
-      dadosTime.nome_popular,
-      dadosTime.sigla || dadosTime.nome_popular.substring(0, 3).toUpperCase(),
-      dadosTime.escudo || null
+      nome,
+      abreviacao || null,
+      logo,
+      apiId
     ]);
 
     return novoTime.rows[0];
@@ -120,11 +181,11 @@ class JogosService {
   async buscarJogosPorData(data) {
     try {
       const result = await pool.query(`
-        SELECT 
+        SELECT
           j.*,
           tc.nome as time_casa_nome, tc.logo_url as time_casa_logo, tc.abreviacao as time_casa_abrev,
           tv.nome as time_visitante_nome, tv.logo_url as time_visitante_logo, tv.abreviacao as time_visitante_abrev,
-          e.nome as emissora_nome, e.logo_url as emissora_logo, e.tipo as emissora_tipo
+          e.nome as emissora_nome, e.logo_url as emissora_logo, e.tipo as emissora_tipo, e.url_stream as emissora_url
         FROM jogos j
         LEFT JOIN times tc ON j.time_casa_id = tc.id
         LEFT JOIN times tv ON j.time_visitante_id = tv.id
@@ -144,11 +205,11 @@ class JogosService {
   async buscarJogosPorRodada(rodada) {
     try {
       const result = await pool.query(`
-        SELECT 
+        SELECT
           j.*,
           tc.nome as time_casa_nome, tc.logo_url as time_casa_logo, tc.abreviacao as time_casa_abrev,
           tv.nome as time_visitante_nome, tv.logo_url as time_visitante_logo, tv.abreviacao as time_visitante_abrev,
-          e.nome as emissora_nome, e.logo_url as emissora_logo, e.tipo as emissora_tipo
+          e.nome as emissora_nome, e.logo_url as emissora_logo, e.tipo as emissora_tipo, e.url_stream as emissora_url
         FROM jogos j
         LEFT JOIN times tc ON j.time_casa_id = tc.id
         LEFT JOIN times tv ON j.time_visitante_id = tv.id
@@ -168,16 +229,16 @@ class JogosService {
   async buscarProximosJogos() {
     try {
       const result = await pool.query(`
-        SELECT 
+        SELECT
           j.*,
           tc.nome as time_casa_nome, tc.logo_url as time_casa_logo, tc.abreviacao as time_casa_abrev,
           tv.nome as time_visitante_nome, tv.logo_url as time_visitante_logo, tv.abreviacao as time_visitante_abrev,
-          e.nome as emissora_nome, e.logo_url as emissora_logo, e.tipo as emissora_tipo
+          e.nome as emissora_nome, e.logo_url as emissora_logo, e.tipo as emissora_tipo, e.url_stream as emissora_url
         FROM jogos j
         LEFT JOIN times tc ON j.time_casa_id = tc.id
         LEFT JOIN times tv ON j.time_visitante_id = tv.id
         LEFT JOIN emissoras_streams e ON j.emissora_stream_id = e.id
-        WHERE j.data_horario >= NOW() 
+        WHERE j.data_horario >= NOW()
           AND j.data_horario <= NOW() + INTERVAL '48 hours'
         ORDER BY j.data_horario ASC
         LIMIT 20

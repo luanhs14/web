@@ -24,6 +24,16 @@
   color: var(--text-secondary);
 }
 
+.footer-copy a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer-copy a:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .footer {
     padding: 1.5rem 0;

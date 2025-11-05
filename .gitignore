@@ -4,3 +4,5 @@ vendor
 storage
 .DS_Store
 *.log
+dist
+futtv/futtv-frontend/dist

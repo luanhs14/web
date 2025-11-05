@@ -1,0 +1,26 @@
+[
+  {
+    "nome": "Premiere",
+    "tipo": "Pay-Per-View",
+    "logo_url": "https://placehold.co/120x50/046A38/FFFFFF?text=Premiere",
+    "url_stream": "https://globoplay.globo.com/premiere/"
+  },
+  {
+    "nome": "Globo",
+    "tipo": "TV Aberta",
+    "logo_url": "https://placehold.co/120x50/1C1C1C/FFFFFF?text=Globo",
+    "url_stream": "https://globoplay.globo.com/tv-globo/ao-vivo/"
+  },
+  {
+    "nome": "SporTV",
+    "tipo": "TV Paga",
+    "logo_url": "https://placehold.co/120x50/1D4ED8/FFFFFF?text=SporTV",
+    "url_stream": "https://globoplay.globo.com/sportv/ao-vivo/"
+  },
+  {
+    "nome": "Prime Video",
+    "tipo": "Streaming",
+    "logo_url": "https://placehold.co/120x50/111827/FFFFFF?text=Prime+Video",
+    "url_stream": "https://www.primevideo.com/"
+  }
+]
