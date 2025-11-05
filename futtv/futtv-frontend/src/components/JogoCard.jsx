@@ -3,11 +3,13 @@ import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import '../styles/JogoCard.css';
 
+const placeholderLogo = '/placeholder-team.svg';
+
 function JogoCard({ jogo }) {
   const formatarData = (dataString) => {
     try {
       const data = parseISO(dataString);
-      return format(data, "dd/MM/yyyy", { locale: ptBR });
+      return format(data, 'dd/MM/yyyy', { locale: ptBR });
     } catch (error) {
       return 'Data inválida';
     }
@@ -16,47 +18,62 @@ function JogoCard({ jogo }) {
   const formatarHora = (dataString) => {
     try {
       const data = parseISO(dataString);
-      return format(data, "HH:mm", { locale: ptBR });
+      return format(data, 'HH:mm', { locale: ptBR });
     } catch (error) {
       return '--:--';
     }
   };
 
   const getStatusClass = (status) => {
-    switch(status) {
-      case 'live': return 'status-live';
-      case 'finished': return 'status-finished';
-      default: return 'status-scheduled';
+    switch (status) {
+      case 'live':
+        return 'status-live';
+      case 'finished':
+        return 'status-finished';
+      case 'postponed':
+        return 'status-postponed';
+      default:
+        return 'status-scheduled';
     }
   };
 
   const getStatusText = (status) => {
-    switch(status) {
-      case 'live': return 'AO VIVO';
-      case 'finished': return 'ENCERRADO';
-      default: return 'AGENDADO';
+    switch (status) {
+      case 'live':
+        return 'AO VIVO';
+      case 'finished':
+        return 'ENCERRADO';
+      case 'postponed':
+        return 'ADIADO';
+      default:
+        return 'AGENDADO';
     }
   };
+
+  const status = jogo.status || 'scheduled';
+  const streamUrl = jogo.link_stream || jogo.emissora_url || null;
 
   return (
     <div className="jogo-card">
       <div className="jogo-header">
-        <span className="jogo-rodada">Rodada {jogo.rodada}</span>
-        <span className={`jogo-status ${getStatusClass(jogo.status)}`}>
-          {getStatusText(jogo.status)}
+        <span className="jogo-rodada">Rodada {jogo.rodada || '--'}</span>
+        <span className={`jogo-status ${getStatusClass(status)}`}>
+          {getStatusText(status)}
         </span>
       </div>
 
       <div className="jogo-times">
         <div className="time">
-          <img 
-            src={jogo.time_casa_logo || '/placeholder-team.png'} 
+          <img
+            src={jogo.time_casa_logo || placeholderLogo}
             alt={jogo.time_casa_nome}
             className="time-logo"
-            onError={(e) => e.target.src = '/placeholder-team.png'}
+            onError={(e) => {
+              e.currentTarget.src = placeholderLogo;
+            }}
           />
           <span className="time-nome">{jogo.time_casa_nome}</span>
-          {jogo.status === 'finished' && (
+          {status === 'finished' && jogo.placar_casa !== null && (
             <span className="placar">{jogo.placar_casa}</span>
           )}
         </div>
@@ -66,15 +83,17 @@ function JogoCard({ jogo }) {
         </div>
 
         <div className="time">
-          {jogo.status === 'finished' && (
+          {status === 'finished' && jogo.placar_visitante !== null && (
             <span className="placar">{jogo.placar_visitante}</span>
           )}
           <span className="time-nome">{jogo.time_visitante_nome}</span>
-          <img 
-            src={jogo.time_visitante_logo || '/placeholder-team.png'} 
+          <img
+            src={jogo.time_visitante_logo || placeholderLogo}
             alt={jogo.time_visitante_nome}
             className="time-logo"
-            onError={(e) => e.target.src = '/placeholder-team.png'}
+            onError={(e) => {
+              e.currentTarget.src = placeholderLogo;
+            }}
           />
         </div>
       </div>
@@ -94,16 +113,18 @@ function JogoCard({ jogo }) {
         </div>
       </div>
 
-      {jogo.emissora_nome && (
+      {jogo.emissora_nome ? (
         <div className="jogo-transmissao">
           <span className="transmissao-label">📺 Onde assistir:</span>
           <div className="transmissao-info">
             {jogo.emissora_logo && (
-              <img 
-                src={jogo.emissora_logo} 
+              <img
+                src={jogo.emissora_logo}
                 alt={jogo.emissora_nome}
                 className="emissora-logo"
-                onError={(e) => e.target.style.display = 'none'}
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
               />
             )}
             <span className="emissora-nome">{jogo.emissora_nome}</span>
@@ -111,10 +132,10 @@ function JogoCard({ jogo }) {
               <span className="emissora-tipo">({jogo.emissora_tipo})</span>
             )}
           </div>
-          {jogo.link_stream && (
-            <a 
-              href={jogo.link_stream} 
-              target="_blank" 
+          {streamUrl && (
+            <a
+              href={streamUrl}
+              target="_blank"
               rel="noopener noreferrer"
               className="btn-assistir"
             >
@@ -122,9 +143,7 @@ function JogoCard({ jogo }) {
             </a>
           )}
         </div>
-      )}
-
-      {!jogo.emissora_nome && (
+      ) : (
         <div className="jogo-transmissao sem-transmissao">
           <span className="transmissao-label">📺 Transmissão a confirmar</span>
         </div>

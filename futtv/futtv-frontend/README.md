@@ -1,92 +1,75 @@
 # ⚽ FutTV Frontend
 
-Interface web para acompanhar jogos do Brasileirão e ver onde assistir.
+Interface web responsiva para acompanhar os jogos do Brasileirão e saber onde assistir.
+
+## ✅ Destaques
+- Integração com o backend FutTV (`https://futtv.hserver.pro/api`)
+- Tratamento de estados de carregamento/erro
+- Fallback visual quando não há logos ou emissoras cadastradas
+- Configuração pronta para deploy estático
 
 ## 🚀 Instalação
 
-### 1. Instalar dependências
+### 1. Dependências
 ```bash
 npm install
 ```
 
-### 2. Configurar variáveis de ambiente
-Edite o arquivo `.env` com a URL do seu backend:
-```
-VITE_API_URL=https://futtv.hserver.pro/api
+### 2. Variáveis de ambiente
+Copie o arquivo `.env.example` para `.env` e defina a URL da API (para desenvolvimento o padrão já aponta para `http://localhost:3333/api`):
+```bash
+cp .env.example .env
 ```
 
-### 3. Rodar em desenvolvimento
+### 3. Ambiente de desenvolvimento
 ```bash
 npm run dev
 ```
-
-O site estará disponível em: `http://localhost:3000`
+A aplicação ficará disponível em `http://localhost:5173`.
 
 ### 4. Build para produção
 ```bash
 npm run build
 ```
+Os arquivos otimizados ficarão em `dist/`. Você pode servir essa pasta com qualquer servidor estático (Nginx, Apache, Vercel, etc.).
 
-Os arquivos otimizados estarão na pasta `dist/`
-
-## 📁 Estrutura do Projeto
-
+## 📁 Estrutura
 ```
 futtv-frontend/
+├── public/
+│   └── placeholder-team.svg   # imagem fallback para escudos
 ├── src/
-│   ├── components/      # Componentes reutilizáveis
-│   │   ├── Header.jsx
-│   │   ├── Footer.jsx
-│   │   ├── JogoCard.jsx
-│   │   └── Loading.jsx
-│   ├── pages/          # Páginas da aplicação
-│   │   ├── HomePage.jsx
-│   │   └── RodadaPage.jsx
-│   ├── services/       # Serviços de API
-│   │   └── api.js
-│   ├── styles/         # Arquivos CSS
-│   └── main.jsx        # Entry point
-├── public/             # Arquivos estáticos
-├── index.html
-└── package.json
+│   ├── components/
+│   ├── pages/
+│   ├── services/
+│   ├── styles/
+│   └── main.jsx
+└── vite.config.js
 ```
 
-## 🎨 Features
+## 🌐 Deploy em `futtv.hserver.pro`
+1. Execute `npm run build`
+2. Faça upload do conteúdo da pasta `dist/` para `/var/www/futtv` (ou diretório configurado)
+3. Configure o Nginx para servir a SPA:
+```nginx
+server {
+    listen 80;
+    server_name futtv.hserver.pro;
 
-- ✅ Listagem de próximos jogos (48h)
-- ✅ Visualização por rodada
-- ✅ Informações de transmissão (TV/Streaming)
-- ✅ Design responsivo (mobile + desktop)
-- ✅ Loading states e tratamento de erros
-- ✅ Tema dark mode
+    root /var/www/futtv;
+    index index.html;
 
-## 🛠️ Stack Tecnológica
-
-- React 18
-- Vite
-- React Router
-- Axios
-- date-fns
-- CSS Modules
-
-## 📱 Responsividade
-
-O site é totalmente responsivo e funciona perfeitamente em:
-- Desktop (1200px+)
-- Tablet (768px - 1199px)
-- Mobile (até 767px)
-
-## 🌐 Deploy
-
-Para fazer deploy no seu servidor:
-
-1. Build do projeto:
-```bash
-npm run build
+    location / {
+        try_files $uri /index.html;
+    }
+}
 ```
+4. Certifique-se de que o proxy do backend (porta 3333) esteja configurado para `/api`
 
-2. Copie os arquivos da pasta `dist/` para o servidor web
+## 🧪 Checklist rápido
+- [ ] Backend em execução (`npm start` na pasta `futtv-backend`)
+- [ ] Variável `VITE_API_URL` apontando para o backend correto
+- [ ] Build gerado (`npm run build`)
+- [ ] DNS do subdomínio `futtv.hserver.pro` apontando para o servidor
 
-3. Configure o servidor para servir o `index.html` em todas as rotas (SPA)
-
-## ⚽ Pronto para assistir os jogos!
+Bom jogo! ⚽
