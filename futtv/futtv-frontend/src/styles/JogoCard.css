@@ -1,0 +1,217 @@
+.jogo-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.jogo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 168, 89, 0.2);
+  border-color: var(--primary-color);
+}
+
+.jogo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.jogo-rodada {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.jogo-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-scheduled {
+  background-color: rgba(66, 153, 225, 0.2);
+  color: #4299e1;
+}
+
+.status-live {
+  background-color: rgba(229, 62, 62, 0.2);
+  color: var(--live);
+  animation: pulse 1.5s infinite;
+}
+
+.status-finished {
+  background-color: rgba(160, 174, 192, 0.2);
+  color: var(--text-secondary);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.jogo-times {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.time-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.time-nome {
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.versus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.vs-text {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  padding: 0.5rem 1rem;
+  background-color: rgba(0, 168, 89, 0.1);
+  border-radius: 8px;
+}
+
+.placar {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin: 0.25rem 0;
+}
+
+.jogo-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.info-icon {
+  font-size: 1.1rem;
+}
+
+.jogo-transmissao {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.transmissao-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.transmissao-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.emissora-logo {
+  height: 30px;
+  object-fit: contain;
+}
+
+.emissora-nome {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.emissora-tipo {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.btn-assistir {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.btn-assistir:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
+}
+
+.sem-transmissao {
+  text-align: center;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .jogo-card {
+    padding: 1rem;
+  }
+  
+  .time-logo {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .time-nome {
+    font-size: 0.85rem;
+  }
+  
+  .vs-text {
+    font-size: 1rem;
+    padding: 0.25rem 0.75rem;
+  }
+  
+  .jogo-info {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
