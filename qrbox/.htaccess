@@ -1,0 +1,126 @@
+# ========================================
+# CONFIGURAÇÃO APACHE - Sistema de Mudança
+# ========================================
+
+# Habilitar módulo de reescrita
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Redirecionar para index.php se arquivo/diretório não existir
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+# ========================================
+# SEGURANÇA
+# ========================================
+
+# Bloquear acesso direto aos arquivos de banco de dados
+<FilesMatch "\.(db|sqlite|sqlite3)$">
+    Require all denied
+</FilesMatch>
+
+# Proteger arquivos sensíveis
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Desabilitar listagem de diretórios
+Options -Indexes
+
+# Proteção contra clickjacking
+<IfModule mod_headers.c>
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# ========================================
+# UPLOAD DE ARQUIVOS
+# ========================================
+
+# Aumentar limite de upload para fotos grandes de celular
+# O sistema otimiza automaticamente as fotos após o upload
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 50M
+    php_value post_max_size 50M
+    php_value memory_limit 256M
+    php_value max_execution_time 300
+</IfModule>
+
+<IfModule mod_php8.c>
+    php_value upload_max_filesize 50M
+    php_value post_max_size 50M
+    php_value memory_limit 256M
+    php_value max_execution_time 300
+</IfModule>
+
+# Para ambientes modernos (PHP-FPM)
+<IfModule mod_php.c>
+    php_value upload_max_filesize 50M
+    php_value post_max_size 50M
+    php_value memory_limit 256M
+    php_value max_execution_time 300
+</IfModule>
+
+# ========================================
+# COMPRESSÃO E CACHE
+# ========================================
+
+# Habilitar compressão GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Cache para arquivos estáticos
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # Imagens
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+
+    # CSS e JavaScript
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
+
+# ========================================
+# TIPOS MIME
+# ========================================
+
+<IfModule mod_mime.c>
+    AddType image/webp .webp
+    AddType application/javascript .js
+    AddType text/css .css
+</IfModule>
+
+# ========================================
+# PROTEÇÃO DE HOTLINKING
+# ========================================
+
+# Prevenir hotlinking de imagens (opcional)
+# <IfModule mod_rewrite.c>
+#     RewriteEngine on
+#     RewriteCond %{HTTP_REFERER} !^$
+#     RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?seu-dominio.com [NC]
+#     RewriteRule \.(jpg|jpeg|png|gif|webp)$ - [NC,F,L]
+# </IfModule>
+
+# ========================================
+# CODIFICAÇÃO
+# ========================================
+
+# Definir charset padrão
+AddDefaultCharset UTF-8
+
+# ========================================
+# PÁGINAS DE ERRO (OPCIONAL)
+# ========================================
+
+# ErrorDocument 404 /index.php
+# ErrorDocument 500 /index.php

@@ -319,15 +319,131 @@ def normalize_name(name):
 
     return name
 
+def extract_from_decision_phrases(text, jogadores_db):
+    """Extrai jogadores de frases de decisão/escolha em vídeos narrados
+
+    Nova abordagem:
+    1. Divide texto em sentenças
+    2. Identifica sentenças com frases-chave de decisão
+    3. Procura jogadores da base de dados nessas sentenças
+    4. Pontuação mais alta para sentenças com frases mais específicas
+    """
+
+    # Divide texto em sentenças (aproximadamente)
+    sentences = re.split(r'[.!?]\s+', text)
+
+    # Frases-chave de decisão (MAIS ESPECÍFICAS)
+    decision_keywords = [
+        # Altamente específicas (peso 10)
+        ('vai ser o ', 10),
+        ('vai ser a ', 10),
+        ('vou de ', 10),
+        ('vou com ', 10),
+        ('vou começar com ', 10),
+        ('vou começar com o ', 10),
+        ('vou começar com a ', 10),
+
+        # Específicas de posição (peso 8)
+        ('meu goleiro vai ser ', 8),
+        ('meu atacante vai ser ', 8),
+        ('meu lateral vai ser ', 8),
+        ('meu zagueiro vai ser ', 8),
+        ('meu meia vai ser ', 8),
+        ('meu técnico vai ser ', 8),
+        ('meu primeiro ', 8),
+        ('meu segundo ', 8),
+        ('meu terceiro ', 8),
+
+        # Médio peso (peso 5)
+        ('meu time ', 5),
+        ('no meu time ', 5),
+        ('na minha escalação ', 5),
+    ]
+
+    # Sentenças com pontuação
+    scored_sentences = []
+
+    for sentence in sentences:
+        sentence_lower = sentence.lower()
+        score = 0
+
+        # Calcula pontuação da sentença
+        for keyword, weight in decision_keywords:
+            if keyword in sentence_lower:
+                score += weight
+
+        if score > 0:
+            scored_sentences.append((sentence, score))
+
+    # Ordena por pontuação (mais específicas primeiro)
+    scored_sentences.sort(key=lambda x: x[1], reverse=True)
+
+    players_found = []
+    players_seen = set()
+
+    # Procura jogadores nas sentenças mais relevantes
+    for sentence, score in scored_sentences:
+        # Para cada jogador na base, verifica se está nesta sentença
+        for player_name, player_info in jogadores_db.items():
+            player_normalized = normalize_name(player_name)
+
+            # Pula se já encontramos
+            if player_normalized in players_seen:
+                continue
+
+            # Verifica se o jogador está na sentença
+            sentence_normalized = normalize_name(sentence)
+
+            # Tenta match direto
+            if player_normalized in sentence_normalized:
+                players_found.append(player_name)
+                players_seen.add(player_normalized)
+                logger.info(f"  ✓ Decisão (score={score}): '{player_name}' em '{sentence[:80]}...'")
+                continue
+
+            # Tenta por sobrenome ou abreviação
+            name_parts = player_name.split()
+            if len(name_parts) >= 2:
+                # Tenta por sobrenome
+                last_name = name_parts[-1]
+                if len(last_name) >= 5 and normalize_name(last_name) in sentence_normalized:
+                    # Verifica se não é falso positivo (ex: sobrenome comum)
+                    players_found.append(player_name)
+                    players_seen.add(player_normalized)
+                    logger.info(f"  ✓ Decisão (score={score}, sobrenome): '{player_name}' ('{last_name}') em '{sentence[:80]}...'")
+                    continue
+
+        # Limita a 15 jogadores (time máximo + reservas)
+        if len(players_found) >= 15:
+            break
+
+    return players_found
+
 def extract_players_from_youtube_text(text, jogadores_db):
     """Extrai nomes de jogadores ESCALADOS do texto de legendas do YouTube
 
-    Usa análise HÍBRIDA:
-    1. CONTEXTO: Busca frases-chave de escalação positiva
-    2. FREQUÊNCIA: Se mencionado 3+ vezes, provavelmente foi escalado
-    3. FILTRO NEGATIVO: Ignora contexto negativo (não vou, evitar, fora, etc)
+    Usa análise em camadas:
+    1. ESTRUTURADA: Detecta seções por posição (ataque:, meia:, etc) - PRIORIDADE MÁXIMA
+    2. FRASES DE DECISÃO: Detecta "vai ser X", "vou de X" - PRIORIDADE ALTA
+    3. CONTEXTO: Busca frases-chave de escalação positiva
+    4. FREQUÊNCIA: Se mencionado 3+ vezes, provavelmente foi escalado
     """
 
+    # ESTRATÉGIA 1: EXTRAÇÃO ESTRUTURADA (Listas formatadas)
+    # Detecta seções explícitas de posição no texto
+    structured_players = extract_structured_lineup(text, jogadores_db)
+    if structured_players:
+        logger.info(f"🎯 Extração estruturada encontrou {len(structured_players)} jogadores")
+        return structured_players
+
+    # ESTRATÉGIA 2: FRASES DE DECISÃO (NOVO - Para vídeos narrados)
+    # Detecta frases como "vai ser o X", "vou de X", "meu X vai ser"
+    decision_players = extract_from_decision_phrases(text, jogadores_db)
+    if decision_players and len(decision_players) >= 8:  # Mínimo de 8 jogadores (time razoável)
+        logger.info(f"🎯 Extração por frases de decisão encontrou {len(decision_players)} jogadores")
+        return decision_players
+
+    # ESTRATÉGIA 2: ANÁLISE HÍBRIDA (ORIGINAL)
     # Normaliza o texto
     text_normalized = normalize_name(text)
     text_lower = text.lower()
@@ -424,6 +540,217 @@ def extract_players_from_youtube_text(text, jogadores_db):
             counted_players.add(player_normalized)
 
     return players_found
+
+def extract_structured_lineup(text, jogadores_db):
+    """Extrai jogadores de texto estruturado por posições
+
+    Exemplo de formato esperado:
+    ataque - v. roque, f. lópes, rayan
+    meia - m. pereira, f. anderson, arrascaeta
+    lateral - piquerez, k. bruno
+    zagueiro - t. silva, g. gomes
+    gol - c. miguel
+    técnico - a. ferreira
+
+    Retorna lista de nomes de jogadores (únicos)
+    """
+
+    # Mapeamento de palavras-chave para posições
+    position_keywords = {
+        'ataque': 'ata',
+        'atacante': 'ata',
+        'ata': 'ata',
+        'meia': 'mei',
+        'mei': 'mei',
+        'meio': 'mei',
+        'lateral': 'lat',
+        'lat': 'lat',
+        'zagueiro': 'zag',
+        'zag': 'zag',
+        'defensor': 'zag',
+        'gol': 'gol',
+        'goleiro': 'gol',
+        'tecnico': 'tec',
+        'técnico': 'tec',
+        'tec': 'tec',
+        'treinador': 'tec'
+    }
+
+    # Normaliza texto
+    text_normalized = normalize_name(text)
+    text_lower = text.lower()
+
+    # Padrão SIMPLIFICADO para detectar seções de posição
+    # Formato: "posição - jogador1, jogador2, jogador3" ou "posição: jogador1, jogador2"
+    # Busca linha por linha para evitar complexidade
+    position_pattern = r'(ataque|atacante|ata|meia|mei|meio|lateral|lat|zagueiro|zag|defensor|gol|goleiro|tecnico|técnico|tec|treinador)\s*[-:]\s*([^\n\r]+)'
+
+    matches = re.finditer(position_pattern, text_lower, re.MULTILINE)
+
+    players_found = []
+    players_seen = set()  # Para evitar duplicatas
+    found_any_structure = False
+
+    for match in matches:
+        found_any_structure = True
+        position_keyword = match.group(1).strip()
+        players_text = match.group(2).strip()
+
+        # Limpa e divide os nomes dos jogadores
+        # Remove quebras de linha, pontos extras, etc
+        players_text = re.sub(r'\s+', ' ', players_text)
+
+        # Divide por vírgula ou "e"
+        player_names = re.split(r'[,;]|\s+e\s+', players_text)
+
+        for player_name in player_names:
+            # Limpa o nome
+            player_name = player_name.strip()
+            player_name = re.sub(r'^[-•\*\d\.\)]+\s*', '', player_name)  # Remove bullets, números
+            player_name = re.sub(r'\s+', ' ', player_name)  # Normaliza espaços
+
+            # Ignora nomes muito curtos ou vazios
+            if len(player_name) < 2:
+                continue
+
+            # Tenta fazer match com a base de dados
+            matched_name, player_info = match_player_enhanced(player_name, jogadores_db)
+
+            if matched_name:
+                # Evita duplicatas
+                if normalize_name(matched_name) not in players_seen:
+                    players_found.append(matched_name)
+                    players_seen.add(normalize_name(matched_name))
+                    logger.info(f"  ✓ {position_keyword}: {player_name} → {matched_name}")
+            else:
+                # Se não encontrou na base, mas o nome parece válido, adiciona mesmo assim
+                if len(player_name) >= 3 and re.search(r'[a-z]', player_name, re.I):
+                    normalized = normalize_name(player_name)
+                    if normalized not in players_seen:
+                        logger.warning(f"  ? {position_keyword}: {player_name} (não encontrado na base)")
+                        # Adiciona com capitalização adequada
+                        players_found.append(player_name.title())
+                        players_seen.add(normalized)
+
+    # Só retorna se encontrou estrutura válida
+    if found_any_structure:
+        logger.info(f"📋 Estrutura detectada! Encontrados {len(players_found)} jogadores (únicos)")
+        return players_found
+
+    return []
+
+def match_player_enhanced(name, jogadores_db):
+    """Versão melhorada do match_player com foco em nomes abreviados
+
+    Lida com formatos como:
+    - "v. roque" → "Vitor Roque" ou "V. Roque"
+    - "arrascaeta" → "Arrascaeta"
+    - "m. pereira" → "Matheus Pereira" ou "M. Pereira"
+    - "f. lópes" → "F. López" ou "Felipe López"
+    """
+
+    if not name or not isinstance(name, str):
+        return None, None
+
+    normalized_input = normalize_name(name)
+    normalized_input_clean = re.sub(r'[.\s]+', '', normalized_input)
+
+    # Estratégia 1: Match exato normalizado
+    for db_name, info in jogadores_db.items():
+        if normalize_name(db_name) == normalized_input:
+            return db_name, info
+
+    # Estratégia 2: Match sem pontos/espaços
+    for db_name, info in jogadores_db.items():
+        db_normalized_clean = re.sub(r'[.\s]+', '', normalize_name(db_name))
+        if db_normalized_clean == normalized_input_clean:
+            return db_name, info
+
+    # Estratégia 3: Match por inicial + sobrenome (específico para abreviações)
+    # Exemplo: "v roque" deve bater com "Vitor Roque" ou "V. Roque"
+    # MELHORIA: Busca o MELHOR match (sobrenome mais similar) em vez do primeiro
+    input_words = normalized_input.replace('.', '').split()
+    if len(input_words) >= 2:
+        first_initial = input_words[0][0] if input_words[0] else ''
+        last_name = input_words[-1]
+
+        best_match = None
+        best_similarity = 0
+
+        for db_name, info in jogadores_db.items():
+            db_normalized = normalize_name(db_name)
+            db_words = db_normalized.replace('.', '').split()
+
+            if len(db_words) >= 2:
+                db_first_initial = db_words[0][0] if db_words[0] else ''
+                db_last_name = db_words[-1]
+
+                # Compara inicial do primeiro nome
+                if first_initial == db_first_initial:
+                    # Calcula similaridade do sobrenome (prioriza matches melhores)
+
+                    # Verifica variações s/z (comum em sobrenomes latinos: Lopez/Lopes, Gomez/Gomes)
+                    # Substitui s por _ primeiro, depois z por s, depois _ por z
+                    last_name_sz = last_name.replace('s', '_').replace('z', 's').replace('_', 'z')
+                    db_last_sz = db_last_name.replace('s', '_').replace('z', 's').replace('_', 'z')
+
+                    # Similaridade exata = 1.0
+                    if (db_last_name == last_name or db_last_name == last_name_sz or
+                        db_last_sz == last_name):
+                        return db_name, info  # Match perfeito, retorna imediatamente
+
+                    # Similaridade parcial (substring)
+                    if (last_name in db_last_name or db_last_name in last_name or
+                        last_name_sz in db_last_name or db_last_name in last_name_sz or
+                        db_last_sz in last_name or last_name in db_last_sz):
+                        # Quanto mais parecidos, maior a similaridade
+                        similarity = min(len(last_name), len(db_last_name)) / max(len(last_name), len(db_last_name))
+                        if similarity > best_similarity:
+                            best_similarity = similarity
+                            best_match = (db_name, info)
+
+        # Retorna o melhor match se similaridade > 60%
+        if best_match and best_similarity > 0.6:
+            return best_match
+
+    # Estratégia 4: Match por sobrenome único (para nomes como "Arrascaeta")
+    # Se o input é uma palavra só, busca por sobrenome
+    if len(input_words) == 1 and len(normalized_input) >= 4:
+        for db_name, info in jogadores_db.items():
+            db_normalized = normalize_name(db_name)
+            db_words = db_normalized.split()
+
+            # Verifica se o input bate com alguma parte do nome no DB
+            for db_word in db_words:
+                if db_word == normalized_input or \
+                   (len(db_word) >= 4 and len(normalized_input) >= 4 and
+                    (db_word in normalized_input or normalized_input in db_word)):
+                    return db_name, info
+
+    # Estratégia 5: Match parcial por substring (mais permissivo)
+    for db_name, info in jogadores_db.items():
+        db_normalized = normalize_name(db_name)
+
+        # Se um contém o outro (com mínimo de 4 caracteres)
+        if len(normalized_input_clean) >= 4 and len(db_normalized.replace(' ', '')) >= 4:
+            if normalized_input_clean in db_normalized.replace(' ', '') or \
+               db_normalized.replace(' ', '') in normalized_input_clean:
+                return db_name, info
+
+    # Estratégia 6: Similaridade por caracteres comuns (70%+)
+    for db_name, info in jogadores_db.items():
+        db_clean = normalize_name(db_name).replace(' ', '').replace('.', '')
+        input_clean = normalized_input.replace(' ', '').replace('.', '')
+
+        if len(db_clean) >= 4 and len(input_clean) >= 4:
+            # Calcula similaridade
+            common_chars = sum(1 for c in set(input_clean) if c in db_clean)
+            similarity = common_chars / max(len(set(input_clean)), len(set(db_clean)))
+
+            if similarity >= 0.7:
+                return db_name, info
+
+    return None, None
 
 def extract_players_from_text(text):
     """Extrai nomes de jogadores do texto OCR ou legendas"""
@@ -716,21 +1043,74 @@ def get_youtube_transcript(video_id):
 
 @app.route('/')
 def index():
+    # Usa interface SIMPLES por padrão (mais eficiente)
+    return render_template('index_simple.html')
+
+@app.route('/hybrid')
+def index_hybrid():
+    # Interface híbrida com detecção automática
+    return render_template('index_hybrid.html')
+
+@app.route('/old')
+def index_old():
+    # Mantém interface antiga disponível
     return render_template('index.html')
+
+@app.route('/search_players', methods=['POST'])
+@rate_limit
+def search_players():
+    """Busca jogadores por nome na base de dados - MODO SIMPLES"""
+    data = request.json
+    player_names = data.get('player_names', [])
+
+    if not player_names:
+        return jsonify({'error': 'Nenhum nome de jogador fornecido'}), 400
+
+    found_by_position = defaultdict(list)
+    not_found = []
+
+    for input_name in player_names:
+        # Tenta fazer match
+        matched_name, player_info = match_player_enhanced(input_name, JOGADORES_DB)
+
+        if matched_name and player_info:
+            pos = player_info.get('posicao', 'desconhecida')
+            found_by_position[pos].append({
+                'nome': matched_name,
+                'preco': player_info.get('preco', 0),
+                'input': input_name
+            })
+            logger.info(f"✓ '{input_name}' → {matched_name} ({pos})")
+        else:
+            not_found.append(input_name)
+            logger.warning(f"✗ '{input_name}' não encontrado")
+
+    # Calcula total
+    total_cost = sum(p['preco'] for players in found_by_position.values() for p in players)
+    total_found = sum(len(players) for players in found_by_position.values())
+
+    return jsonify({
+        'success': True,
+        'total_found': total_found,
+        'total_cost': total_cost,
+        'found': {k: list(v) for k, v in found_by_position.items()},
+        'not_found': not_found
+    })
 
 @app.route('/process_youtube', methods=['POST'])
 @rate_limit
 def process_youtube():
-    """Processa links do YouTube extraindo legendas"""
+    """Processa links do YouTube extraindo legendas - MODO HÍBRIDO"""
     data = request.json
     urls = data.get('urls', [])
-    
+    hybrid_mode = data.get('hybrid_mode', True)  # Novo parâmetro para modo híbrido
+
     if not urls:
         return jsonify({'error': 'Nenhum link do YouTube enviado'}), 400
-    
-    all_players = []
+
+    all_candidates = []
     processing_results = []
-    
+
     for url in urls:
         video_id = extract_video_id(url)
         if not video_id:
@@ -739,7 +1119,7 @@ def process_youtube():
                 'error': 'URL inválida ou não é do YouTube'
             })
             continue
-        
+
         transcript_text, error = get_youtube_transcript(video_id)
         if error:
             processing_results.append({
@@ -749,52 +1129,55 @@ def process_youtube():
             })
             continue
 
-        # Extrai jogadores das legendas usando função específica para YouTube
-        players = extract_players_from_youtube_text(transcript_text, JOGADORES_DB)
-        all_players.extend(players)
-        
+        # Extrai CANDIDATOS das legendas (modo permissivo)
+        candidates = extract_players_from_youtube_text(transcript_text, JOGADORES_DB)
+        all_candidates.extend(candidates)
+
         processing_results.append({
             'url': url,
             'video_id': video_id,
-            'players_found': len(players),
-            'players': players[:20],
+            'candidates_found': len(candidates),
+            'candidates': candidates[:25],  # Mostra até 25 candidatos
             'transcript_preview': transcript_text[:500] if transcript_text else None
         })
-    
-    # Agregação (mesma lógica do upload de imagens)
-    player_counts = Counter(all_players)
-    matched_players = defaultdict(lambda: {'count': 0, 'posicao': None, 'variants': []})
-    
-    for player_name, count in player_counts.items():
-        matched_name, player_info = match_player(player_name, JOGADORES_DB)
+
+    # Agregação de candidatos
+    candidate_counts = Counter(all_candidates)
+    matched_candidates = defaultdict(lambda: {'count': 0, 'posicao': None, 'preco': 0, 'variants': []})
+
+    for candidate_name, count in candidate_counts.items():
+        matched_name, player_info = match_player(candidate_name, JOGADORES_DB)
         if matched_name:
-            matched_players[matched_name]['count'] += count
-            matched_players[matched_name]['posicao'] = player_info.get('posicao')
-            if player_name not in matched_players[matched_name]['variants']:
-                matched_players[matched_name]['variants'].append(player_name)
+            matched_candidates[matched_name]['count'] += count
+            matched_candidates[matched_name]['posicao'] = player_info.get('posicao')
+            matched_candidates[matched_name]['preco'] = player_info.get('preco', 0)
+            if candidate_name not in matched_candidates[matched_name]['variants']:
+                matched_candidates[matched_name]['variants'].append(candidate_name)
         else:
             found_similar = False
-            for existing_name in matched_players.keys():
-                if normalize_name(existing_name) == normalize_name(player_name):
-                    matched_players[existing_name]['count'] += count
-                    if player_name not in matched_players[existing_name]['variants']:
-                        matched_players[existing_name]['variants'].append(player_name)
+            for existing_name in matched_candidates.keys():
+                if normalize_name(existing_name) == normalize_name(candidate_name):
+                    matched_candidates[existing_name]['count'] += count
+                    if candidate_name not in matched_candidates[existing_name]['variants']:
+                        matched_candidates[existing_name]['variants'].append(candidate_name)
                     found_similar = True
                     break
-            
+
             if not found_similar:
-                matched_players[player_name]['count'] += count
-                matched_players[player_name]['posicao'] = 'desconhecida'
-                matched_players[player_name]['variants'].append(player_name)
-    
-    logger.info(f"YouTube - Total de jogadores extraídos: {len(all_players)}")
-    
+                matched_candidates[candidate_name]['count'] += count
+                matched_candidates[candidate_name]['posicao'] = 'desconhecida'
+                matched_candidates[candidate_name]['preco'] = 0
+                matched_candidates[candidate_name]['variants'].append(candidate_name)
+
+    logger.info(f"YouTube - Total de candidatos: {len(all_candidates)}, Únicos: {len(matched_candidates)}")
+
     return jsonify({
         'success': True,
+        'hybrid_mode': hybrid_mode,
         'processing_results': processing_results,
-        'all_players_count': len(all_players),
-        'unique_players': len(matched_players),
-        'matched_players': {k: dict(v) for k, v in matched_players.items()}
+        'total_candidates': len(all_candidates),
+        'unique_candidates': len(matched_candidates),
+        'candidates': {k: dict(v) for k, v in matched_candidates.items()}
     })
 
 @app.route('/upload', methods=['POST'])
@@ -938,6 +1321,57 @@ def calculate_lineup():
         'unknown_players': sorted(unknown_players, key=lambda x: x['count'], reverse=True)
     })
 
+@app.route('/confirm_lineup', methods=['POST'])
+@rate_limit
+def confirm_lineup():
+    """Salva escalação confirmada pelo usuário (modo híbrido)"""
+    data = request.json
+    selected_players = data.get('selected_players', [])
+    video_id = data.get('video_id', 'unknown')
+
+    if not selected_players:
+        return jsonify({'error': 'Nenhum jogador selecionado'}), 400
+
+    # Organiza jogadores por posição
+    lineup_by_position = defaultdict(list)
+
+    for player_name in selected_players:
+        if player_name in JOGADORES_DB:
+            player_info = JOGADORES_DB[player_name]
+            lineup_by_position[player_info['posicao']].append({
+                'nome': player_name,
+                'preco': player_info['preco']
+            })
+
+    # Calcula estatísticas
+    total_cost = sum(p['preco'] for players in lineup_by_position.values() for p in players)
+
+    # Salva em arquivo (opcional - para histórico)
+    from datetime import datetime
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    filename = f'escalacao_{timestamp}.json'
+
+    try:
+        with open(f'escalacoes/{filename}', 'w', encoding='utf-8') as f:
+            json.dump({
+                'timestamp': timestamp,
+                'video_id': video_id,
+                'players': selected_players,
+                'lineup_by_position': {k: list(v) for k, v in lineup_by_position.items()},
+                'total_cost': total_cost
+            }, f, ensure_ascii=False, indent=2)
+        logger.info(f"✅ Escalação salva: {filename} ({len(selected_players)} jogadores)")
+    except Exception as e:
+        logger.warning(f"Não foi possível salvar escalação: {e}")
+
+    return jsonify({
+        'success': True,
+        'selected_count': len(selected_players),
+        'lineup_by_position': {k: list(v) for k, v in lineup_by_position.items()},
+        'total_cost': total_cost,
+        'saved_file': filename
+    })
+
 @app.route('/load_players_db', methods=['POST'])
 @rate_limit
 def load_players_db():
@@ -1009,5 +1443,6 @@ if __name__ == '__main__':
     # Em desenvolvimento use: export FLASK_DEBUG=1
     # Em produção, use Gunicorn (não execute este bloco)
     debug_mode = os.getenv('FLASK_DEBUG', '0') == '1'
-    app.run(debug=debug_mode, host='127.0.0.1', port=5000)
+    port = int(os.getenv('FLASK_PORT', '5001'))
+    app.run(debug=debug_mode, host='127.0.0.1', port=port)
 

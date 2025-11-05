@@ -1,0 +1,64 @@
+NOVO PROJETO NO SERVIDOR
+
+1. Criar diretório:
+sudo mkdir -p /var/www/novoprojeto
+
+----------------------------------
+
+2. Adicionar configuração no Nginx:
+sudo nano /etc/nginx/sites-available/hserver.pro
+
+Inserir o bloco de configuração:
+
+# Subdomínio <projeto>
+server {
+    listen 80;
+    server_name <projeto>.hserver.pro;
+
+    root /var/www/<projeto>;
+    index index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+
+(Substitua <projeto> pelo nome real do subdomínio)
+
+----------------------------------
+
+3. Adicionar DNS no Cloudflare:
+Tipo: A
+Nome: novoprojeto
+Valor IP: 158.51.78.203
+Proxy: Ativado (Proxied ✅)
+
+----------------------------------
+
+4. Recarregar o Nginx:
+sudo systemctl reload nginx
+ou
+sudo service nginx reload
+
+----------------------------------
+
+GITHUB
+
+Enviar alterações para o GitHub:
+git add .
+git commit -m "texto"
+git push origin main
+
+----------------------------------
+
+Puxar atualizações do GitHub:
+cd /var/www/seu-projeto
+git status
+git pull origin main
+sudo systemctl restart nome-do-serviço
+ou
+sudo systemctl reload nginx
+
+----------------------------------
+
+root@hserver:/var/www#

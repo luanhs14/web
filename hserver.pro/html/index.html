@@ -3,742 +3,69 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>hserver.pro - Portal de Projetos</title>
-    <style>
-        :root{
-            --bg-primary: #0a0e27;
-            --bg-secondary: #151932;
-            --surface: #1e2139;
-            --surface-hover: #252847;
-            --text-primary: #e4e6eb;
-            --text-secondary: #9ca3af;
-            --accent: #6366f1;
-            --accent-hover: #4f46e5;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --border: rgba(255,255,255,0.06);
-            --border-hover: rgba(99,102,241,0.3);
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
-            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
-            --shadow-lg: 0 20px 60px rgba(0,0,0,0.5);
-            --radius: 16px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        *{
-            box-sizing:border-box;
-            margin:0;
-            padding:0;
-        }
-
-        html,body{
-            height:100%;
-        }
-
-        body{
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            -webkit-font-smoothing:antialiased;
-            -moz-osx-font-smoothing:grayscale;
-            min-height:100vh;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            padding:32px 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        body::before{
-            content: '';
-            position: fixed;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 20%, rgba(99,102,241,0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 60%, rgba(139,92,246,0.06) 0%, transparent 50%);
-            animation: drift 20s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        @keyframes drift {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(-5%, 5%) rotate(2deg); }
-        }
-
-        .wrap{
-            width:100%;
-            max-width:1100px;
-            background: var(--bg-secondary);
-            border-radius: var(--radius);
-            padding:48px;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border);
-            position: relative;
-            z-index: 1;
-        }
-
-        header{
-            display:flex;
-            gap:24px;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:48px;
-            padding-bottom: 32px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .brand{
-            display:flex;
-            gap:16px;
-            align-items:center;
-        }
-
-        .logo{
-            width:60px;
-            height:60px;
-            border-radius:14px;
-            background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            color:white;
-            font-weight:700;
-            font-size:24px;
-            letter-spacing: -1px;
-            box-shadow: 0 8px 24px rgba(99,102,241,0.3);
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .logo::after{
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 14px;
-            padding: 2px;
-            background: linear-gradient(135deg, var(--accent), #8b5cf6);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .logo:hover::after{
-            opacity: 1;
-        }
-
-        .logo:hover{
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(99,102,241,0.4);
-        }
-
-        h1{
-            font-size:1.75rem;
-            font-weight:700;
-            color:var(--text-primary);
-            letter-spacing:-0.5px;
-            margin-bottom: 4px;
-        }
-
-        .subtitle{
-            color:var(--text-secondary);
-            font-size:0.95rem;
-            font-weight: 400;
-        }
-
-        .controls{
-            display:flex;
-            gap:12px;
-            align-items:center;
-        }
-
-        .search{
-            display:flex;
-            align-items:center;
-            gap:10px;
-            background: var(--surface);
-            padding:10px 18px;
-            border-radius:12px;
-            border:1px solid var(--border);
-            min-width:240px;
-            transition: var(--transition);
-        }
-
-        .search:focus-within{
-            border-color: var(--accent);
-            background: var(--surface-hover);
-            box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
-        }
-
-        .search svg{
-            opacity: 0.5;
-            transition: var(--transition);
-        }
-
-        .search:focus-within svg{
-            opacity: 1;
-        }
-
-        .search input{
-            border:0;
-            background:transparent;
-            outline:0;
-            font-size:0.95rem;
-            color:var(--text-primary);
-            width:100%;
-            font-family: inherit;
-        }
-
-        .search input::placeholder{
-            color: var(--text-secondary);
-        }
-
-        .btn{
-            background: var(--accent);
-            color:white;
-            padding:10px 20px;
-            border-radius:12px;
-            border:0;
-            cursor:pointer;
-            font-weight:600;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 12px rgba(99,102,241,0.3);
-            transition: var(--transition);
-            font-family: inherit;
-            white-space: nowrap;
-        }
-
-        .btn:hover{
-            background: var(--accent-hover);
-            box-shadow: 0 6px 20px rgba(99,102,241,0.4);
-            transform: translateY(-2px);
-        }
-
-        .btn:active{
-            transform: translateY(0);
-        }
-
-        .btn:focus-visible{
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-        }
-
-        .projects-grid{
-            display:grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap:24px;
-        }
-
-        .empty-state{
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-secondary);
-        }
-
-        .empty-state-icon{
-            font-size: 3.5rem;
-            margin-bottom: 16px;
-            opacity: 0.3;
-        }
-
-        .project-card{
-            background: var(--surface);
-            border-radius:14px;
-            padding:24px;
-            text-decoration:none;
-            color:inherit;
-            border:1px solid var(--border);
-            transition: var(--transition);
-            display:flex;
-            flex-direction:column;
-            gap:16px;
-            min-height:180px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-card::before{
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(99,102,241,0.05), transparent);
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .project-card:hover::before{
-            opacity: 1;
-        }
-
-        .project-card:hover{
-            transform:translateY(-4px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--border-hover);
-            background: var(--surface-hover);
-        }
-
-        .project-card:focus-visible{
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-        }
-
-        .project-card.coming-soon{
-            opacity: 0.5;
-        }
-
-        .project-card.coming-soon:hover{
-            opacity: 0.7;
-        }
-
-        .project-top{
-            display:flex;
-            justify-content:space-between;
-            align-items:flex-start;
-            position: relative;
-            z-index: 1;
-        }
-
-        .project-icon{
-            font-size:2.5rem;
-            width:56px;
-            height:56px;
-            border-radius:12px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            background: rgba(99,102,241,0.1);
-            flex-shrink: 0;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-icon::before{
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.2));
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .project-card:hover .project-icon{
-            transform: scale(1.1) rotate(5deg);
-            background: rgba(99,102,241,0.15);
-        }
-
-        .project-card:hover .project-icon::before{
-            opacity: 1;
-        }
-
-        /* Custom icon colors for each project */
-        .project-card[data-category="sports"] .project-icon{
-            background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(16,185,129,0.15));
-        }
-
-        .project-card[data-category="education"] .project-icon{
-            background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(99,102,241,0.15));
-        }
-
-        .project-card[data-category="games"] .project-icon{
-            background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(217,70,239,0.15));
-        }
-
-        .project-name{
-            font-weight:700;
-            font-size:1.25rem;
-            color: var(--text-primary);
-            letter-spacing: -0.3px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .project-desc{
-            color:var(--text-secondary);
-            font-size:0.95rem;
-            line-height: 1.6;
-            flex:1;
-            position: relative;
-            z-index: 1;
-        }
-
-        .status{
-            display:inline-flex;
-            align-items:center;
-            gap:6px;
-            padding:6px 12px;
-            border-radius:8px;
-            font-size:0.8rem;
-            font-weight:600;
-            width:max-content;
-            flex-shrink: 0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .status::before{
-            content: '';
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .status-live{
-            background: rgba(16,185,129,0.15);
-            color: var(--success);
-        }
-
-        .status-live::before{
-            background: var(--success);
-            animation: pulse 2s infinite;
-        }
-
-        .status-dev{
-            background: rgba(245,158,11,0.15);
-            color: var(--warning);
-        }
-
-        .status-dev::before{
-            background: var(--warning);
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 currentColor; }
-            50% { opacity: 0.6; box-shadow: 0 0 0 2px currentColor; }
-        }
-
-        .filters{
-            display: flex;
-            gap: 12px;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
-            padding: 20px;
-            background: var(--surface);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        .filter-btn{
-            padding: 10px 20px;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text-secondary);
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: var(--transition);
-            font-family: inherit;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .filter-btn::before{
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--accent), #8b5cf6);
-            opacity: 0;
-            transition: var(--transition);
-            z-index: -1;
-        }
-
-        .filter-btn:hover{
-            border-color: var(--accent);
-            color: var(--text-primary);
-            transform: translateY(-2px);
-        }
-
-        .filter-btn.active{
-            background: linear-gradient(135deg, var(--accent), #8b5cf6);
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 4px 12px rgba(99,102,241,0.3);
-        }
-
-        .filter-btn.active::before{
-            opacity: 1;
-        }
-
-        .project-card{
-            animation: fadeInUp 0.5s ease-out backwards;
-        }
-
-        .project-card:nth-child(1) { animation-delay: 0.1s; }
-        .project-card:nth-child(2) { animation-delay: 0.2s; }
-        .project-card:nth-child(3) { animation-delay: 0.3s; }
-        .project-card:nth-child(4) { animation-delay: 0.4s; }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .project-card.hidden{
-            display: none;
-        }
-
-        .muted-note{
-            margin-top:32px;
-            color:var(--text-secondary);
-            font-size:0.9rem;
-            text-align:center;
-            padding: 20px;
-            background: rgba(99,102,241,0.05);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        footer{
-            margin-top: 40px;
-            padding-top: 24px;
-            border-top: 1px solid var(--border);
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .footer-links{
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a{
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .footer-links a:hover{
-            color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .stats{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 32px;
-            padding: 20px;
-            background: var(--surface);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        .stat-item{
-            text-align: center;
-            padding: 12px;
-        }
-
-        .stat-value{
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 4px;
-        }
-
-        .stat-label{
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Accessibility */
-        .skip-link{
-            position:absolute;
-            left:-9999px;
-            top:auto;
-            width:1px;
-            height:1px;
-            overflow:hidden;
-        }
-
-        .skip-link:focus{
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            width: auto;
-            height: auto;
-            padding: 12px 20px;
-            background: var(--accent);
-            color: white;
-            border-radius: 8px;
-            z-index: 9999;
-            text-decoration: none;
-        }
-
-        :focus-visible{
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-            border-radius: 8px;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-
-        /* Responsive */
-        @media (max-width:768px){
-            body{
-                padding: 20px 16px;
-            }
-
-            .wrap{
-                padding: 32px 24px;
-            }
-
-            header{
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-                margin-bottom: 32px;
-                padding-bottom: 24px;
-            }
-
-            .brand{
-                width: 100%;
-            }
-
-            .controls{
-                width: 100%;
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .search{
-                width: 100%;
-                min-width: 0;
-            }
-
-            .btn{
-                width: 100%;
-                justify-content: center;
-            }
-
-            h1{
-                font-size: 1.5rem;
-            }
-
-            .stats{
-                grid-template-columns: 1fr;
-                padding: 16px 12px;
-                gap: 12px;
-                margin-bottom: 24px;
-            }
-
-            .stat-item{
-                padding: 16px 12px;
-                border-bottom: 1px solid var(--border);
-            }
-
-            .stat-item:last-child{
-                border-bottom: none;
-            }
-
-            .stat-value{
-                font-size: 1.75rem;
-                margin-bottom: 6px;
-            }
-
-            .stat-label{
-                font-size: 0.8rem;
-            }
-
-            .filters{
-                padding: 16px;
-                gap: 8px;
-            }
-
-            .filter-btn{
-                padding: 8px 16px;
-                font-size: 0.85rem;
-            }
-
-            .projects-grid{
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-
-            .project-card{
-                min-height: 160px;
-                padding: 20px;
-            }
-
-            .project-icon{
-                width: 48px;
-                height: 48px;
-                font-size: 2rem;
-            }
-
-            .project-name{
-                font-size: 1.1rem;
-            }
-        }
-
-        @media (min-width:769px) and (max-width:1024px){
-            .projects-grid{
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
+    <title>Home - HServer</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-    <a class="skip-link" href="#main">Pular para conteúdo</a>
+    <a class="skip-link" href="#main">Pular para o conteúdo principal</a>
 
     <main class="wrap" id="main">
         <header>
             <div class="brand">
                 <div class="logo" aria-hidden="true">HS</div>
                 <div>
-                    <h1 id="page-title">hserver.pro</h1>
-                    <div class="subtitle">Portal de Projetos e Aplicações</div>
+                    <h1 id="page-title" class="hidden-title">Home - HServer</h1>
+                    <div class="subtitle hidden-title">Seu portal de projetos e aplicações</div>
                 </div>
             </div>
 
             <div class="controls" role="region" aria-label="Controles">
                 <div class="search">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-                        <circle cx="11" cy="11" r="8" stroke-width="2"/>
-                        <path d="m21 21-4.35-4.35" stroke-width="2" stroke-linecap="round"/>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        aria-hidden="true">
+                        <circle cx="11" cy="11" r="8" stroke-width="2" />
+                        <path d="m21 21-4.35-4.35" stroke-width="2" stroke-linecap="round" />
                     </svg>
                     <input id="search" type="search" placeholder="Buscar projetos..." aria-label="Buscar projetos" />
                 </div>
-                <button class="btn" id="new-btn" title="Novo projeto">+ Novo</button>
+                <div class="theme-switcher" id="theme-switcher">
+                    <button class="theme-btn" id="light-theme" title="Modo Claro">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5" />
+                            <line x1="12" y1="1" x2="12" y2="3" />
+                            <line x1="12" y1="21" x2="12" y2="23" />
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                            <line x1="1" y1="12" x2="3" y2="12" />
+                            <line x1="21" y1="12" x2="23" y2="12" />
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                        </svg>
+                    </button>
+                    <button class="theme-btn active" id="dark-theme" title="Modo Escuro">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <button class="btn" id="new-btn" title="Novo projeto">+ Novo Projeto</button>
             </div>
         </header>
 
+        <h1 class="main-title">Home - HServer</h1>
+
         <div class="stats" role="region" aria-label="Estatísticas">
             <div class="stat-item">
-                <div class="stat-value">4</div>
+                <div class="stat-value">5</div>
                 <div class="stat-label">Projetos Ativos</div>
             </div>
             <div class="stat-item">
-                <div class="stat-value">3</div>
+                <div class="stat-value">4</div>
                 <div class="stat-label">Online</div>
             </div>
             <div class="stat-item">
@@ -752,234 +79,111 @@
             <button class="filter-btn" data-filter="sports">Esportes</button>
             <button class="filter-btn" data-filter="education">Educação</button>
             <button class="filter-btn" data-filter="games">Jogos</button>
+            <button class="filter-btn" data-filter="business">Negócios</button>
         </div>
 
         <section class="projects-grid" id="projects" aria-live="polite" aria-label="Lista de projetos">
-            <a href="/fifa" class="project-card" data-name="projeto fifa sistema gerenciamento campeonatos" data-category="sports">
+            <a href="/fifa" class="project-card" data-name="projeto fifa sistema gerenciamento campeonatos"
+                data-category="sports">
                 <div class="project-top">
                     <div class="project-icon" aria-hidden="true">⚽</div>
                     <div class="status status-live" title="Online">Online</div>
                 </div>
                 <div class="project-name">Projeto FIFA</div>
-                <div class="project-desc">Sistema de gerenciamento de campeonatos com tabelas, calendários e estatísticas.</div>
+                <div class="project-desc">Sistema de gerenciamento de campeonatos com tabelas, calendários e
+                    estatísticas.</div>
             </a>
 
-            <a href="/hubstudy" class="project-card" data-name="hubstudy plataforma estudos colaborativos curso aprendizado" data-category="education">
+            <a href="/hubstudy" class="project-card"
+                data-name="hubstudy plataforma estudos colaborativos curso aprendizado" data-category="education">
                 <div class="project-top">
                     <div class="project-icon" aria-hidden="true">📚</div>
-                    <div class="status status-dev" title="Em desenvolvimento">Dev</div>
+                    <div class="status status-dev" title="Em desenvolvimento">Em desenvolvimento</div>
                 </div>
                 <div class="project-name">HubStudy</div>
-                <div class="project-desc">Plataforma de estudos colaborativos com recursos de sala, quizzes e notas.</div>
+                <div class="project-desc">Plataforma de estudos colaborativos com recursos de sala, quizzes e notas.
+                </div>
             </a>
 
-            <a href="/cartola" class="project-card" data-name="cartola fantasy league futebol estatisticas pontuacao" data-category="sports">
+            <a href="/cartola" class="project-card"
+                data-name="cartola fantasy league futebol estatisticas pontuacao" data-category="sports">
                 <div class="project-top">
                     <div class="project-icon" aria-hidden="true">🏆</div>
                     <div class="status status-live" title="Online">Online</div>
                 </div>
                 <div class="project-name">Cartola Pro</div>
-                <div class="project-desc">Ferramentas avançadas para Cartola FC: análises, estatísticas e gestão de times.</div>
+                <div class="project-desc">Ferramentas avançadas para Cartola FC: análises, estatísticas e gestão de
+                    times.</div>
             </a>
 
-            <a href="/dayz" class="project-card" data-name="dayz servidor comunidade survival multiplayer" data-category="games">
+            <a href="/dayz" class="project-card" data-name="dayz servidor comunidade survival multiplayer"
+                data-category="games">
                 <div class="project-top">
                     <div class="project-icon" aria-hidden="true">🎮</div>
                     <div class="status status-live" title="Online">Online</div>
                 </div>
                 <div class="project-name">DayZ Server</div>
-                <div class="project-desc">Servidor de DayZ com mods exclusivos, painel de controle e estatísticas de jogadores.</div>
+                <div class="project-desc">Servidor de DayZ com mods exclusivos, painel de controle e estatísticas de
+                    jogadores.</div>
+            </a>
+
+            <a href="/dash" class="project-card" data-name="dash gestao de financas e negocios"
+                data-category="business">
+                <div class="project-top">
+                    <div class="project-icon" aria-hidden="true">💼</div>
+                    <div class="status status-live" title="Online">Online</div>
+                </div>
+                <div class="project-name">Dash</div>
+                <div class="project-desc">Plataforma completa para gestão de finanças e negócios, com relatórios e
+                    dashboards.</div>
+            </a>
+             <a href="#" class="project-card coming-soon" data-name="em breve"
+                data-category="games">
+                <div class="project-top">
+                    <div class="project-icon" aria-hidden="true">🚀</div>
+                    <div class="status status-dev" title="Em Breve">Em Breve</div>
+                </div>
+                <div class="project-name">Em Breve</div>
+                <div class="project-desc">Novos projetos e aplicações serão disponibilizados em breve. Fique atento!</div>
             </a>
         </section>
 
-        <div class="muted-note">💡 Use a busca para filtrar projetos ou navegue com Tab</div>
+        <div class="muted-note">💡 Use a busca para filtrar projetos ou navegue com a tecla Tab.</div>
 
         <footer>
             <div class="footer-links">
                 <a href="https://github.com" target="_blank" rel="noopener noreferrer">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        <path
+                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                     </svg>
                     GitHub
                 </a>
                 <a href="mailto:contato@hserver.pro">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="5" width="18" height="14" rx="2"/>
-                        <path d="m3 7 9 6 9-6"/>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <rect x="3" y="5" width="18" height="14" rx="2" />
+                        <path d="m3 7 9 6 9-6" />
                     </svg>
                     Contato
                 </a>
                 <a href="/docs">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                        <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
                     </svg>
                     Documentação
                 </a>
             </div>
-            <p>&copy; 2024 hserver.pro - Todos os direitos reservados</p>
+            <p>&copy; 2024 hserver.pro - Todos os direitos reservados.</p>
         </footer>
     </main>
 
+    <script src="js/script.js"></script>
     <script>
-        (function(){
-            const input = document.getElementById('search');
-            const grid = document.getElementById('projects');
-            const cards = Array.from(grid.querySelectorAll('.project-card'));
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            let currentFilter = 'all';
-
-            function updateDisplay() {
-                const q = input.value.trim().toLowerCase();
-                let visibleCount = 0;
-
-                cards.forEach((card, index) => {
-                    const text = (card.dataset.name || card.textContent).toLowerCase();
-                    const category = card.dataset.category;
-                    const matchesSearch = !q || text.includes(q);
-                    const matchesFilter = currentFilter === 'all' || category === currentFilter;
-                    const shouldShow = matchesSearch && matchesFilter;
-
-                    if(shouldShow){
-                        card.classList.remove('hidden');
-                        card.style.display = '';
-                        card.style.animation = 'none';
-                        setTimeout(() => {
-                            card.style.animation = `fadeInUp 0.5s ease-out ${index * 0.1}s backwards`;
-                        }, 10);
-                        visibleCount++;
-                    } else {
-                        card.classList.add('hidden');
-                        card.style.display = 'none';
-                    }
-                });
-
-                let emptyState = grid.querySelector('.empty-state');
-                if(visibleCount === 0){
-                    if(!emptyState){
-                        emptyState = document.createElement('div');
-                        emptyState.className = 'empty-state';
-                        grid.appendChild(emptyState);
-                    }
-                    if(q){
-                        emptyState.innerHTML = '<div class="empty-state-icon">🔍</div><p>Nenhum projeto encontrado para "<strong>' + input.value + '</strong>"</p>';
-                    } else {
-                        emptyState.innerHTML = '<div class="empty-state-icon">📂</div><p>Nenhum projeto nesta categoria</p>';
-                    }
-                    emptyState.style.display = '';
-                } else if(emptyState){
-                    emptyState.style.display = 'none';
-                }
-            }
-
-            // Search functionality
-            input.addEventListener('input', updateDisplay);
-
-            // Filter functionality
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', function(){
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    currentFilter = this.dataset.filter;
-                    updateDisplay();
-                });
-            });
-
-            // Card interactions
-            grid.addEventListener('click', e => {
-                const target = e.target.closest('.project-card');
-                if(target && target.classList.contains('coming-soon')){
-                    target.style.transform = 'scale(0.98)';
-                    setTimeout(() => target.style.transform = '', 100);
-                }
-            });
-
-            // New button
-            document.getElementById('new-btn').addEventListener('click', function(){
-                const originalText = this.textContent;
-                this.textContent = '✓ Criando...';
-                this.disabled = true;
-                setTimeout(() => {
-                    this.textContent = originalText;
-                    this.disabled = false;
-                }, 1000);
-            });
-
-            // Keyboard navigation for filters
-            filterBtns.forEach((btn, index) => {
-                btn.addEventListener('keydown', e => {
-                    if(e.key === 'ArrowRight'){
-                        e.preventDefault();
-                        filterBtns[(index + 1) % filterBtns.length].focus();
-                    } else if(e.key === 'ArrowLeft'){
-                        e.preventDefault();
-                        filterBtns[(index - 1 + filterBtns.length) % filterBtns.length].focus();
-                    }
-                });
-            });
-
-            // Add smooth scroll behavior
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e){
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if(target){
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                });
-            });
-
-            // Animate stats on load
-            const animateValue = (element, start, end, duration) => {
-                const isNumber = !isNaN(end);
-                if(!isNumber) return;
-
-                const range = end - start;
-                const increment = range / (duration / 16);
-                let current = start;
-
-                const timer = setInterval(() => {
-                    current += increment;
-                    if((increment > 0 && current >= end) || (increment < 0 && current <= end)){
-                        current = end;
-                        clearInterval(timer);
-                    }
-                    element.textContent = Math.round(current);
-                }, 16);
-            };
-
-            const statValues = document.querySelectorAll('.stat-value');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if(entry.isIntersecting){
-                        const target = entry.target;
-                        const endValue = parseInt(target.textContent);
-                        if(!isNaN(endValue)){
-                            animateValue(target, 0, endValue, 1500);
-                        }
-                        observer.unobserve(target);
-                    }
-                });
-            }, { threshold: 0.5 });
-
-            statValues.forEach(stat => {
-                if(!isNaN(parseInt(stat.textContent))){
-                    observer.observe(stat);
-                }
-            });
-
-            // Update copyright year
-            const footer = document.querySelector('footer p');
-            if(footer){
-                const currentYear = new Date().getFullYear();
-                footer.textContent = footer.textContent.replace('2024', currentYear);
-            }
-
-            // Add loading state
-            window.addEventListener('load', () => {
-                document.body.classList.add('loaded');
-            });
-        })();
+      document.title = "Home - HServer";
     </script>
 </body>
+
 </html>

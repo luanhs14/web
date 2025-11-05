@@ -1,135 +1,135 @@
 {
   "Serna": {
     "posicao": "ata",
-    "preco": 7.6
+    "preco": 6.46
   },
-  "Felipe Longo": {
-    "posicao": "gol",
-    "preco": 3.02
-  },
-  "Felipe Preis": {
-    "posicao": "gol",
-    "preco": 1.0
-  },
-  "André Silva": {
+  "Arroyo": {
     "posicao": "ata",
-    "preco": 6.73
+    "preco": 7.8
+  },
+  "Jemmes": {
+    "posicao": "zag",
+    "preco": 6.01
   },
   "Davi Barbosa": {
     "posicao": "gol",
     "preco": 1.0
   },
-  "Kevyn": {
-    "posicao": "zag",
-    "preco": 1.0
-  },
-  "Jemmes": {
-    "posicao": "zag",
-    "preco": 5.73
-  },
-  "JP Chermont": {
-    "posicao": "lat",
-    "preco": 6.05
-  },
   "Vinicinho": {
     "posicao": "ata",
     "preco": 5.82
+  },
+  "André Silva": {
+    "posicao": "ata",
+    "preco": 6.73
+  },
+  "Gui Negão": {
+    "posicao": "ata",
+    "preco": 3.48
+  },
+  "Felipe Longo": {
+    "posicao": "gol",
+    "preco": 3.02
   },
   "Isac": {
     "posicao": "zag",
     "preco": 1.0
   },
-  "Jardiel": {
-    "posicao": "ata",
-    "preco": 0.84
+  "JP Chermont": {
+    "posicao": "lat",
+    "preco": 6.05
   },
   "Hyan": {
     "posicao": "mei",
     "preco": 1.19
   },
-  "Arroyo": {
-    "posicao": "ata",
-    "preco": 6.38
+  "Kevyn": {
+    "posicao": "zag",
+    "preco": 1.0
   },
   "Igão": {
     "posicao": "zag",
     "preco": 2.0
   },
+  "Jardiel": {
+    "posicao": "ata",
+    "preco": 0.84
+  },
   "Gustavo Reis": {
     "posicao": "gol",
     "preco": 1.0
   },
-  "Alysson": {
-    "posicao": "ata",
-    "preco": 7.27
-  },
-  "Gui Negão": {
-    "posicao": "ata",
-    "preco": 3.55
+  "Felipe Preis": {
+    "posicao": "gol",
+    "preco": 1.0
   },
   "Yago Noal": {
     "posicao": "mei",
     "preco": 1.14
   },
-  "Micael": {
-    "posicao": "zag",
-    "preco": 6.42
-  },
-  "Benedetti": {
-    "posicao": "zag",
-    "preco": 2.61
-  },
-  "Larson": {
-    "posicao": "mei",
-    "preco": 1.0
-  },
-  "Figueiredo": {
-    "posicao": "mei",
-    "preco": 2.0
-  },
-  "Mateus Xavier": {
-    "posicao": "mei",
-    "preco": 1.0
-  },
-  "Luis Otávio": {
-    "posicao": "mei",
-    "preco": 2.92
-  },
-  "Wallace Davi": {
-    "posicao": "mei",
-    "preco": 2.0
-  },
-  "Kaique Kenji": {
+  "Alysson": {
     "posicao": "ata",
-    "preco": 1.09
+    "preco": 6.32
   },
   "Clayton Sampaio": {
     "posicao": "zag",
     "preco": 4.16
   },
-  "Sanabria": {
-    "posicao": "ata",
-    "preco": 4.39
-  },
-  "Kauã Prates": {
-    "posicao": "lat",
-    "preco": 4.6
+  "Benedetti": {
+    "posicao": "zag",
+    "preco": 2.61
   },
   "Filipe Luís": {
     "posicao": "tec",
-    "preco": 11.99
+    "preco": 13.01
+  },
+  "Mateus Xavier": {
+    "posicao": "mei",
+    "preco": 1.0
   },
   "Palacios": {
     "posicao": "zag",
     "preco": 1.7
   },
+  "Micael": {
+    "posicao": "zag",
+    "preco": 5.86
+  },
+  "Kaique Kenji": {
+    "posicao": "ata",
+    "preco": 1.09
+  },
+  "Luis Otávio": {
+    "posicao": "mei",
+    "preco": 2.92
+  },
+  "Larson": {
+    "posicao": "mei",
+    "preco": 1.0
+  },
+  "Sanabria": {
+    "posicao": "ata",
+    "preco": 4.39
+  },
+  "Wallace Davi": {
+    "posicao": "mei",
+    "preco": 2.0
+  },
+  "Figueiredo": {
+    "posicao": "mei",
+    "preco": 2.0
+  },
+  "Kauã Prates": {
+    "posicao": "lat",
+    "preco": 4.6
+  },
+  "Mano Menezes": {
+    "posicao": "tec",
+    "preco": 9.35
+  },
   "Caio Maia": {
     "posicao": "ata",
     "preco": 2.0
-  },
-  "Riquelme Felipe": {
-    "posicao": "ata",
-    "preco": 3.43
   },
   "Davi Gomes": {
     "posicao": "ata",
@@ -139,21 +139,25 @@
     "posicao": "zag",
     "preco": 1.0
   },
-  "João Victor": {
+  "Davi Schuindt": {
     "posicao": "zag",
-    "preco": 3.15
+    "preco": 1.24
   },
   "João Alves": {
     "posicao": "mei",
     "preco": 1.0
   },
-  "Robert": {
-    "posicao": "gol",
-    "preco": 1.0
-  },
   "João Marcelo": {
     "posicao": "zag",
-    "preco": 5.91
+    "preco": 5.57
+  },
+  "João Victor": {
+    "posicao": "zag",
+    "preco": 4.39
+  },
+  "Riquelme Felipe": {
+    "posicao": "ata",
+    "preco": 3.43
   },
   "Bruno Bertinato": {
     "posicao": "gol",
@@ -163,51 +167,43 @@
     "posicao": "ata",
     "preco": 3.62
   },
+  "Kauã Branco": {
+    "posicao": "zag",
+    "preco": 1.0
+  },
   "Mateus Iseppe": {
     "posicao": "mei",
     "preco": 2.53
-  },
-  "Davi Schuindt": {
-    "posicao": "zag",
-    "preco": 1.24
   },
   "Felipinho": {
     "posicao": "lat",
     "preco": 3.0
   },
-  "Adriel": {
-    "posicao": "gol",
-    "preco": 3.0
-  },
-  "Davi": {
-    "posicao": "gol",
-    "preco": 2.0
-  },
-  "Zé Phelipe": {
-    "posicao": "mei",
-    "preco": 1.0
+  "Vitão": {
+    "posicao": "zag",
+    "preco": 7.83
   },
   "Kaio Borges": {
     "posicao": "lat",
     "preco": 1.0
   },
-  "Kauã Branco": {
-    "posicao": "zag",
-    "preco": 1.0
+  "Adriel": {
+    "posicao": "gol",
+    "preco": 3.0
   },
-  "Vitão": {
-    "posicao": "zag",
-    "preco": 7.28
-  },
-  "David Martins": {
-    "posicao": "mei",
+  "Robert": {
+    "posicao": "gol",
     "preco": 1.0
   },
   "Zé Lucas": {
     "posicao": "mei",
     "preco": 5.05
   },
-  "Felype Gabriel": {
+  "Zé Phelipe": {
+    "posicao": "mei",
+    "preco": 1.0
+  },
+  "Rafinha": {
     "posicao": "zag",
     "preco": 1.0
   },
@@ -215,69 +211,57 @@
     "posicao": "ata",
     "preco": 2.85
   },
-  "Rafinha": {
+  "Davi": {
+    "posicao": "gol",
+    "preco": 2.0
+  },
+  "Felype Gabriel": {
     "posicao": "zag",
     "preco": 1.0
-  },
-  "Mano Menezes": {
-    "posicao": "tec",
-    "preco": 10.08
-  },
-  "Atencio": {
-    "posicao": "mei",
-    "preco": 3.35
-  },
-  "Fredi Lippert": {
-    "posicao": "zag",
-    "preco": 1.5
-  },
-  "Riquelme": {
-    "posicao": "mei",
-    "preco": 2.62
   },
   "Jefinho": {
     "posicao": "mei",
     "preco": 1.99
   },
-  "Avellar": {
-    "posicao": "lat",
-    "preco": 1.0
-  },
-  "Gago": {
+  "Riquelme": {
     "posicao": "mei",
-    "preco": 1.0
-  },
-  "Bernardo Jacob": {
-    "posicao": "mei",
-    "preco": 1.0
+    "preco": 2.62
   },
   "Allan": {
     "posicao": "mei",
     "preco": 2.22
   },
-  "Gabriel Mec": {
-    "posicao": "ata",
-    "preco": 2.0
-  },
-  "João Pedro": {
-    "posicao": "zag",
-    "preco": 6.41
-  },
-  "Gustavo Cintra": {
-    "posicao": "zag",
+  "Gago": {
+    "posicao": "mei",
     "preco": 1.0
   },
-  "Maik": {
-    "posicao": "lat",
-    "preco": 8.45
+  "Fredi Lippert": {
+    "posicao": "zag",
+    "preco": 1.5
+  },
+  "Breno": {
+    "posicao": "mei",
+    "preco": 2.0
+  },
+  "Bernardo Jacob": {
+    "posicao": "mei",
+    "preco": 1.0
+  },
+  "Atencio": {
+    "posicao": "mei",
+    "preco": 3.35
   },
   "Pablo": {
     "posicao": "gol",
     "preco": 1.0
   },
-  "Lucca": {
-    "posicao": "ata",
-    "preco": 2.83
+  "Avellar": {
+    "posicao": "lat",
+    "preco": 1.0
+  },
+  "Gustavo Cintra": {
+    "posicao": "zag",
+    "preco": 1.0
   },
   "Lucca Prior": {
     "posicao": "mei",
@@ -287,105 +271,133 @@
     "posicao": "mei",
     "preco": 1.0
   },
-  "Gustavo Henrique": {
-    "posicao": "zag",
-    "preco": 7.13
-  },
-  "Guilherme": {
+  "Lucca": {
     "posicao": "ata",
-    "preco": 9.82
+    "preco": 2.83
   },
-  "Fernando Costa": {
-    "posicao": "gol",
-    "preco": 1.0
+  "João Pedro": {
+    "posicao": "zag",
+    "preco": 6.73
   },
-  "Pedro Ferreira": {
-    "posicao": "mei",
-    "preco": 1.0
-  },
-  "Gabriel Bontempo": {
-    "posicao": "mei",
-    "preco": 5.38
-  },
-  "Zappelini": {
-    "posicao": "mei",
-    "preco": 1.0
-  },
-  "Jacaré": {
+  "Maik": {
     "posicao": "lat",
-    "preco": 1.0
+    "preco": 8.45
+  },
+  "Gabriel Mec": {
+    "posicao": "ata",
+    "preco": 2.0
+  },
+  "Fabiano Souza": {
+    "posicao": "lat",
+    "preco": 7.71
   },
   "Paulinho": {
     "posicao": "mei",
     "preco": 3.95
   },
-  "Fabiano Souza": {
-    "posicao": "lat",
-    "preco": 6.69
+  "Gabriel Bontempo": {
+    "posicao": "mei",
+    "preco": 5.38
   },
-  "João Silva": {
-    "posicao": "zag",
-    "preco": 4.02
+  "Fernando Costa": {
+    "posicao": "gol",
+    "preco": 1.0
+  },
+  "Guilherme": {
+    "posicao": "ata",
+    "preco": 9.08
+  },
+  "Pedro Ferreira": {
+    "posicao": "mei",
+    "preco": 1.0
+  },
+  "Zappelini": {
+    "posicao": "mei",
+    "preco": 1.0
+  },
+  "Pablo Lúcio": {
+    "posicao": "mei",
+    "preco": 1.0
   },
   "Athyrson": {
     "posicao": "ata",
     "preco": 1.0
   },
+  "Gustavo Henrique": {
+    "posicao": "zag",
+    "preco": 9.1
+  },
   "Vinicius Lira": {
     "posicao": "lat",
     "preco": 3.0
   },
-  "Pablo Lúcio": {
+  "Jacaré": {
+    "posicao": "lat",
+    "preco": 1.0
+  },
+  "Amuzu": {
+    "posicao": "ata",
+    "preco": 5.34
+  },
+  "Kauan": {
+    "posicao": "gol",
+    "preco": 1.0
+  },
+  "Dieguinho": {
     "posicao": "mei",
+    "preco": 1.52
+  },
+  "João Silva": {
+    "posicao": "zag",
+    "preco": 4.02
+  },
+  "Jeferson": {
+    "posicao": "ata",
+    "preco": 1.0
+  },
+  "Léo Condé": {
+    "posicao": "tec",
+    "preco": 9.0
+  },
+  "Dedé": {
+    "posicao": "mei",
+    "preco": 1.0
+  },
+  "Nuno Moreira": {
+    "posicao": "ata",
+    "preco": 7.49
+  },
+  "Montoro": {
+    "posicao": "mei",
+    "preco": 9.6
+  },
+  "Gabriel Silva": {
+    "posicao": "zag",
     "preco": 1.0
   },
   "Luis Eduardo": {
     "posicao": "zag",
     "preco": 2.0
   },
-  "Gabriel Silva": {
-    "posicao": "zag",
-    "preco": 1.0
-  },
-  "Amuzu": {
-    "posicao": "ata",
-    "preco": 5.92
-  },
-  "Kauan": {
-    "posicao": "gol",
-    "preco": 1.0
-  },
   "Kauan Toledo": {
     "posicao": "ata",
-    "preco": 1.0
-  },
-  "Dieguinho": {
-    "posicao": "mei",
-    "preco": 1.66
-  },
-  "Jeferson": {
-    "posicao": "ata",
-    "preco": 1.0
-  },
-  "Dedé": {
-    "posicao": "mei",
     "preco": 1.0
   },
   "Bruno Alves": {
     "posicao": "zag",
     "preco": 1.0
   },
+  "Robinho Jr.": {
+    "posicao": "ata",
+    "preco": 2.15
+  },
   "Barrera": {
     "posicao": "mei",
     "preco": 4.79
   },
-  "Nuno Moreira": {
-    "posicao": "ata",
-    "preco": 7.97
-  },
-  "Wanderson Papaterra": {
-    "posicao": "mei",
-    "preco": 2.0
+  "Zé Henrique": {
+    "posicao": "gol",
+    "preco": 1.0
   },
   "Dell": {
     "posicao": "ata",
@@ -395,39 +407,23 @@
     "posicao": "gol",
     "preco": 1.0
   },
-  "Zé Henrique": {
-    "posicao": "gol",
-    "preco": 1.0
+  "Martín Palermo": {
+    "posicao": "tec",
+    "preco": 10.51
   },
-  "Montoro": {
-    "posicao": "mei",
-    "preco": 9.6
+  "Raykkonen": {
+    "posicao": "ata",
+    "preco": 0.81
   },
   "Kauan Vitor": {
     "posicao": "ata",
     "preco": 1.0
   },
+  "Joshua": {
+    "posicao": "mei",
+    "preco": 2.0
+  },
   "Gabriel Abdias": {
-    "posicao": "lat",
-    "preco": 1.0
-  },
-  "Vagno": {
-    "posicao": "lat",
-    "preco": 1.0
-  },
-  "Martín Palermo": {
-    "posicao": "tec",
-    "preco": 11.01
-  },
-  "Robinho Jr.": {
-    "posicao": "ata",
-    "preco": 1.99
-  },
-  "Gabriel Caipira": {
-    "posicao": "lat",
-    "preco": 1.0
-  },
-  "Léo Jance": {
     "posicao": "lat",
     "preco": 1.0
   },
@@ -435,61 +431,77 @@
     "posicao": "gol",
     "preco": 1.0
   },
-  "Wendell": {
-    "posicao": "lat",
-    "preco": 9.67
+  "Murilo Rhikman": {
+    "posicao": "mei",
+    "preco": 0.91
   },
   "Wesley Natã": {
     "posicao": "ata",
     "preco": 1.0
   },
-  "Raykkonen": {
-    "posicao": "ata",
-    "preco": 0.81
+  "Wendell": {
+    "posicao": "lat",
+    "preco": 9.67
   },
-  "Padula": {
-    "posicao": "ata",
+  "Léo Jance": {
+    "posicao": "lat",
     "preco": 1.0
   },
-  "Vitor Lamounier": {
-    "posicao": "gol",
+  "Vagno": {
+    "posicao": "lat",
     "preco": 1.0
   },
-  "Murilo Rhikman": {
-    "posicao": "mei",
-    "preco": 0.91
+  "Gabriel Caipira": {
+    "posicao": "lat",
+    "preco": 1.0
+  },
+  "Kauã Moraes": {
+    "posicao": "lat",
+    "preco": 7.0
   },
   "Kaique Pereira": {
     "posicao": "lat",
     "preco": 1.0
   },
-  "Léo Condé": {
-    "posicao": "tec",
-    "preco": 8.04
-  },
-  "João Alencar": {
-    "posicao": "zag",
+  "Padula": {
+    "posicao": "ata",
     "preco": 1.0
   },
   "Lucas Emanoel": {
     "posicao": "mei",
     "preco": 1.0
   },
-  "Joshua": {
+  "Vitor Lamounier": {
+    "posicao": "gol",
+    "preco": 1.0
+  },
+  "Rúben Rodrigues": {
     "posicao": "mei",
-    "preco": 2.0
+    "preco": 4.53
+  },
+  "João Alencar": {
+    "posicao": "zag",
+    "preco": 1.0
   },
   "Kauê Furquim": {
     "posicao": "ata",
     "preco": 1.17
   },
-  "Lucas Lohan": {
-    "posicao": "mei",
-    "preco": 1.0
+  "Davide Ancelotti": {
+    "posicao": "tec",
+    "preco": 11.09
   },
   "Breno Vereza": {
     "posicao": "lat",
     "preco": 1.0
+  },
+  "Paulo Roberto": {
+    "posicao": "lat",
+    "preco": 4.13
+  },
+  "Rúben Ismael": {
+    "posicao": "mei",
+    "preco": 4.56
   },
   "Arthur": {
     "posicao": "lat",
@@ -499,27 +511,11 @@
     "posicao": "lat",
     "preco": 2.92
   },
-  "Rúben Rodrigues": {
-    "posicao": "mei",
-    "preco": 4.53
-  },
-  "Samuel Barreto": {
-    "posicao": "lat",
-    "preco": 2.0
-  },
-  "Rafael Coutinho": {
+  "Lucas Lohan": {
     "posicao": "mei",
     "preco": 1.0
   },
-  "Davide Ancelotti": {
-    "posicao": "tec",
-    "preco": 11.18
-  },
-  "Rúben Ismael": {
-    "posicao": "mei",
-    "preco": 4.56
-  },
-  "Loiola": {
+  "João Ananias": {
     "posicao": "zag",
     "preco": 1.0
   },
@@ -527,25 +523,25 @@
     "posicao": "zag",
     "preco": 1.0
   },
-  "João Ananias": {
+  "Loiola": {
     "posicao": "zag",
+    "preco": 1.0
+  },
+  "Luiz Sá": {
+    "posicao": "gol",
+    "preco": 1.0
+  },
+  "Rafael Coutinho": {
+    "posicao": "mei",
     "preco": 1.0
   },
   "Belé": {
     "posicao": "mei",
     "preco": 2.0
   },
-  "Paulo Roberto": {
+  "Samuel Barreto": {
     "posicao": "lat",
-    "preco": 4.13
-  },
-  "Victor Hugo": {
-    "posicao": "mei",
-    "preco": 3.27
-  },
-  "Luiz Sá": {
-    "posicao": "gol",
-    "preco": 1.0
+    "preco": 2.0
   },
   "Luiz Felipe": {
     "posicao": "lat",
@@ -555,41 +551,41 @@
     "posicao": "zag",
     "preco": 1.0
   },
-  "Kadir": {
-    "posicao": "ata",
-    "preco": 0.98
+  "Nicolas": {
+    "posicao": "lat",
+    "preco": 5.41
   },
   "Diego Minete": {
     "posicao": "ata",
     "preco": 1.0
   },
-  "Nicolas": {
-    "posicao": "lat",
-    "preco": 5.41
-  },
-  "Gilberto": {
-    "posicao": "ata",
-    "preco": 4.24
-  },
-  "Justino": {
-    "posicao": "zag",
-    "preco": 1.0
-  },
-  "André": {
-    "posicao": "ata",
-    "preco": 4.69
-  },
-  "Lyan": {
-    "posicao": "ata",
-    "preco": 1.0
+  "Victor Hugo": {
+    "posicao": "mei",
+    "preco": 3.54
   },
   "Douglas Telles": {
     "posicao": "ata",
     "preco": 1.0
   },
-  "Scatolin": {
+  "André": {
     "posicao": "ata",
-    "preco": 1.48
+    "preco": 4.98
+  },
+  "Kadir": {
+    "posicao": "ata",
+    "preco": 0.98
+  },
+  "Justino": {
+    "posicao": "zag",
+    "preco": 1.0
+  },
+  "Gilberto": {
+    "posicao": "lat",
+    "preco": 7.29
+  },
+  "Lyan": {
+    "posicao": "ata",
+    "preco": 1.0
   },
   "Mosquito": {
     "posicao": "ata",
@@ -599,425 +595,433 @@
     "posicao": "mei",
     "preco": 1.0
   },
-  "Breno": {
-    "posicao": "mei",
-    "preco": 2.0
-  },
   "Marquinhos": {
     "posicao": "ata",
     "preco": 3.51
   },
-  "Rayan Lelis": {
+  "Scatolin": {
     "posicao": "ata",
-    "preco": 1.0
+    "preco": 1.48
+  },
+  "Nenê": {
+    "posicao": "mei",
+    "preco": 4.85
+  },
+  "Hulk": {
+    "posicao": "ata",
+    "preco": 12.81
   },
   "Heittor": {
     "posicao": "ata",
     "preco": 1.0
   },
-  "Gabriel Veneno": {
-    "posicao": "ata",
-    "preco": 1.0
-  },
-  "Alisson": {
-    "posicao": "mei",
-    "preco": 4.0
-  },
-  "Kauan Lima": {
-    "posicao": "gol",
-    "preco": 1.0
+  "Thiago Silva": {
+    "posicao": "zag",
+    "preco": 8.91
   },
   "Benjamin Arhin": {
     "posicao": "mei",
     "preco": 1.0
   },
-  "Nenê": {
-    "posicao": "mei",
-    "preco": 4.1
+  "Fábio": {
+    "posicao": "gol",
+    "preco": 8.1
   },
-  "Hulk": {
+  "Gabriel Veneno": {
     "posicao": "ata",
-    "preco": 13.14
+    "preco": 1.0
   },
-  "Kauã Moraes": {
-    "posicao": "lat",
-    "preco": 7.0
+  "Rayan Lelis": {
+    "posicao": "ata",
+    "preco": 1.0
+  },
+  "Kauan Lima": {
+    "posicao": "gol",
+    "preco": 1.0
   },
   "Alan Franco": {
     "posicao": "zag",
-    "preco": 6.74
+    "preco": 6.35
   },
-  "Fábio": {
-    "posicao": "gol",
-    "preco": 8.52
-  },
-  "Dorival Júnior": {
-    "posicao": "tec",
-    "preco": 10.36
-  },
-  "Fagner": {
-    "posicao": "lat",
-    "preco": 8.51
-  },
-  "Willian": {
+  "Wanderson Papaterra": {
     "posicao": "mei",
-    "preco": 9.58
+    "preco": 2.0
   },
-  "Thiago Silva": {
-    "posicao": "zag",
-    "preco": 8.91
-  },
-  "Cássio": {
-    "posicao": "gol",
-    "preco": 10.55
-  },
-  "Osvaldo": {
-    "posicao": "ata",
-    "preco": 3.59
-  },
-  "Vagner Mancini": {
-    "posicao": "tec",
-    "preco": 8.58
-  },
-  "Ganso": {
+  "Alisson": {
     "posicao": "mei",
-    "preco": 5.49
+    "preco": 4.0
   },
   "Alex Sandro": {
     "posicao": "lat",
     "preco": 9.44
   },
-  "Óscar Romero": {
-    "posicao": "mei",
-    "preco": 4.55
+  "Dorival Júnior": {
+    "posicao": "tec",
+    "preco": 10.62
   },
-  "Everton Ribeiro": {
-    "posicao": "mei",
-    "preco": 7.57
-  },
-  "Rafael Tolói": {
-    "posicao": "zag",
-    "preco": 9.37
-  },
-  "Alan Ruschel": {
-    "posicao": "lat",
-    "preco": 4.71
-  },
-  "Eduardo": {
-    "posicao": "mei",
-    "preco": 3.17
-  },
-  "Neymar": {
-    "posicao": "mei",
-    "preco": 13.81
-  },
-  "Neto": {
+  "Cássio": {
     "posicao": "gol",
-    "preco": 7.25
+    "preco": 9.99
   },
-  "Oscar": {
+  "Osvaldo": {
+    "posicao": "ata",
+    "preco": 3.6
+  },
+  "David Martins": {
     "posicao": "mei",
-    "preco": 11.39
+    "preco": 1.0
   },
   "Walter": {
     "posicao": "gol",
-    "preco": 10.38
+    "preco": 10.85
   },
-  "Alan Patrick": {
+  "Everton Ribeiro": {
     "posicao": "mei",
-    "preco": 12.54
+    "preco": 7.45
   },
-  "Edenílson": {
+  "Neymar": {
     "posicao": "mei",
-    "preco": 1.0
+    "preco": 14.78
   },
   "Marcos Rocha": {
     "posicao": "lat",
     "preco": 9.61
   },
+  "Ganso": {
+    "posicao": "mei",
+    "preco": 5.49
+  },
+  "Vagner Mancini": {
+    "posicao": "tec",
+    "preco": 8.84
+  },
+  "Alan Patrick": {
+    "posicao": "mei",
+    "preco": 12.84
+  },
+  "Alan Ruschel": {
+    "posicao": "lat",
+    "preco": 5.57
+  },
+  "Neto": {
+    "posicao": "gol",
+    "preco": 7.25
+  },
+  "Willian": {
+    "posicao": "mei",
+    "preco": 9.58
+  },
   "Philippe Coutinho": {
     "posicao": "mei",
-    "preco": 9.52
+    "preco": 9.49
   },
   "Rafael": {
     "posicao": "gol",
-    "preco": 10.32
+    "preco": 11.38
   },
   "Dudu": {
     "posicao": "mei",
-    "preco": 2.54
+    "preco": 1.69
   },
-  "Danilo": {
+  "Edenílson": {
     "posicao": "mei",
-    "preco": 7.81
+    "preco": 1.0
   },
-  "Marinho": {
-    "posicao": "ata",
-    "preco": 6.63
+  "Fagner": {
+    "posicao": "lat",
+    "preco": 8.51
+  },
+  "Eduardo": {
+    "posicao": "mei",
+    "preco": 3.74
+  },
+  "Oscar": {
+    "posicao": "mei",
+    "preco": 11.39
   },
   "Marcelo Lomba": {
     "posicao": "gol",
     "preco": 7.63
   },
-  "Bruno Uvini": {
+  "Willian José": {
+    "posicao": "ata",
+    "preco": 9.7
+  },
+  "Lucas Sasha": {
+    "posicao": "mei",
+    "preco": 8.69
+  },
+  "Lucas Moura": {
+    "posicao": "mei",
+    "preco": 7.13
+  },
+  "Danilo": {
+    "posicao": "mei",
+    "preco": 7.5
+  },
+  "Rafael Tolói": {
     "posicao": "zag",
-    "preco": 4.0
+    "preco": 9.37
+  },
+  "Gabriel": {
+    "posicao": "ata",
+    "preco": 7.12
+  },
+  "Marinho": {
+    "posicao": "ata",
+    "preco": 6.63
+  },
+  "Eduardo Sasha": {
+    "posicao": "ata",
+    "preco": 8.18
   },
   "Manoel": {
     "posicao": "zag",
     "preco": 5.3
   },
-  "Lucas Moura": {
-    "posicao": "mei",
-    "preco": 6.13
-  },
   "Marllon": {
     "posicao": "zag",
-    "preco": 6.87
-  },
-  "Bruno Henrique": {
-    "posicao": "ata",
-    "preco": 5.2
-  },
-  "Lucas Sasha": {
-    "posicao": "mei",
-    "preco": 8.71
-  },
-  "Willian José": {
-    "posicao": "ata",
-    "preco": 7.28
-  },
-  "Danilo Fernandes": {
-    "posicao": "gol",
-    "preco": 4.0
-  },
-  "Gabriel": {
-    "posicao": "ata",
-    "preco": 7.16
-  },
-  "Vina": {
-    "posicao": "mei",
-    "preco": 4.98
-  },
-  "Thiago Mendes": {
-    "posicao": "mei",
-    "preco": 4.96
-  },
-  "Eduardo Sasha": {
-    "posicao": "ata",
-    "preco": 7.97
-  },
-  "Diogo Barbosa": {
-    "posicao": "lat",
-    "preco": 7.56
-  },
-  "Gustavo Gómez": {
-    "posicao": "zag",
-    "preco": 9.35
+    "preco": 6.99
   },
   "Felipe Anderson": {
     "posicao": "mei",
-    "preco": 7.54
+    "preco": 8.8
   },
-  "Fernando Miguel": {
-    "posicao": "gol",
-    "preco": 7.02
+  "Vina": {
+    "posicao": "mei",
+    "preco": 5.53
   },
-  "Luiz Gustavo": {
+  "Bruno Henrique": {
+    "posicao": "ata",
+    "preco": 7.78
+  },
+  "Bruno Uvini": {
     "posicao": "zag",
-    "preco": 1.8
+    "preco": 4.0
   },
-  "Jorge Sampaoli": {
-    "posicao": "tec",
-    "preco": 10.28
-  },
-  "Tiago Volpi": {
-    "posicao": "gol",
-    "preco": 7.16
+  "Diogo Barbosa": {
+    "posicao": "lat",
+    "preco": 7.41
   },
   "Raúl Cáceres": {
     "posicao": "lat",
     "preco": 4.54
   },
-  "Santiago Arias": {
-    "posicao": "lat",
-    "preco": 5.66
+  "Danilo Fernandes": {
+    "posicao": "gol",
+    "preco": 3.55
   },
-  "Luiz Otávio": {
+  "Gustavo Gómez": {
     "posicao": "zag",
-    "preco": 3.61
-  },
-  "Alex Telles": {
-    "posicao": "lat",
-    "preco": 10.02
+    "preco": 9.35
   },
   "Weverton": {
     "posicao": "gol",
     "preco": 7.96
   },
-  "Thomazella": {
-    "posicao": "gol",
-    "preco": 2.0
+  "Santiago Arias": {
+    "posicao": "lat",
+    "preco": 5.9
   },
-  "Cuéllar": {
-    "posicao": "mei",
-    "preco": 5.77
-  },
-  "Fernando Diniz": {
+  "Jorge Sampaoli": {
     "posicao": "tec",
-    "preco": 10.55
+    "preco": 10.05
   },
-  "Pedro Henrique": {
-    "posicao": "zag",
-    "preco": 6.89
-  },
-  "Everson": {
+  "Fernando Miguel": {
     "posicao": "gol",
-    "preco": 10.24
+    "preco": 7.02
   },
-  "Vitor Hugo": {
-    "posicao": "zag",
-    "preco": 8.37
-  },
-  "Bernard": {
-    "posicao": "mei",
-    "preco": 3.75
+  "Tiago Volpi": {
+    "posicao": "gol",
+    "preco": 6.75
   },
   "Memphis Depay": {
     "posicao": "ata",
-    "preco": 12.95
+    "preco": 14.66
   },
-  "Mercado": {
+  "Fernando Diniz": {
+    "posicao": "tec",
+    "preco": 9.76
+  },
+  "Luiz Gustavo": {
     "posicao": "zag",
-    "preco": 5.68
+    "preco": 1.8
+  },
+  "Everson": {
+    "posicao": "gol",
+    "preco": 10.49
+  },
+  "Thiago Mendes": {
+    "posicao": "mei",
+    "preco": 4.96
+  },
+  "Vitor Hugo": {
+    "posicao": "zag",
+    "preco": 7.97
+  },
+  "Pedro Henrique": {
+    "posicao": "zag",
+    "preco": 7.08
+  },
+  "Alex Telles": {
+    "posicao": "lat",
+    "preco": 10.15
+  },
+  "Cuéllar": {
+    "posicao": "mei",
+    "preco": 5.63
+  },
+  "Bernard": {
+    "posicao": "mei",
+    "preco": 3.5
+  },
+  "Daniel Borges": {
+    "posicao": "lat",
+    "preco": 6.28
   },
   "Samuel Xavier": {
     "posicao": "lat",
     "preco": 10.69
   },
-  "Daniel Borges": {
-    "posicao": "lat",
-    "preco": 6.01
-  },
-  "Carrillo": {
-    "posicao": "mei",
-    "preco": 5.89
+  "Thomazella": {
+    "posicao": "gol",
+    "preco": 2.0
   },
   "Guilherme Marques": {
     "posicao": "mei",
-    "preco": 5.81
-  },
-  "Wilker Ángel": {
-    "posicao": "zag",
-    "preco": 2.98
-  },
-  "Romarinho": {
-    "posicao": "ata",
-    "preco": 3.76
-  },
-  "Rincón": {
-    "posicao": "mei",
-    "preco": 3.28
+    "preco": 4.61
   },
   "Cédric Soares": {
     "posicao": "lat",
     "preco": 7.08
   },
-  "João Schmidt": {
-    "posicao": "mei",
-    "preco": 5.08
-  },
   "Everaldo": {
     "posicao": "ata",
-    "preco": 3.32
+    "preco": 3.26
   },
-  "Vitinho": {
+  "Carrillo": {
     "posicao": "mei",
-    "preco": 1.0
+    "preco": 5.43
   },
-  "Bruno Ferreira": {
-    "posicao": "gol",
-    "preco": 5.79
+  "Wilker Ángel": {
+    "posicao": "zag",
+    "preco": 2.8
   },
-  "Richard": {
+  "Rincón": {
     "posicao": "mei",
-    "preco": 3.62
+    "preco": 3.28
+  },
+  "Mercado": {
+    "posicao": "zag",
+    "preco": 6.12
   },
   "Reinaldo": {
     "posicao": "lat",
     "preco": 10.25
   },
-  "Helton Leite": {
+  "João Schmidt": {
+    "posicao": "mei",
+    "preco": 4.3
+  },
+  "Renê": {
+    "posicao": "lat",
+    "preco": 9.14
+  },
+  "Bruno Ferreira": {
     "posicao": "gol",
-    "preco": 5.13
-  },
-  "Lucas Silva": {
-    "posicao": "mei",
-    "preco": 4.59
-  },
-  "Willian Arão": {
-    "posicao": "mei",
-    "preco": 6.0
+    "preco": 7.11
   },
   "Alex Muralha": {
     "posicao": "gol",
     "preco": 2.82
   },
-  "Renê": {
-    "posicao": "lat",
-    "preco": 10.3
+  "Romarinho": {
+    "posicao": "ata",
+    "preco": 4.09
   },
-  "Jadson": {
+  "Richard": {
     "posicao": "mei",
-    "preco": 5.2
+    "preco": 3.62
   },
-  "Thiago Santos": {
-    "posicao": "zag",
-    "preco": 6.98
-  },
-  "Saúl": {
+  "Vitinho": {
     "posicao": "mei",
-    "preco": 9.96
+    "preco": 1.0
   },
   "Cano": {
     "posicao": "ata",
     "preco": 8.64
   },
-  "Jair": {
+  "Lucas Silva": {
     "posicao": "mei",
-    "preco": 4.63
-  },
-  "Zé Roberto": {
-    "posicao": "ata",
-    "preco": 6.0
-  },
-  "Lucas Lima": {
-    "posicao": "mei",
-    "preco": 2.56
+    "preco": 4.87
   },
   "Luciano": {
     "posicao": "ata",
     "preco": 10.92
   },
-  "Mayke": {
-    "posicao": "lat",
-    "preco": 8.01
-  },
-  "Willian Oliveira": {
+  "Sérgio Oliveira": {
     "posicao": "mei",
-    "preco": 4.42
+    "preco": 8.47
+  },
+  "Thiago Santos": {
+    "posicao": "zag",
+    "preco": 6.56
+  },
+  "Jadson": {
+    "posicao": "mei",
+    "preco": 5.2
+  },
+  "Willian Arão": {
+    "posicao": "mei",
+    "preco": 5.6
   },
   "Yago Pikachu": {
     "posicao": "mei",
-    "preco": 5.02
+    "preco": 4.92
+  },
+  "Lucas Lima": {
+    "posicao": "mei",
+    "preco": 2.56
+  },
+  "Helton Leite": {
+    "posicao": "gol",
+    "preco": 5.13
+  },
+  "Zé Roberto": {
+    "posicao": "ata",
+    "preco": 6.0
+  },
+  "Willian Oliveira": {
+    "posicao": "mei",
+    "preco": 5.62
+  },
+  "Lucas Mugni": {
+    "posicao": "mei",
+    "preco": 5.99
+  },
+  "Saúl": {
+    "posicao": "mei",
+    "preco": 9.08
   },
   "João Ricardo": {
     "posicao": "gol",
     "preco": 11.84
   },
-  "Lucas Mugni": {
+  "Jair": {
     "posicao": "mei",
-    "preco": 6.17
+    "preco": 4.63
+  },
+  "Mayke": {
+    "posicao": "lat",
+    "preco": 8.01
+  },
+  "Zé Rafael": {
+    "posicao": "mei",
+    "preco": 8.18
+  },
+  "Otávio": {
+    "posicao": "gol",
+    "preco": 1.0
   },
   "Gonçalo Paciência": {
     "posicao": "ata",
@@ -1027,305 +1031,305 @@
     "posicao": "mei",
     "preco": 4.18
   },
-  "Otávio": {
-    "posicao": "gol",
-    "preco": 1.0
-  },
-  "Léo Pereira": {
-    "posicao": "ata",
-    "preco": 4.1
-  },
-  "Tinga": {
-    "posicao": "lat",
-    "preco": 8.33
-  },
   "Luiz Araújo": {
     "posicao": "ata",
-    "preco": 8.74
-  },
-  "Lucas Ramon": {
-    "posicao": "lat",
-    "preco": 9.24
-  },
-  "Zé Rafael": {
-    "posicao": "mei",
-    "preco": 7.85
-  },
-  "Rafael Thyere": {
-    "posicao": "zag",
-    "preco": 5.36
+    "preco": 8.25
   },
   "Alan Benítez": {
     "posicao": "lat",
     "preco": 5.21
   },
-  "Marcelo Hermes": {
+  "Lucas Ramon": {
     "posicao": "lat",
-    "preco": 7.98
+    "preco": 9.24
   },
-  "Neris": {
+  "Rafael Thyere": {
     "posicao": "zag",
-    "preco": 3.04
+    "preco": 5.36
   },
-  "Varela": {
-    "posicao": "lat",
-    "preco": 8.77
-  },
-  "Fernando Sobral": {
-    "posicao": "mei",
-    "preco": 4.05
-  },
-  "Lucas Romero": {
-    "posicao": "mei",
-    "preco": 7.51
-  },
-  "Ruan Carneiro": {
-    "posicao": "gol",
-    "preco": 3.77
-  },
-  "Jemerson": {
-    "posicao": "zag",
-    "preco": 4.77
-  },
-  "Ricardo Ryller": {
-    "posicao": "mei",
-    "preco": 2.69
-  },
-  "Tiquinho Soares": {
+  "Léo Pereira": {
     "posicao": "ata",
-    "preco": 7.1
-  },
-  "Lucas Evangelista": {
-    "posicao": "mei",
-    "preco": 6.28
-  },
-  "Charles": {
-    "posicao": "mei",
-    "preco": 4.54
-  },
-  "Alex Santana": {
-    "posicao": "mei",
-    "preco": 2.62
-  },
-  "Jorginho": {
-    "posicao": "mei",
-    "preco": 6.6
+    "preco": 4.16
   },
   "Vinicius Silvestre": {
     "posicao": "gol",
     "preco": 6.75
   },
+  "Fernando Sobral": {
+    "posicao": "mei",
+    "preco": 4.01
+  },
+  "Tinga": {
+    "posicao": "lat",
+    "preco": 7.83
+  },
+  "Lucas Romero": {
+    "posicao": "mei",
+    "preco": 8.49
+  },
+  "Varela": {
+    "posicao": "lat",
+    "preco": 8.77
+  },
+  "Tiquinho Soares": {
+    "posicao": "ata",
+    "preco": 7.29
+  },
+  "Marcelo Hermes": {
+    "posicao": "lat",
+    "preco": 7.06
+  },
   "Luan Peres": {
     "posicao": "zag",
-    "preco": 5.36
+    "preco": 4.97
   },
-  "Sérgio Oliveira": {
+  "Jemerson": {
+    "posicao": "zag",
+    "preco": 4.77
+  },
+  "Danielzinho": {
     "posicao": "mei",
-    "preco": 8.84
+    "preco": 5.35
   },
-  "João Paulo": {
+  "Jorginho": {
+    "posicao": "mei",
+    "preco": 6.6
+  },
+  "Neris": {
+    "posicao": "zag",
+    "preco": 3.01
+  },
+  "Charles": {
+    "posicao": "mei",
+    "preco": 3.24
+  },
+  "Lucas Evangelista": {
+    "posicao": "mei",
+    "preco": 6.28
+  },
+  "Alex Santana": {
+    "posicao": "mei",
+    "preco": 2.62
+  },
+  "Ruan Carneiro": {
     "posicao": "gol",
-    "preco": 6.45
+    "preco": 3.77
   },
-  "Bolasie": {
-    "posicao": "ata",
-    "preco": 3.04
+  "Jandrei": {
+    "posicao": "gol",
+    "preco": 4.08
   },
-  "Victor Luis": {
-    "posicao": "lat",
-    "preco": 4.18
+  "Luiz Otávio": {
+    "posicao": "zag",
+    "preco": 3.61
   },
   "Aylon": {
     "posicao": "ata",
     "preco": 4.36
   },
+  "João Paulo": {
+    "posicao": "gol",
+    "preco": 6.45
+  },
+  "Keno": {
+    "posicao": "ata",
+    "preco": 5.98
+  },
+  "Ricardo Ryller": {
+    "posicao": "mei",
+    "preco": 2.69
+  },
   "Hyoran": {
     "posicao": "mei",
     "preco": 3.38
   },
-  "Matheus Rossetto": {
+  "Bolasie": {
+    "posicao": "ata",
+    "preco": 3.04
+  },
+  "Óscar Romero": {
     "posicao": "mei",
-    "preco": 2.96
+    "preco": 4.55
   },
-  "Keno": {
-    "posicao": "ata",
-    "preco": 6.13
-  },
-  "Everton": {
-    "posicao": "ata",
-    "preco": 7.08
-  },
-  "Reginaldo": {
+  "Victor Luis": {
     "posicao": "lat",
-    "preco": 4.79
-  },
-  "Jandrei": {
-    "posicao": "gol",
-    "preco": 4.44
+    "preco": 4.18
   },
   "Richardson": {
     "posicao": "mei",
     "preco": 2.84
   },
+  "Reginaldo": {
+    "posicao": "lat",
+    "preco": 4.79
+  },
   "Guilherme Arana": {
     "posicao": "lat",
     "preco": 8.47
   },
-  "Léo Jardim": {
-    "posicao": "gol",
-    "preco": 7.84
-  },
-  "Philipe Sampaio": {
-    "posicao": "zag",
-    "preco": 3.0
-  },
-  "Tchê Tchê": {
+  "Matheus Rossetto": {
     "posicao": "mei",
-    "preco": 3.44
+    "preco": 2.96
   },
-  "Kannemann": {
-    "posicao": "zag",
-    "preco": 5.53
+  "Everton": {
+    "posicao": "ata",
+    "preco": 7.08
   },
   "José Welison": {
     "posicao": "mei",
     "preco": 3.82
   },
-  "Soteldo": {
-    "posicao": "ata",
-    "preco": 6.15
+  "Léo Jardim": {
+    "posicao": "gol",
+    "preco": 7.45
   },
-  "Ramon Menezes": {
+  "Kannemann": {
     "posicao": "zag",
-    "preco": 6.8
+    "preco": 5.53
   },
-  "Neto Moura": {
+  "Tchê Tchê": {
     "posicao": "mei",
-    "preco": 6.14
-  },
-  "Thaciano": {
-    "posicao": "mei",
-    "preco": 4.87
+    "preco": 4.26
   },
   "Balbuena": {
     "posicao": "zag",
     "preco": 8.94
   },
-  "Yago Felipe": {
+  "Arrascaeta": {
     "posicao": "mei",
-    "preco": 3.78
+    "preco": 18.55
+  },
+  "Philipe Sampaio": {
+    "posicao": "zag",
+    "preco": 3.0
+  },
+  "Ramon Menezes": {
+    "posicao": "zag",
+    "preco": 6.18
+  },
+  "Neto Moura": {
+    "posicao": "mei",
+    "preco": 5.09
   },
   "Ivan": {
     "posicao": "gol",
-    "preco": 8.05
+    "preco": 8.94
   },
-  "Mauricio Lemos": {
-    "posicao": "zag",
-    "preco": 5.2
-  },
-  "Walace": {
-    "posicao": "mei",
-    "preco": 2.64
-  },
-  "Ángel Romero": {
+  "Soteldo": {
     "posicao": "ata",
-    "preco": 5.17
-  },
-  "Aderlan": {
-    "posicao": "lat",
-    "preco": 5.79
-  },
-  "Arrascaeta": {
-    "posicao": "mei",
-    "preco": 17.74
+    "preco": 6.15
   },
   "Gustavo Scarpa": {
     "posicao": "mei",
     "preco": 9.06
   },
+  "Mauricio Lemos": {
+    "posicao": "zag",
+    "preco": 5.2
+  },
   "Junior Alonso": {
     "posicao": "zag",
-    "preco": 6.52
+    "preco": 6.5
+  },
+  "Yago Felipe": {
+    "posicao": "mei",
+    "preco": 3.78
+  },
+  "Walace": {
+    "posicao": "mei",
+    "preco": 2.55
+  },
+  "Ángel Romero": {
+    "posicao": "ata",
+    "preco": 5.17
   },
   "Ayrton Lucas": {
     "posicao": "lat",
-    "preco": 9.19
-  },
-  "Lucas Crispim": {
-    "posicao": "mei",
-    "preco": 5.5
+    "preco": 10.37
   },
   "Leonardo Jardim": {
     "posicao": "tec",
-    "preco": 10.66
+    "preco": 11.1
+  },
+  "Thaciano": {
+    "posicao": "mei",
+    "preco": 4.87
   },
   "Héctor Hernández": {
     "posicao": "ata",
     "preco": 4.39
   },
-  "Cristaldo": {
-    "posicao": "mei",
-    "preco": 6.06
+  "Aderlan": {
+    "posicao": "lat",
+    "preco": 5.08
   },
   "William": {
     "posicao": "lat",
-    "preco": 14.69
+    "preco": 13.69
   },
-  "Thiago Maia": {
+  "Andreas Pereira": {
     "posicao": "mei",
-    "preco": 5.08
+    "preco": 9.72
   },
   "Calleri": {
     "posicao": "ata",
     "preco": 5.78
   },
-  "David": {
-    "posicao": "ata",
-    "preco": 5.48
-  },
-  "Matheus Sales": {
+  "Lucas Crispim": {
     "posicao": "mei",
-    "preco": 4.0
+    "preco": 5.5
   },
-  "Bruno Pacheco": {
-    "posicao": "lat",
-    "preco": 9.55
-  },
-  "Igor Rabello": {
-    "posicao": "zag",
-    "preco": 5.49
-  },
-  "Braithwaite": {
-    "posicao": "ata",
-    "preco": 11.69
-  },
-  "Dodi": {
+  "Cristaldo": {
     "posicao": "mei",
-    "preco": 4.52
-  },
-  "Rigoni": {
-    "posicao": "ata",
-    "preco": 3.98
-  },
-  "Juninho": {
-    "posicao": "zag",
-    "preco": 4.38
+    "preco": 5.96
   },
   "Lucho Acosta": {
     "posicao": "mei",
     "preco": 9.24
   },
-  "Andreas Pereira": {
-    "posicao": "mei",
-    "preco": 10.79
+  "Juninho": {
+    "posicao": "zag",
+    "preco": 5.08
   },
-  "Caíque": {
+  "Bruno Pacheco": {
+    "posicao": "lat",
+    "preco": 8.7
+  },
+  "Rigoni": {
+    "posicao": "ata",
+    "preco": 4.2
+  },
+  "Thiago Maia": {
     "posicao": "mei",
-    "preco": 4.24
+    "preco": 5.14
+  },
+  "Dodi": {
+    "posicao": "mei",
+    "preco": 3.57
+  },
+  "Igor Rabello": {
+    "posicao": "zag",
+    "preco": 5.49
+  },
+  "David": {
+    "posicao": "ata",
+    "preco": 5.38
   },
   "Matheus Pereira": {
     "posicao": "mei",
-    "preco": 14.29
+    "preco": 14.37
+  },
+  "Matheus Sales": {
+    "posicao": "mei",
+    "preco": 4.0
+  },
+  "Matheuzinho": {
+    "posicao": "lat",
+    "preco": 10.31
+  },
+  "Chico da Costa": {
+    "posicao": "ata",
+    "preco": 7.49
   },
   "Rezende": {
     "posicao": "mei",
@@ -1333,167 +1337,147 @@
   },
   "Carlos Eduardo": {
     "posicao": "ata",
-    "preco": 6.19
+    "preco": 4.61
+  },
+  "Caíque": {
+    "posicao": "mei",
+    "preco": 4.26
   },
   "Fabrício Bruno": {
     "posicao": "zag",
     "preco": 8.22
   },
-  "Matheuzinho": {
-    "posicao": "lat",
-    "preco": 10.59
+  "Ronaldo": {
+    "posicao": "mei",
+    "preco": 3.64
+  },
+  "Rony": {
+    "posicao": "ata",
+    "preco": 9.9
   },
   "Fernandinho": {
     "posicao": "ata",
-    "preco": 5.81
-  },
-  "Kaio": {
-    "posicao": "zag",
-    "preco": 8.62
+    "preco": 6.4
   },
   "Éder": {
     "posicao": "zag",
     "preco": 2.82
   },
-  "Arthur Melo": {
-    "posicao": "mei",
-    "preco": 9.14
-  },
-  "Zé Marcos": {
-    "posicao": "zag",
-    "preco": 3.39
-  },
-  "Marlon": {
-    "posicao": "ata",
-    "preco": 1.11
-  },
-  "David Duarte": {
-    "posicao": "zag",
-    "preco": 5.05
-  },
-  "Rodrigo Sam": {
-    "posicao": "zag",
-    "preco": 4.74
-  },
   "Igor Cariús": {
     "posicao": "lat",
     "preco": 8.02
   },
-  "Ronaldo": {
+  "Arboleda": {
+    "posicao": "zag",
+    "preco": 9.46
+  },
+  "Arthur Melo": {
     "posicao": "mei",
-    "preco": 3.64
+    "preco": 8.43
   },
   "Erick Pulgar": {
     "posicao": "mei",
     "preco": 5.84
   },
-  "Arboleda": {
-    "posicao": "zag",
-    "preco": 10.16
-  },
-  "Caíque França": {
-    "posicao": "gol",
-    "preco": 6.53
-  },
-  "Dudu Vieira": {
-    "posicao": "mei",
-    "preco": 3.0
-  },
-  "Rony": {
+  "Marlon": {
     "posicao": "ata",
-    "preco": 9.11
+    "preco": 1.11
+  },
+  "Kaio": {
+    "posicao": "zag",
+    "preco": 8.62
+  },
+  "Zé Marcos": {
+    "posicao": "zag",
+    "preco": 3.3
   },
   "Zé Ivaldo": {
     "posicao": "zag",
     "preco": 5.92
   },
-  "Giovanny": {
-    "posicao": "ata",
-    "preco": 3.16
+  "David Duarte": {
+    "posicao": "zag",
+    "preco": 5.45
+  },
+  "Ramón Díaz": {
+    "posicao": "tec",
+    "preco": 9.32
+  },
+  "Dudu Vieira": {
+    "posicao": "mei",
+    "preco": 3.0
   },
   "Pavón": {
     "posicao": "ata",
-    "preco": 4.57
+    "preco": 4.8
   },
   "Lyanco": {
     "posicao": "zag",
     "preco": 8.87
   },
+  "Caíque França": {
+    "posicao": "gol",
+    "preco": 6.53
+  },
+  "Rodrigo Sam": {
+    "posicao": "zag",
+    "preco": 4.89
+  },
   "Arthur Cabral": {
     "posicao": "ata",
-    "preco": 11.03
-  },
-  "Borré": {
-    "posicao": "ata",
-    "preco": 9.61
-  },
-  "Rodrigo Ely": {
-    "posicao": "zag",
-    "preco": 4.75
-  },
-  "Ramón Díaz": {
-    "posicao": "tec",
-    "preco": 9.13
-  },
-  "Deyverson": {
-    "posicao": "ata",
-    "preco": 5.32
-  },
-  "Bruno Rodrigues": {
-    "posicao": "ata",
-    "preco": 4.52
-  },
-  "Jair Ventura": {
-    "posicao": "tec",
-    "preco": 9.35
-  },
-  "André Ramalho": {
-    "posicao": "zag",
-    "preco": 6.48
-  },
-  "Renato Kayzer": {
-    "posicao": "ata",
-    "preco": 8.77
-  },
-  "Paulo Henrique": {
-    "posicao": "lat",
-    "preco": 14.45
-  },
-  "João Basso": {
-    "posicao": "zag",
-    "preco": 7.74
+    "preco": 10.72
   },
   "Rafael Ramos": {
     "posicao": "lat",
     "preco": 4.98
   },
-  "Matheusinho": {
-    "posicao": "mei",
-    "preco": 6.58
+  "Giovanny": {
+    "posicao": "ata",
+    "preco": 3.58
+  },
+  "André Ramalho": {
+    "posicao": "zag",
+    "preco": 6.48
+  },
+  "Deyverson": {
+    "posicao": "ata",
+    "preco": 5.32
+  },
+  "Renato Kayzer": {
+    "posicao": "ata",
+    "preco": 8.61
+  },
+  "Borré": {
+    "posicao": "ata",
+    "preco": 9.48
   },
   "Marlon Freitas": {
     "posicao": "mei",
-    "preco": 4.68
+    "preco": 4.86
   },
-  "Cantalapiedra": {
-    "posicao": "ata",
-    "preco": 7.19
-  },
-  "Keiller": {
-    "posicao": "gol",
-    "preco": 3.0
+  "Paulo Henrique": {
+    "posicao": "lat",
+    "preco": 12.28
   },
   "Wanderson": {
     "posicao": "ata",
     "preco": 4.66
   },
-  "Matheus Babi": {
-    "posicao": "ata",
-    "preco": 3.63
+  "Rodrigo Ely": {
+    "posicao": "zag",
+    "preco": 4.75
   },
-  "Matheus Fernandes": {
+  "Jair Ventura": {
+    "posicao": "tec",
+    "preco": 9.56
+  },
+  "Matheusinho": {
     "posicao": "mei",
-    "preco": 5.18
+    "preco": 6.58
+  },
+  "João Basso": {
+    "posicao": "zag",
+    "preco": 7.74
   },
   "Lucas Oliveira": {
     "posicao": "zag",
@@ -1501,31 +1485,47 @@
   },
   "Breno Lopes": {
     "posicao": "ata",
-    "preco": 7.84
-  },
-  "Raphael Veiga": {
-    "posicao": "mei",
-    "preco": 10.35
-  },
-  "Cleiton": {
-    "posicao": "zag",
-    "preco": 5.96
+    "preco": 7.98
   },
   "Pedro": {
     "posicao": "ata",
     "preco": 17.97
   },
+  "Maycon": {
+    "posicao": "mei",
+    "preco": 4.07
+  },
+  "Bruno Rodrigues": {
+    "posicao": "ata",
+    "preco": 5.87
+  },
+  "Cleiton": {
+    "posicao": "zag",
+    "preco": 5.96
+  },
+  "Raphael Veiga": {
+    "posicao": "mei",
+    "preco": 9.8
+  },
+  "Keiller": {
+    "posicao": "gol",
+    "preco": 3.0
+  },
   "Lucas Fernandes": {
     "posicao": "mei",
     "preco": 4.58
   },
-  "Juninho Capixaba": {
+  "Saravia": {
     "posicao": "lat",
-    "preco": 11.55
+    "preco": 6.41
   },
-  "Maycon": {
-    "posicao": "mei",
-    "preco": 5.34
+  "Matheus Babi": {
+    "posicao": "ata",
+    "preco": 3.63
+  },
+  "Cantalapiedra": {
+    "posicao": "ata",
+    "preco": 8.24
   },
   "Gabriel Taliari": {
     "posicao": "ata",
@@ -1539,265 +1539,257 @@
     "posicao": "mei",
     "preco": 6.77
   },
+  "Juninho Capixaba": {
+    "posicao": "lat",
+    "preco": 10.85
+  },
+  "Matheus Fernandes": {
+    "posicao": "mei",
+    "preco": 5.49
+  },
+  "Igor Vinícius": {
+    "posicao": "lat",
+    "preco": 6.86
+  },
   "Newton": {
     "posicao": "mei",
-    "preco": 4.3
+    "preco": 3.86
   },
-  "Gabriel Bahia": {
-    "posicao": "zag",
-    "preco": 3.56
-  },
-  "Marcelo Benevenuto": {
-    "posicao": "zag",
-    "preco": 5.0
+  "Artur": {
+    "posicao": "ata",
+    "preco": 8.44
   },
   "Daniel Fuzato": {
     "posicao": "gol",
     "preco": 2.04
   },
-  "Igor Vinícius": {
-    "posicao": "lat",
-    "preco": 7.29
-  },
-  "Artur": {
-    "posicao": "ata",
-    "preco": 8.15
-  },
-  "Saravia": {
-    "posicao": "lat",
-    "preco": 5.22
-  },
-  "Lima": {
-    "posicao": "mei",
-    "preco": 4.7
-  },
   "Rivera": {
     "posicao": "mei",
     "preco": 4.71
   },
-  "Camutanga": {
+  "Marcelo Benevenuto": {
     "posicao": "zag",
-    "preco": 4.63
+    "preco": 5.0
   },
-  "Chico da Costa": {
-    "posicao": "ata",
-    "preco": 7.19
-  },
-  "Danielzinho": {
+  "Lima": {
     "posicao": "mei",
-    "preco": 5.07
+    "preco": 4.91
   },
   "Emerson Royal": {
     "posicao": "lat",
-    "preco": 9.91
+    "preco": 11.14
   },
-  "Joaquín Correa": {
-    "posicao": "ata",
-    "preco": 9.68
-  },
-  "Lucas Kal": {
-    "posicao": "mei",
-    "preco": 3.19
+  "Camutanga": {
+    "posicao": "zag",
+    "preco": 5.91
   },
   "Carlos Cuesta": {
     "posicao": "zag",
-    "preco": 10.43
+    "preco": 10.16
   },
-  "Guruceaga": {
-    "posicao": "gol",
-    "preco": 4.0
+  "Gabriel Bahia": {
+    "posicao": "zag",
+    "preco": 3.56
   },
-  "Rogério Ceni": {
-    "posicao": "tec",
-    "preco": 9.09
+  "Lucas Kal": {
+    "posicao": "mei",
+    "preco": 2.57
   },
   "Alesson": {
     "posicao": "ata",
-    "preco": 6.66
+    "preco": 6.6
   },
   "Carlinhos": {
     "posicao": "ata",
     "preco": 3.51
   },
-  "Villasanti": {
-    "posicao": "mei",
-    "preco": 9.45
+  "Guruceaga": {
+    "posicao": "gol",
+    "preco": 4.0
   },
-  "Marçal": {
-    "posicao": "lat",
-    "preco": 9.39
+  "Braithwaite": {
+    "posicao": "ata",
+    "preco": 11.69
+  },
+  "Rogério Ceni": {
+    "posicao": "tec",
+    "preco": 9.41
+  },
+  "Murilo": {
+    "posicao": "zag",
+    "preco": 8.37
   },
   "Léo Ortiz": {
     "posicao": "zag",
     "preco": 7.09
   },
-  "Iago": {
-    "posicao": "zag",
-    "preco": 2.0
+  "Joaquín Correa": {
+    "posicao": "ata",
+    "preco": 9.68
   },
-  "Maílton": {
+  "Matheus Bahia": {
     "posicao": "lat",
-    "preco": 5.54
+    "preco": 8.84
+  },
+  "Villasanti": {
+    "posicao": "mei",
+    "preco": 9.45
+  },
+  "Thiago Couto": {
+    "posicao": "gol",
+    "preco": 4.86
+  },
+  "Marçal": {
+    "posicao": "lat",
+    "preco": 9.39
   },
   "Erick": {
     "posicao": "mei",
-    "preco": 8.42
+    "preco": 7.65
   },
   "Shaylon": {
     "posicao": "mei",
-    "preco": 3.73
-  },
-  "Murilo": {
-    "posicao": "zag",
-    "preco": 8.38
+    "preco": 3.69
   },
   "Félix Torres": {
     "posicao": "zag",
     "preco": 6.74
   },
-  "Matheus Bahia": {
-    "posicao": "lat",
-    "preco": 8.12
-  },
-  "Thiago Couto": {
-    "posicao": "gol",
-    "preco": 4.33
-  },
-  "Kanu": {
-    "posicao": "zag",
-    "preco": 4.58
-  },
-  "Negueba": {
+  "Pedro Raul": {
     "posicao": "ata",
-    "preco": 6.23
+    "preco": 8.56
   },
   "Bastos": {
     "posicao": "zag",
     "preco": 11.0
   },
-  "Pedro Raul": {
-    "posicao": "ata",
-    "preco": 7.63
-  },
-  "Samuel Lino": {
-    "posicao": "ata",
-    "preco": 13.66
-  },
-  "Kuscevic": {
+  "Iago": {
     "posicao": "zag",
-    "preco": 6.41
-  },
-  "Jean Lucas": {
-    "posicao": "mei",
-    "preco": 6.97
-  },
-  "Val Soares": {
-    "posicao": "mei",
-    "preco": 3.0
-  },
-  "Lourenço": {
-    "posicao": "mei",
-    "preco": 4.73
-  },
-  "Angileri": {
-    "posicao": "lat",
-    "preco": 5.34
-  },
-  "Puma Rodríguez": {
-    "posicao": "lat",
-    "preco": 6.15
+    "preco": 2.0
   },
   "Savarino": {
     "posicao": "mei",
     "preco": 8.74
   },
-  "Cuello": {
+  "Negueba": {
     "posicao": "ata",
-    "preco": 8.28
+    "preco": 5.09
   },
-  "Ignacio Ramírez": {
-    "posicao": "ata",
-    "preco": 2.32
-  },
-  "Baralhas": {
+  "Jean Lucas": {
     "posicao": "mei",
-    "preco": 6.25
+    "preco": 6.86
   },
-  "Michael": {
-    "posicao": "ata",
-    "preco": 6.55
+  "Angileri": {
+    "posicao": "lat",
+    "preco": 5.64
   },
-  "Bareiro": {
-    "posicao": "ata",
-    "preco": 4.47
+  "Maílton": {
+    "posicao": "lat",
+    "preco": 5.68
   },
-  "Lucas Braga": {
+  "Samuel Lino": {
     "posicao": "ata",
-    "preco": 5.22
+    "preco": 14.68
+  },
+  "Val Soares": {
+    "posicao": "mei",
+    "preco": 3.0
+  },
+  "Puma Rodríguez": {
+    "posicao": "lat",
+    "preco": 6.15
+  },
+  "Kanu": {
+    "posicao": "zag",
+    "preco": 4.58
   },
   "Viña": {
     "posicao": "lat",
     "preco": 7.71
   },
-  "De la Cruz": {
-    "posicao": "mei",
-    "preco": 7.48
+  "Wagner Leonardo": {
+    "posicao": "zag",
+    "preco": 6.34
+  },
+  "Vegetti": {
+    "posicao": "ata",
+    "preco": 13.91
+  },
+  "Kuscevic": {
+    "posicao": "zag",
+    "preco": 6.41
   },
   "Pochettino": {
     "posicao": "mei",
-    "preco": 9.7
+    "preco": 9.21
+  },
+  "Cuello": {
+    "posicao": "ata",
+    "preco": 8.28
+  },
+  "Alexander Barboza": {
+    "posicao": "zag",
+    "preco": 9.64
+  },
+  "Rossi": {
+    "posicao": "gol",
+    "preco": 10.1
+  },
+  "De la Cruz": {
+    "posicao": "mei",
+    "preco": 8.45
+  },
+  "Lucas Braga": {
+    "posicao": "ata",
+    "preco": 5.22
   },
   "Dinenno": {
     "posicao": "ata",
     "preco": 4.18
   },
-  "Vegetti": {
+  "Michael": {
     "posicao": "ata",
-    "preco": 16.17
-  },
-  "Alexander Barboza": {
-    "posicao": "zag",
-    "preco": 9.03
+    "preco": 6.55
   },
   "Luis Zubeldía": {
     "posicao": "tec",
-    "preco": 9.05
+    "preco": 8.1
   },
-  "Rossi": {
-    "posicao": "gol",
-    "preco": 9.09
+  "Ignacio Ramírez": {
+    "posicao": "ata",
+    "preco": 2.32
   },
   "Igor Gomes": {
     "posicao": "mei",
-    "preco": 5.16
-  },
-  "Fernando": {
-    "posicao": "ata",
-    "preco": 3.18
+    "preco": 5.03
   },
   "Yuri Alberto": {
     "posicao": "ata",
-    "preco": 11.61
+    "preco": 10.97
   },
-  "Wagner Leonardo": {
-    "posicao": "zag",
-    "preco": 7.06
+  "Brenno": {
+    "posicao": "gol",
+    "preco": 6.39
   },
-  "Matheus Henrique": {
+  "Bareiro": {
+    "posicao": "ata",
+    "preco": 5.14
+  },
+  "Baralhas": {
     "posicao": "mei",
-    "preco": 5.9
+    "preco": 6.25
+  },
+  "Ruan": {
+    "posicao": "zag",
+    "preco": 6.95
+  },
+  "Fernando": {
+    "posicao": "ata",
+    "preco": 3.24
   },
   "Luan Cândido": {
     "posicao": "lat",
     "preco": 8.05
-  },
-  "Júnior Santos": {
-    "posicao": "ata",
-    "preco": 5.89
-  },
-  "Brenno": {
-    "posicao": "gol",
-    "preco": 6.57
   },
   "Ronald Lopes": {
     "posicao": "mei",
@@ -1805,271 +1797,311 @@
   },
   "Nonato": {
     "posicao": "mei",
-    "preco": 4.95
+    "preco": 4.72
   },
   "Pedro Augusto": {
     "posicao": "mei",
-    "preco": 3.28
+    "preco": 2.03
   },
-  "Ruan": {
-    "posicao": "zag",
-    "preco": 6.67
+  "Matheus Henrique": {
+    "posicao": "mei",
+    "preco": 5.9
   },
-  "Diego": {
+  "Ramon": {
     "posicao": "lat",
-    "preco": 10.57
-  },
-  "Lucas Esteves": {
-    "posicao": "lat",
-    "preco": 7.01
-  },
-  "Ferreira": {
-    "posicao": "ata",
-    "preco": 8.33
-  },
-  "Ademir": {
-    "posicao": "ata",
-    "preco": 6.15
-  },
-  "Hugo Souza": {
-    "posicao": "gol",
-    "preco": 8.3
+    "preco": 6.27
   },
   "Marcelo Pitaluga": {
     "posicao": "gol",
     "preco": 2.53
   },
-  "Ramon": {
+  "Lucas Esteves": {
     "posicao": "lat",
-    "preco": 6.35
+    "preco": 7.01
+  },
+  "Hugo Souza": {
+    "posicao": "gol",
+    "preco": 8.66
+  },
+  "Júnior Santos": {
+    "posicao": "ata",
+    "preco": 5.89
+  },
+  "Diego": {
+    "posicao": "lat",
+    "preco": 10.57
   },
   "Guga": {
     "posicao": "lat",
-    "preco": 8.96
+    "preco": 8.25
   },
-  "Pablo Roberto": {
+  "Ferreira": {
+    "posicao": "ata",
+    "preco": 9.28
+  },
+  "Pepê": {
     "posicao": "mei",
-    "preco": 5.18
+    "preco": 4.7
+  },
+  "Felipe Jonatan": {
+    "posicao": "lat",
+    "preco": 4.47
+  },
+  "Brítez": {
+    "posicao": "zag",
+    "preco": 5.21
+  },
+  "Ademir": {
+    "posicao": "ata",
+    "preco": 6.15
   },
   "Hugo Moura": {
     "posicao": "mei",
     "preco": 4.6
   },
-  "Pepê": {
-    "posicao": "mei",
-    "preco": 4.5
-  },
-  "Willian Machado": {
-    "posicao": "zag",
-    "preco": 4.88
-  },
-  "Jean David": {
-    "posicao": "mei",
-    "preco": 3.0
-  },
   "Piquerez": {
     "posicao": "lat",
     "preco": 10.91
+  },
+  "Willian Machado": {
+    "posicao": "zag",
+    "preco": 6.84
+  },
+  "Peixoto": {
+    "posicao": "mei",
+    "preco": 4.95
+  },
+  "Caio Paulista": {
+    "posicao": "lat",
+    "preco": 6.88
   },
   "Claudinho": {
     "posicao": "lat",
     "preco": 4.35
   },
-  "Vitor Eudes": {
-    "posicao": "gol",
-    "preco": 2.0
-  },
-  "Brítez": {
-    "posicao": "zag",
-    "preco": 6.2
-  },
-  "Peixoto": {
-    "posicao": "mei",
-    "preco": 5.4
-  },
-  "Felipe Jonatan": {
-    "posicao": "lat",
-    "preco": 4.02
-  },
-  "Facundo Torres": {
-    "posicao": "ata",
-    "preco": 9.03
-  },
   "Lucas Halter": {
     "posicao": "zag",
     "preco": 4.14
   },
-  "Caio Paulista": {
-    "posicao": "lat",
-    "preco": 6.58
+  "Pablo Roberto": {
+    "posicao": "mei",
+    "preco": 3.86
   },
-  "Mastriani": {
-    "posicao": "ata",
-    "preco": 3.9
+  "Jean David": {
+    "posicao": "mei",
+    "preco": 3.0
   },
   "Rollheiser": {
     "posicao": "mei",
-    "preco": 6.23
+    "preco": 6.41
   },
-  "Canobbio": {
-    "posicao": "ata",
-    "preco": 7.47
-  },
-  "Luan Vinícius": {
-    "posicao": "mei",
-    "preco": 3.04
-  },
-  "Chris Ramos": {
-    "posicao": "ata",
-    "preco": 8.38
-  },
-  "Gabriel Brazão": {
+  "Vitor Eudes": {
     "posicao": "gol",
-    "preco": 6.65
+    "preco": 2.0
   },
   "Cacá": {
     "posicao": "zag",
     "preco": 6.82
   },
-  "Emmanuel Martínez": {
-    "posicao": "mei",
-    "preco": 4.9
+  "Canobbio": {
+    "posicao": "ata",
+    "preco": 7.42
   },
-  "César Lucena": {
-    "posicao": "tec",
-    "preco": 6.74
+  "Gabriel Brazão": {
+    "posicao": "gol",
+    "preco": 6.94
   },
   "Escobar": {
     "posicao": "lat",
-    "preco": 8.31
+    "preco": 8.58
   },
-  "Matheus Alexandre": {
-    "posicao": "lat",
-    "preco": 5.88
+  "Facundo Torres": {
+    "posicao": "ata",
+    "preco": 9.66
+  },
+  "Mastriani": {
+    "posicao": "ata",
+    "preco": 3.9
+  },
+  "Ignácio": {
+    "posicao": "zag",
+    "preco": 5.81
+  },
+  "Eric Ramires": {
+    "posicao": "mei",
+    "preco": 5.25
   },
   "Laquintana": {
     "posicao": "ata",
     "preco": 5.69
   },
+  "Matheus Alexandre": {
+    "posicao": "lat",
+    "preco": 5.88
+  },
+  "Emmanuel Martínez": {
+    "posicao": "mei",
+    "preco": 4.9
+  },
+  "Luan Vinícius": {
+    "posicao": "mei",
+    "preco": 3.04
+  },
+  "Kaio Jorge": {
+    "posicao": "ata",
+    "preco": 16.78
+  },
   "Dênis Júnior": {
     "posicao": "gol",
     "preco": 3.0
   },
-  "Ignácio": {
-    "posicao": "zag",
-    "preco": 6.96
-  },
-  "Kaio Jorge": {
-    "posicao": "ata",
-    "preco": 14.31
-  },
-  "Eric Ramires": {
-    "posicao": "mei",
-    "preco": 5.3
-  },
-  "Gabriel Veron": {
-    "posicao": "ata",
-    "preco": 3.71
-  },
-  "Rafael Bilu": {
-    "posicao": "ata",
-    "preco": 4.26
-  },
-  "Gabriel Fuentes": {
-    "posicao": "lat",
-    "preco": 7.13
-  },
-  "Gabriel Menino": {
-    "posicao": "mei",
-    "preco": 5.99
+  "César Lucena": {
+    "posicao": "tec",
+    "preco": 6.95
   },
   "Rafael Guanaes": {
     "posicao": "tec",
-    "preco": 8.06
+    "preco": 7.87
   },
-  "Hernán Crespo": {
-    "posicao": "tec",
-    "preco": 11.5
+  "Bruno Fuchs": {
+    "posicao": "zag",
+    "preco": 8.82
   },
-  "Carlos Miguel": {
-    "posicao": "gol",
-    "preco": 7.2
-  },
-  "Hereda": {
+  "Gabriel Fuentes": {
     "posicao": "lat",
-    "preco": 5.91
+    "preco": 6.05
   },
   "Lucas Arcanjo": {
     "posicao": "gol",
     "preco": 7.31
   },
-  "Raul": {
+  "Carlos Miguel": {
     "posicao": "gol",
-    "preco": 2.0
+    "preco": 10.4
   },
-  "Bruno Fuchs": {
-    "posicao": "zag",
-    "preco": 7.61
+  "Gabriel Menino": {
+    "posicao": "mei",
+    "preco": 5.99
   },
-  "Fabri": {
+  "Gabriel Veron": {
     "posicao": "ata",
-    "preco": 3.87
+    "preco": 3.55
   },
-  "João Lucas": {
-    "posicao": "lat",
-    "preco": 5.4
+  "Sabino": {
+    "posicao": "zag",
+    "preco": 6.56
+  },
+  "Rafael Bilu": {
+    "posicao": "ata",
+    "preco": 4.3
+  },
+  "Christian": {
+    "posicao": "mei",
+    "preco": 7.0
   },
   "Edson Carioca": {
     "posicao": "ata",
     "preco": 6.69
   },
-  "Juan Vojvoda": {
-    "posicao": "tec",
-    "preco": 10.27
-  },
-  "Vinícius Zanocelo": {
-    "posicao": "mei",
-    "preco": 5.06
+  "Fabri": {
+    "posicao": "ata",
+    "preco": 3.87
   },
   "Matheus Bianqui": {
     "posicao": "mei",
     "preco": 3.06
   },
-  "Sabino": {
-    "posicao": "zag",
-    "preco": 6.43
+  "Hernán Crespo": {
+    "posicao": "tec",
+    "preco": 11.36
   },
-  "Christian": {
+  "Moisés": {
+    "posicao": "ata",
+    "preco": 8.95
+  },
+  "Vinícius Zanocelo": {
     "posicao": "mei",
-    "preco": 7.08
+    "preco": 4.98
+  },
+  "Hereda": {
+    "posicao": "lat",
+    "preco": 5.91
+  },
+  "João Lucas": {
+    "posicao": "lat",
+    "preco": 5.57
+  },
+  "Juan Vojvoda": {
+    "posicao": "tec",
+    "preco": 10.2
   },
   "Camilo": {
     "posicao": "mei",
     "preco": 3.44
   },
+  "Raul": {
+    "posicao": "gol",
+    "preco": 2.0
+  },
   "Enzo Díaz": {
     "posicao": "lat",
-    "preco": 10.38
+    "preco": 9.9
   },
   "Acevedo": {
     "posicao": "mei",
-    "preco": 5.48
+    "preco": 4.95
+  },
+  "Lourenço": {
+    "posicao": "mei",
+    "preco": 4.54
+  },
+  "Khellven": {
+    "posicao": "lat",
+    "preco": 9.09
+  },
+  "Chris Ramos": {
+    "posicao": "ata",
+    "preco": 8.33
+  },
+  "Gastón Ávila": {
+    "posicao": "zag",
+    "preco": 8.05
+  },
+  "Santiago Rodríguez": {
+    "posicao": "mei",
+    "preco": 6.14
   },
   "Jorge Meurer": {
     "posicao": "gol",
     "preco": 2.0
   },
-  "Moisés": {
-    "posicao": "ata",
-    "preco": 8.89
+  "Ferraresi": {
+    "posicao": "zag",
+    "preco": 9.16
+  },
+  "Carrascal": {
+    "posicao": "mei",
+    "preco": 8.6
   },
   "Fabrício": {
     "posicao": "gol",
     "preco": 2.0
   },
+  "Gabriel Xavier": {
+    "posicao": "zag",
+    "preco": 5.18
+  },
   "Reinier": {
     "posicao": "mei",
-    "preco": 3.83
+    "preco": 3.64
+  },
+  "Matheus Bidu": {
+    "posicao": "lat",
+    "preco": 10.3
+  },
+  "Carlos Vinícius": {
+    "posicao": "ata",
+    "preco": 9.53
   },
   "Alexis Duarte": {
     "posicao": "zag",
@@ -2079,65 +2111,29 @@
     "posicao": "lat",
     "preco": 5.06
   },
-  "Khellven": {
-    "posicao": "lat",
-    "preco": 7.56
-  },
-  "Gastón Ávila": {
-    "posicao": "zag",
-    "preco": 8.78
-  },
-  "Ferraresi": {
-    "posicao": "zag",
-    "preco": 8.85
-  },
-  "Gabriel Xavier": {
-    "posicao": "zag",
-    "preco": 5.18
-  },
-  "Santiago Rodríguez": {
-    "posicao": "mei",
-    "preco": 6.55
-  },
-  "Maurício": {
-    "posicao": "mei",
-    "preco": 9.32
-  },
-  "Carrascal": {
-    "posicao": "mei",
-    "preco": 8.69
-  },
-  "Talles Magno": {
-    "posicao": "ata",
-    "preco": 5.83
-  },
   "Roni": {
     "posicao": "mei",
     "preco": 1.55
   },
-  "Edu": {
-    "posicao": "zag",
-    "preco": 5.04
+  "Maurício": {
+    "posicao": "mei",
+    "preco": 8.51
   },
   "Lucas Piton": {
     "posicao": "lat",
-    "preco": 8.91
+    "preco": 7.78
   },
   "Lucero": {
     "posicao": "ata",
     "preco": 6.99
   },
-  "Matheus Bidu": {
-    "posicao": "lat",
-    "preco": 10.93
-  },
-  "Luan Freitas": {
-    "posicao": "zag",
-    "preco": 6.34
-  },
   "Thiago Carpini": {
     "posicao": "tec",
-    "preco": 6.71
+    "preco": 6.83
+  },
+  "Talles Magno": {
+    "posicao": "ata",
+    "preco": 5.83
   },
   "Rochet": {
     "posicao": "gol",
@@ -2145,83 +2141,83 @@
   },
   "Santiago Mingo": {
     "posicao": "zag",
-    "preco": 5.02
-  },
-  "Carlos Vinícius": {
-    "posicao": "ata",
-    "preco": 12.56
-  },
-  "Ewerthon": {
-    "posicao": "lat",
-    "preco": 6.44
+    "preco": 4.93
   },
   "Matheus Araújo": {
     "posicao": "mei",
     "preco": 5.34
   },
-  "Caio Alexandre": {
-    "posicao": "mei",
-    "preco": 5.13
-  },
-  "Eduardo Santos": {
+  "Edu": {
     "posicao": "zag",
-    "preco": 8.19
+    "preco": 4.74
   },
   "Bruno Gomes": {
     "posicao": "lat",
-    "preco": 8.54
+    "preco": 8.33
   },
-  "José Aldo": {
+  "Ewerthon": {
+    "posicao": "lat",
+    "preco": 6.44
+  },
+  "Rodriguinho": {
     "posicao": "mei",
-    "preco": 3.5
+    "preco": 3.04
   },
-  "Lucão": {
-    "posicao": "gol",
-    "preco": 7.34
+  "Marcos Antônio": {
+    "posicao": "mei",
+    "preco": 3.61
+  },
+  "Caio Alexandre": {
+    "posicao": "mei",
+    "preco": 5.13
   },
   "Allanzinho": {
     "posicao": "ata",
     "preco": 4.29
   },
-  "Marcos Antônio": {
-    "posicao": "mei",
-    "preco": 3.64
+  "Lucão": {
+    "posicao": "gol",
+    "preco": 7.34
+  },
+  "Luan Freitas": {
+    "posicao": "zag",
+    "preco": 6.41
   },
   "Igor Formiga": {
     "posicao": "lat",
-    "preco": 10.14
+    "preco": 9.61
+  },
+  "Eduardo Santos": {
+    "posicao": "zag",
+    "preco": 8.19
   },
   "Villalba": {
     "posicao": "zag",
     "preco": 8.79
   },
-  "Paulo Baya": {
-    "posicao": "ata",
-    "preco": 4.21
+  "Patryck": {
+    "posicao": "lat",
+    "preco": 5.13
   },
   "Léo Linck": {
     "posicao": "gol",
-    "preco": 6.64
-  },
-  "Luciano Juba": {
-    "posicao": "lat",
-    "preco": 9.22
+    "preco": 7.13
   },
   "Michel Araújo": {
     "posicao": "mei",
-    "preco": 7.06
+    "preco": 5.47
   },
-  "Matheus Donelli": {
-    "posicao": "gol",
-    "preco": 4.42
-  },
-  "Bruno Tabata": {
-    "posicao": "mei",
-    "preco": 6.08
+  "Luciano Juba": {
+    "posicao": "lat",
+    "preco": 9.95
   },
   "Magrão": {
     "posicao": "gol",
     "preco": 3.44
+  },
+  "Rodrigo Nestor": {
+    "posicao": "mei",
+    "preco": 6.25
   },
   "Yuri Sena": {
     "posicao": "gol",
@@ -2229,87 +2225,103 @@
   },
   "Jeffinho": {
     "posicao": "ata",
-    "preco": 7.09
-  },
-  "Rodriguinho": {
-    "posicao": "mei",
-    "preco": 3.04
-  },
-  "Rodrigo Nestor": {
-    "posicao": "mei",
-    "preco": 6.59
-  },
-  "Ênio": {
-    "posicao": "ata",
-    "preco": 4.14
-  },
-  "Vanderlan": {
-    "posicao": "lat",
-    "preco": 4.95
+    "preco": 5.51
   },
   "Natanael": {
     "posicao": "lat",
-    "preco": 9.04
+    "preco": 8.73
   },
-  "Natã": {
-    "posicao": "zag",
-    "preco": 2.43
-  },
-  "Chrystian Barletta": {
+  "Paulo Baya": {
     "posicao": "ata",
-    "preco": 5.43
+    "preco": 3.89
+  },
+  "Vanderlan": {
+    "posicao": "lat",
+    "preco": 4.91
+  },
+  "Bruno Tabata": {
+    "posicao": "mei",
+    "preco": 6.95
+  },
+  "Ênio": {
+    "posicao": "ata",
+    "preco": 4.3
+  },
+  "Matheus Donelli": {
+    "posicao": "gol",
+    "preco": 4.42
   },
   "Bobadilla": {
     "posicao": "mei",
-    "preco": 7.49
+    "preco": 5.74
+  },
+  "Carbonero": {
+    "posicao": "ata",
+    "preco": 6.39
+  },
+  "Fausto Vera": {
+    "posicao": "mei",
+    "preco": 5.79
   },
   "Adriano": {
     "posicao": "gol",
     "preco": 1.0
   },
-  "Carbonero": {
-    "posicao": "ata",
-    "preco": 6.91
-  },
-  "Pierre": {
-    "posicao": "mei",
-    "preco": 3.81
-  },
-  "Fintelman": {
-    "posicao": "gol",
-    "preco": 2.0
-  },
   "Praxedes": {
     "posicao": "mei",
-    "preco": 3.81
+    "preco": 3.74
   },
-  "Hugo": {
-    "posicao": "lat",
-    "preco": 5.52
+  "Chrystian Barletta": {
+    "posicao": "ata",
+    "preco": 5.67
+  },
+  "Natã": {
+    "posicao": "zag",
+    "preco": 2.43
   },
   "Gabriel Lacerda": {
     "posicao": "zag",
     "preco": 4.0
   },
-  "Fausto Vera": {
-    "posicao": "mei",
-    "preco": 5.92
-  },
-  "Isidro Pitta": {
-    "posicao": "ata",
-    "preco": 7.9
-  },
   "David Ricardo": {
     "posicao": "zag",
-    "preco": 4.74
+    "preco": 5.35
+  },
+  "Hugo": {
+    "posicao": "lat",
+    "preco": 6.0
+  },
+  "Tapia": {
+    "posicao": "ata",
+    "preco": 7.21
   },
   "Galeano": {
     "posicao": "ata",
-    "preco": 6.0
+    "preco": 7.33
+  },
+  "Pierre": {
+    "posicao": "mei",
+    "preco": 3.18
   },
   "Adonis Frías": {
     "posicao": "zag",
-    "preco": 5.25
+    "preco": 6.29
+  },
+  "Fintelman": {
+    "posicao": "gol",
+    "preco": 2.0
+  },
+  "Plata": {
+    "posicao": "ata",
+    "preco": 6.64
+  },
+  "Isidro Pitta": {
+    "posicao": "ata",
+    "preco": 6.34
+  },
+  "Aravena": {
+    "posicao": "ata",
+    "preco": 4.32
   },
   "Santi Moreno": {
     "posicao": "ata",
@@ -2317,79 +2329,51 @@
   },
   "Emiliano Martínez": {
     "posicao": "mei",
-    "preco": 5.14
+    "preco": 4.81
   },
-  "Kike Saverio": {
-    "posicao": "ata",
-    "preco": 5.0
+  "Bernabéi": {
+    "posicao": "lat",
+    "preco": 12.9
   },
-  "Garré": {
-    "posicao": "ata",
-    "preco": 1.83
-  },
-  "Aravena": {
-    "posicao": "ata",
-    "preco": 4.32
-  },
-  "Plata": {
-    "posicao": "ata",
-    "preco": 6.35
-  },
-  "Tapia": {
-    "posicao": "ata",
-    "preco": 7.05
+  "Martinelli": {
+    "posicao": "mei",
+    "preco": 6.06
   },
   "Weverson": {
     "posicao": "lat",
     "preco": 2.29
   },
-  "Erick Pulga": {
-    "posicao": "ata",
-    "preco": 8.61
-  },
-  "João Neto": {
-    "posicao": "mei",
-    "preco": 1.0
-  },
-  "Monsalve": {
-    "posicao": "mei",
-    "preco": 3.55
-  },
-  "Martinelli": {
-    "posicao": "mei",
-    "preco": 6.39
-  },
   "Abel Ferreira": {
     "posicao": "tec",
-    "preco": 12.33
+    "preco": 12.84
   },
-  "Aguirre": {
-    "posicao": "lat",
-    "preco": 8.39
-  },
-  "Bernabéi": {
-    "posicao": "lat",
-    "preco": 13.98
-  },
-  "John Kennedy": {
+  "Erick Pulga": {
     "posicao": "ata",
-    "preco": 6.83
-  },
-  "Gustavo Martins": {
-    "posicao": "zag",
-    "preco": 8.2
-  },
-  "Andrés Hurtado": {
-    "posicao": "lat",
-    "preco": 6.74
+    "preco": 9.28
   },
   "Batalla": {
     "posicao": "ata",
     "preco": 6.5
   },
-  "Biel": {
+  "Kike Saverio": {
     "posicao": "ata",
-    "preco": 5.72
+    "preco": 5.18
+  },
+  "Garré": {
+    "posicao": "ata",
+    "preco": 1.83
+  },
+  "José Martínez": {
+    "posicao": "mei",
+    "preco": 3.73
+  },
+  "John Kennedy": {
+    "posicao": "ata",
+    "preco": 6.51
+  },
+  "Monsalve": {
+    "posicao": "mei",
+    "preco": 3.55
   },
   "Yeison Guzmán": {
     "posicao": "mei",
@@ -2399,145 +2383,181 @@
     "posicao": "zag",
     "preco": 3.92
   },
-  "José Martínez": {
+  "João Neto": {
     "posicao": "mei",
-    "preco": 3.73
-  },
-  "Renzo": {
-    "posicao": "zag",
-    "preco": 3.0
-  },
-  "Alix Vinicius": {
-    "posicao": "zag",
-    "preco": 2.37
-  },
-  "Victor Gabriel": {
-    "posicao": "zag",
-    "preco": 8.54
-  },
-  "Guilherme Lopes": {
-    "posicao": "lat",
-    "preco": 6.37
-  },
-  "Luis Mandaca": {
-    "posicao": "mei",
-    "preco": 6.72
-  },
-  "Rodrigo Santos": {
-    "posicao": "mei",
-    "preco": 2.19
-  },
-  "Adson": {
-    "posicao": "mei",
-    "preco": 3.01
-  },
-  "Ryan Guilherme": {
-    "posicao": "mei",
-    "preco": 4.43
-  },
-  "Matheus Martins": {
-    "posicao": "ata",
-    "preco": 5.11
-  },
-  "Kayky": {
-    "posicao": "ata",
-    "preco": 3.22
+    "preco": 1.0
   },
   "Emerson Galego": {
     "posicao": "ata",
     "preco": 3.01
   },
-  "Gabriel Átila": {
-    "posicao": "gol",
-    "preco": 1.0
+  "Alix Vinicius": {
+    "posicao": "zag",
+    "preco": 2.1
+  },
+  "Guilherme Lopes": {
+    "posicao": "lat",
+    "preco": 6.37
+  },
+  "Andrés Hurtado": {
+    "posicao": "lat",
+    "preco": 6.66
+  },
+  "Gustavo Martins": {
+    "posicao": "zag",
+    "preco": 8.2
+  },
+  "Luis Mandaca": {
+    "posicao": "mei",
+    "preco": 6.72
+  },
+  "Biel": {
+    "posicao": "ata",
+    "preco": 5.72
+  },
+  "Victor Gabriel": {
+    "posicao": "zag",
+    "preco": 8.54
+  },
+  "Rodrigo Santos": {
+    "posicao": "mei",
+    "preco": 2.19
+  },
+  "Matheus Martins": {
+    "posicao": "ata",
+    "preco": 5.11
   },
   "Matheus Cunha": {
     "posicao": "gol",
     "preco": 5.0
   },
-  "Ramón Sosa": {
-    "posicao": "ata",
-    "preco": 5.99
-  },
-  "Jefté": {
-    "posicao": "lat",
-    "preco": 6.32
-  },
-  "Gabriel Grando": {
-    "posicao": "gol",
-    "preco": 7.78
+  "Renzo": {
+    "posicao": "zag",
+    "preco": 3.0
   },
   "Anthoni": {
     "posicao": "gol",
     "preco": 3.72
   },
-  "Fabinho": {
-    "posicao": "mei",
-    "preco": 2.86
-  },
   "Kaiki Bruno": {
     "posicao": "lat",
-    "preco": 10.6
+    "preco": 11.0
   },
-  "Mancuso": {
+  "Jefté": {
     "posicao": "lat",
-    "preco": 8.93
+    "preco": 7.18
+  },
+  "Adson": {
+    "posicao": "mei",
+    "preco": 3.01
   },
   "Freytes": {
     "posicao": "zag",
-    "preco": 3.92
+    "preco": 4.22
+  },
+  "Gabriel Grando": {
+    "posicao": "gol",
+    "preco": 7.78
+  },
+  "Gabriel Átila": {
+    "posicao": "gol",
+    "preco": 1.0
+  },
+  "Mancuso": {
+    "posicao": "lat",
+    "preco": 7.96
+  },
+  "Kayky": {
+    "posicao": "ata",
+    "preco": 3.18
+  },
+  "Ryan Guilherme": {
+    "posicao": "mei",
+    "preco": 4.43
+  },
+  "Fabinho": {
+    "posicao": "mei",
+    "preco": 2.68
   },
   "Lucas Barbosa": {
     "posicao": "ata",
-    "preco": 8.5
+    "preco": 8.29
+  },
+  "Renzo López": {
+    "posicao": "ata",
+    "preco": 4.42
+  },
+  "Aníbal Moreno": {
+    "posicao": "mei",
+    "preco": 4.97
+  },
+  "Ramón Sosa": {
+    "posicao": "ata",
+    "preco": 5.94
   },
   "Flaco López": {
     "posicao": "ata",
     "preco": 10.0
   },
-  "Renzo López": {
-    "posicao": "ata",
-    "preco": 4.78
-  },
-  "Nathan Mendes": {
-    "posicao": "lat",
-    "preco": 4.23
+  "Pablo Maia": {
+    "posicao": "mei",
+    "preco": 4.66
   },
   "Sforza": {
     "posicao": "mei",
-    "preco": 3.91
+    "preco": 3.35
   },
   "Sinisterra": {
     "posicao": "ata",
-    "preco": 7.75
+    "preco": 7.57
   },
   "Diógenes": {
     "posicao": "gol",
     "preco": 3.3
   },
-  "Cristian Olivera": {
+  "Vitor Roque": {
     "posicao": "ata",
-    "preco": 8.63
+    "preco": 11.94
   },
-  "Pablo Maia": {
+  "Jhon Jhon": {
     "posicao": "mei",
-    "preco": 4.9
+    "preco": 8.03
   },
-  "Aníbal Moreno": {
-    "posicao": "mei",
-    "preco": 4.91
+  "Nathan Mendes": {
+    "posicao": "lat",
+    "preco": 4.23
   },
   "Gamarra": {
     "posicao": "zag",
     "preco": 4.83
   },
+  "Marcos Victor": {
+    "posicao": "zag",
+    "preco": 6.4
+  },
+  "Aguirre": {
+    "posicao": "lat",
+    "preco": 8.39
+  },
+  "Cristian Olivera": {
+    "posicao": "ata",
+    "preco": 8.4
+  },
+  "Evertton Araújo": {
+    "posicao": "mei",
+    "preco": 3.64
+  },
+  "Gabriel Delfim": {
+    "posicao": "gol",
+    "preco": 2.55
+  },
+  "Matheus França": {
+    "posicao": "ata",
+    "preco": 5.34
+  },
   "Lucas Freitas": {
     "posicao": "zag",
     "preco": 3.75
-  },
-  "Patryck": {
-    "posicao": "lat",
-    "preco": 5.13
   },
   "Brahimi": {
     "posicao": "ata",
@@ -2547,129 +2567,85 @@
     "posicao": "lat",
     "preco": 2.45
   },
-  "Marcos Victor": {
-    "posicao": "zag",
-    "preco": 5.87
-  },
-  "Gabriel Delfim": {
-    "posicao": "gol",
-    "preco": 2.55
-  },
-  "Matheus França": {
-    "posicao": "ata",
-    "preco": 5.71
-  },
-  "Vitor Roque": {
-    "posicao": "ata",
-    "preco": 12.45
-  },
-  "Evertton Araújo": {
-    "posicao": "mei",
-    "preco": 4.75
-  },
-  "Hércules": {
-    "posicao": "mei",
-    "preco": 6.26
-  },
-  "Jhon Jhon": {
-    "posicao": "mei",
-    "preco": 8.03
-  },
   "Gabriel Knesowitsch": {
     "posicao": "zag",
     "preco": 5.95
   },
-  "Cuiabano": {
-    "posicao": "lat",
-    "preco": 9.22
-  },
-  "Thiago Beltrame": {
-    "posicao": "gol",
-    "preco": 1.0
-  },
-  "Jamerson": {
-    "posicao": "lat",
-    "preco": 7.87
-  },
-  "Thiago Borbas": {
-    "posicao": "ata",
-    "preco": 2.3
+  "Hércules": {
+    "posicao": "mei",
+    "preco": 5.67
   },
   "Andrés Gómez": {
     "posicao": "ata",
-    "preco": 8.08
+    "preco": 8.01
+  },
+  "José Aldo": {
+    "posicao": "mei",
+    "preco": 3.12
+  },
+  "Robert Renan": {
+    "posicao": "zag",
+    "preco": 7.31
+  },
+  "Cuiabano": {
+    "posicao": "lat",
+    "preco": 9.8
   },
   "Cipriano": {
     "posicao": "zag",
     "preco": 1.82
   },
-  "Renato Marques": {
+  "Thiago Borbas": {
     "posicao": "ata",
-    "preco": 4.01
+    "preco": 2.3
   },
   "Lucas Gazal": {
     "posicao": "zag",
     "preco": 4.94
   },
+  "Jamerson": {
+    "posicao": "lat",
+    "preco": 7.87
+  },
   "Breno Bidon": {
     "posicao": "mei",
     "preco": 6.52
   },
-  "Robert Renan": {
-    "posicao": "zag",
-    "preco": 7.25
-  },
-  "Young": {
-    "posicao": "gol",
-    "preco": 3.03
-  },
-  "Lautaro Díaz": {
-    "posicao": "ata",
-    "preco": 5.02
-  },
-  "Lavega": {
-    "posicao": "ata",
-    "preco": 3.98
-  },
-  "Bruninho": {
-    "posicao": "mei",
-    "preco": 5.37
-  },
   "Garro": {
     "posicao": "mei",
-    "preco": 12.07
-  },
-  "Alexsander": {
-    "posicao": "mei",
-    "preco": 6.97
-  },
-  "Mateus Carvalho": {
-    "posicao": "mei",
-    "preco": 3.13
+    "preco": 12.89
   },
   "Kevyson": {
     "posicao": "lat",
     "preco": 2.1
   },
-  "Hudson": {
-    "posicao": "mei",
-    "preco": 0.92
-  },
-  "Luisão": {
-    "posicao": "zag",
-    "preco": 4.78
-  },
-  "Kauê": {
+  "Thiago Beltrame": {
     "posicao": "gol",
     "preco": 1.0
   },
-  "Daniel Sales": {
-    "posicao": "lat",
-    "preco": 2.0
+  "Lautaro Díaz": {
+    "posicao": "ata",
+    "preco": 4.69
   },
-  "Dyogo Alves": {
+  "Lavega": {
+    "posicao": "ata",
+    "preco": 3.98
+  },
+  "Young": {
     "posicao": "gol",
+    "preco": 3.03
+  },
+  "Mateus Carvalho": {
+    "posicao": "mei",
     "preco": 3.0
+  },
+  "Alexsander": {
+    "posicao": "mei",
+    "preco": 7.61
+  },
+  "Renato Marques": {
+    "posicao": "ata",
+    "preco": 3.42
   },
   "Paulo Ricardo": {
     "posicao": "lat",
@@ -2679,65 +2655,89 @@
     "posicao": "ata",
     "preco": 1.85
   },
-  "Edison Negueba": {
-    "posicao": "ata",
-    "preco": 3.42
+  "Kauê": {
+    "posicao": "gol",
+    "preco": 1.0
   },
-  "Ryan": {
+  "Luisão": {
+    "posicao": "zag",
+    "preco": 4.78
+  },
+  "Bruninho": {
     "posicao": "mei",
-    "preco": 3.16
+    "preco": 5.37
+  },
+  "Hudson": {
+    "posicao": "mei",
+    "preco": 0.92
+  },
+  "Daniel Sales": {
+    "posicao": "lat",
+    "preco": 2.0
   },
   "Cristian": {
     "posicao": "ata",
-    "preco": 4.78
+    "preco": 4.6
+  },
+  "Ryan": {
+    "posicao": "mei",
+    "preco": 3.22
+  },
+  "Dyogo Alves": {
+    "posicao": "gol",
+    "preco": 3.0
   },
   "Gustavinho": {
     "posicao": "mei",
     "preco": 2.81
   },
-  "Léo Jacó": {
+  "Rayan": {
     "posicao": "ata",
-    "preco": 1.45
+    "preco": 9.66
+  },
+  "Edison Negueba": {
+    "posicao": "ata",
+    "preco": 3.42
   },
   "Vinícius Lago": {
     "posicao": "lat",
     "preco": 1.0
   },
-  "Barros": {
-    "posicao": "mei",
-    "preco": 6.08
-  },
   "Abner": {
     "posicao": "zag",
     "preco": 4.93
   },
-  "Japa": {
-    "posicao": "mei",
-    "preco": 3.0
+  "GB": {
+    "posicao": "ata",
+    "preco": 3.22
+  },
+  "Léo Jacó": {
+    "posicao": "ata",
+    "preco": 1.45
   },
   "Yan Henrique": {
     "posicao": "lat",
     "preco": 1.0
   },
-  "Wallace Yan": {
-    "posicao": "ata",
-    "preco": 4.27
-  },
-  "Rayan": {
-    "posicao": "ata",
-    "preco": 10.44
-  },
-  "GB": {
-    "posicao": "ata",
-    "preco": 4.05
+  "Guzmán Rodríguez": {
+    "posicao": "zag",
+    "preco": 5.6
   },
   "Lucas Cunha": {
     "posicao": "zag",
     "preco": 3.6
   },
-  "Victor Nascimento": {
-    "posicao": "gol",
-    "preco": 1.0
+  "Wallace Yan": {
+    "posicao": "ata",
+    "preco": 4.27
+  },
+  "Japa": {
+    "posicao": "mei",
+    "preco": 2.6
+  },
+  "Barros": {
+    "posicao": "mei",
+    "preco": 5.79
   },
   "Caballero": {
     "posicao": "ata",
@@ -2751,35 +2751,35 @@
     "posicao": "mei",
     "preco": 1.0
   },
+  "Patrick": {
+    "posicao": "mei",
+    "preco": 3.24
+  },
+  "Tiago": {
+    "posicao": "ata",
+    "preco": 4.16
+  },
+  "Victor Nascimento": {
+    "posicao": "gol",
+    "preco": 1.0
+  },
   "Cauly": {
     "posicao": "mei",
-    "preco": 5.41
-  },
-  "Guzmán Rodríguez": {
-    "posicao": "zag",
-    "preco": 5.6
+    "preco": 5.23
   },
   "João Andrade": {
     "posicao": "ata",
     "preco": 1.0
   },
-  "Patrick": {
-    "posicao": "mei",
-    "preco": 3.24
-  },
-  "Cadu": {
-    "posicao": "ata",
-    "preco": 3.0
-  },
-  "Roger": {
+  "Sidney": {
     "posicao": "mei",
     "preco": 1.0
   },
-  "Tiago": {
-    "posicao": "ata",
-    "preco": 3.44
+  "Janderson": {
+    "posicao": "zag",
+    "preco": 2.82
   },
-  "Sidney": {
+  "Roger": {
     "posicao": "mei",
     "preco": 1.0
   },
@@ -2787,41 +2787,25 @@
     "posicao": "lat",
     "preco": 4.67
   },
+  "Cadu": {
+    "posicao": "ata",
+    "preco": 3.0
+  },
   "Alan Rodríguez": {
     "posicao": "mei",
     "preco": 5.72
-  },
-  "Janderson": {
-    "posicao": "zag",
-    "preco": 2.82
-  },
-  "Enzo": {
-    "posicao": "lat",
-    "preco": 5.0
-  },
-  "Herrera": {
-    "posicao": "ata",
-    "preco": 5.91
   },
   "Lezcano": {
     "posicao": "mei",
     "preco": 4.31
   },
-  "Isaac": {
-    "posicao": "ata",
-    "preco": 1.1
-  },
-  "Henry Mosquera": {
-    "posicao": "ata",
-    "preco": 3.44
-  },
-  "Allex": {
-    "posicao": "mei",
-    "preco": 1.0
+  "Enzo": {
+    "posicao": "lat",
+    "preco": 5.0
   },
   "Gustavo Prado": {
     "posicao": "mei",
-    "preco": 4.3
+    "preco": 4.15
   },
   "Léo Aragão": {
     "posicao": "gol",
@@ -2831,133 +2815,157 @@
     "posicao": "lat",
     "preco": 8.85
   },
-  "Ricardo Mathias": {
+  "Henry Mosquera": {
     "posicao": "ata",
-    "preco": 4.78
+    "preco": 3.22
   },
-  "Mateo Ponte": {
-    "posicao": "lat",
-    "preco": 6.71
-  },
-  "Viery": {
-    "posicao": "zag",
-    "preco": 2.86
-  },
-  "Derik Lacerda": {
-    "posicao": "ata",
-    "preco": 9.14
-  },
-  "Iván Román": {
-    "posicao": "zag",
-    "preco": 4.67
-  },
-  "Felipe Negrucci": {
+  "Allex": {
     "posicao": "mei",
-    "preco": 2.1
+    "preco": 1.0
+  },
+  "Isaac": {
+    "posicao": "ata",
+    "preco": 1.1
+  },
+  "Herrera": {
+    "posicao": "ata",
+    "preco": 6.25
+  },
+  "Jonathan Jesus": {
+    "posicao": "zag",
+    "preco": 4.52
   },
   "Leandro": {
     "posicao": "gol",
     "preco": 2.0
   },
-  "Marcelinho": {
-    "posicao": "mei",
-    "preco": 2.0
+  "Derik Lacerda": {
+    "posicao": "ata",
+    "preco": 8.19
   },
-  "Jonathan Jesus": {
+  "Mateo Ponte": {
+    "posicao": "lat",
+    "preco": 6.71
+  },
+  "Ricardo Mathias": {
+    "posicao": "ata",
+    "preco": 4.96
+  },
+  "Felipe Negrucci": {
+    "posicao": "mei",
+    "preco": 2.1
+  },
+  "Viery": {
     "posicao": "zag",
-    "preco": 5.04
-  },
-  "Rayan Lucas": {
-    "posicao": "mei",
-    "preco": 2.0
+    "preco": 2.86
   },
   "Nathan Fernandes": {
     "posicao": "ata",
     "preco": 5.19
   },
-  "Bahia": {
+  "Barreal": {
     "posicao": "mei",
-    "preco": 2.65
+    "preco": 10.0
+  },
+  "Iván Román": {
+    "posicao": "zag",
+    "preco": 4.67
   },
   "Julio Fidélis": {
     "posicao": "lat",
     "preco": 7.17
   },
-  "Ruan Pablo": {
-    "posicao": "ata",
-    "preco": 0.84
-  },
-  "Carbone": {
-    "posicao": "lat",
-    "preco": 2.0
-  },
-  "JP": {
+  "Rayan Lucas": {
     "posicao": "mei",
-    "preco": 2.0
-  },
-  "Noriega": {
-    "posicao": "mei",
-    "preco": 4.31
-  },
-  "Léo Nannetti": {
-    "posicao": "gol",
-    "preco": 1.0
-  },
-  "Barreal": {
-    "posicao": "mei",
-    "preco": 11.19
-  },
-  "Guilherme Estrella": {
-    "posicao": "mei",
-    "preco": 3.0
-  },
-  "Leandrinho": {
-    "posicao": "lat",
-    "preco": 2.0
-  },
-  "Cristhian Loor": {
-    "posicao": "gol",
     "preco": 2.0
   },
   "Felipe Cardoso": {
     "posicao": "mei",
     "preco": 2.21
   },
-  "Euder": {
+  "Bahia": {
     "posicao": "mei",
-    "preco": 1.0
+    "preco": 2.65
   },
-  "Rhyan": {
-    "posicao": "gol",
-    "preco": 1.0
+  "Marcelinho": {
+    "posicao": "mei",
+    "preco": 2.0
   },
   "Phillipe Gabriel": {
     "posicao": "gol",
     "preco": 1.0
   },
+  "Ruan Pablo": {
+    "posicao": "ata",
+    "preco": 0.84
+  },
   "Lukas Zuccarello": {
     "posicao": "mei",
     "preco": 1.9
   },
-  "Maceió": {
+  "Léo Nannetti": {
+    "posicao": "gol",
+    "preco": 1.0
+  },
+  "Cristhian Loor": {
+    "posicao": "gol",
+    "preco": 2.0
+  },
+  "Carbone": {
+    "posicao": "lat",
+    "preco": 2.0
+  },
+  "Noriega": {
+    "posicao": "mei",
+    "preco": 4.43
+  },
+  "Leandrinho": {
+    "posicao": "lat",
+    "preco": 2.0
+  },
+  "Guilherme Estrella": {
+    "posicao": "mei",
+    "preco": 3.0
+  },
+  "Rhyan": {
+    "posicao": "gol",
+    "preco": 1.0
+  },
+  "JP": {
+    "posicao": "mei",
+    "preco": 2.0
+  },
+  "Rafael Pinna": {
     "posicao": "ata",
-    "preco": 2.81
+    "preco": 1.0
   },
   "Maykon": {
     "posicao": "lat",
     "preco": 4.92
   },
-  "Luighi": {
-    "posicao": "ata",
-    "preco": 2.95
+  "Euder": {
+    "posicao": "mei",
+    "preco": 1.0
+  },
+  "Souza": {
+    "posicao": "lat",
+    "preco": 8.38
   },
   "Boateng": {
     "posicao": "zag",
     "preco": 1.0
   },
-  "Rafael Pinna": {
+  "Luighi": {
     "posicao": "ata",
-    "preco": 1.0
+    "preco": 2.95
+  },
+  "Bernal": {
+    "posicao": "mei",
+    "preco": 3.78
+  },
+  "Maceió": {
+    "posicao": "ata",
+    "preco": 2.81
   },
   "Guilherme Gomes": {
     "posicao": "mei",
@@ -2967,20 +2975,12 @@
     "posicao": "ata",
     "preco": 0.92
   },
-  "Souza": {
+  "Cauã Berrío": {
     "posicao": "lat",
-    "preco": 8.38
-  },
-  "Bernal": {
-    "posicao": "mei",
-    "preco": 3.78
+    "preco": 1.0
   },
   "Andrei": {
     "posicao": "zag",
-    "preco": 1.0
-  },
-  "Cauã Berrío": {
-    "posicao": "lat",
     "preco": 1.0
   }
 }

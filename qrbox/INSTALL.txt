@@ -1,0 +1,83 @@
+=========================================
+INSTALAÇÃO RÁPIDA - Sistema QRBox
+=========================================
+
+PASSO 1: INSTALAR PHP E DEPENDÊNCIAS
+-------------------------------------
+Ubuntu/Debian:
+    sudo apt update
+    sudo apt install -y php8.3-cli php8.3-fpm php8.3-sqlite3 php8.3-gd php8.3-mbstring php8.3-curl
+    sudo apt install -y apache2 libapache2-mod-php8.3
+
+CentOS/RHEL:
+    sudo yum install -y php php-pdo php-gd php-mbstring php-sqlite3
+    sudo yum install -y httpd
+
+PASSO 2: CONFIGURAR APACHE
+---------------------------
+    # Habilitar módulos necessários
+    sudo a2enmod rewrite
+    sudo a2enmod headers
+    sudo systemctl restart apache2
+
+PASSO 3: PERMISSÕES
+--------------------
+    sudo chown -R www-data:www-data /var/www/qrbox
+    sudo chmod -R 755 /var/www/qrbox
+    sudo chmod -R 775 /var/www/qrbox/uploads
+
+PASSO 4: TESTAR
+---------------
+    # Servidor embutido do PHP (para teste):
+    cd /var/www/qrbox
+    php -S localhost:8000
+
+    # Acesse: http://localhost:8000
+
+PASSO 5: CONFIGURAR APACHE (PRODUÇÃO)
+--------------------------------------
+    # Opção 1: Subdiretório
+    - Acesse: http://seu-servidor/qrbox
+
+    # Opção 2: VirtualHost
+    - Crie: /etc/apache2/sites-available/qrbox.conf
+    - Veja exemplo completo no README.md
+    - Execute: sudo a2ensite qrbox.conf
+    - Reload: sudo systemctl reload apache2
+
+VERIFICAR INSTALAÇÃO
+--------------------
+    # Verificar PHP:
+    php -v
+
+    # Verificar extensões:
+    php -m | grep -E "(sqlite3|gd|mbstring)"
+
+    # Teste de sintaxe:
+    php -l index.php
+    php -l qr.php
+
+TROUBLESHOOTING
+---------------
+    1. "Cannot write to database"
+       → sudo chmod 775 /var/www/qrbox
+       → sudo chown www-data:www-data /var/www/qrbox
+
+    2. "Cannot upload photos"
+       → sudo chmod 775 /var/www/qrbox/uploads
+
+    3. ".htaccess não funciona"
+       → Verifique AllowOverride All no apache2.conf
+       → sudo a2enmod rewrite
+
+    4. "QR Code não aparece"
+       → Verifique allow_url_fopen no PHP
+       → php -i | grep allow_url_fopen
+
+PRONTO!
+-------
+Seu sistema está instalado e pronto para uso! 🎉
+
+Acesse o navegador e comece a cadastrar suas caixas.
+
+Documentação completa: README.md
