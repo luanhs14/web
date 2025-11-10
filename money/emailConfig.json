@@ -1,0 +1,13 @@
+{
+  "smtp": {
+    "host": "smtp.gmail.com",
+    "port": 587,
+    "secure": false,
+    "auth": {
+      "user": "luanh.dev@gmail.com",
+      "pass": "uucz pnym bcgt jvuk"
+    }
+  },
+  "from": "Money Planner <luanhs14@gmail.com>",
+  "to": "luanhs14@gmail.com"
+}

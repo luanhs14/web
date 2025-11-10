@@ -1,5 +1,6 @@
 const pool = require('../config/database');
 const apiService = require('./apiService');
+const broadcastService = require('./broadcastService');
 
 const FALLBACK_INTERVAL_HOURS = 3;
 
@@ -31,6 +32,9 @@ function extractScore(score = {}) {
 }
 
 class JogosService {
+  constructor() {
+    this.emissoraCache = new Map();
+  }
 
   // Sincronizar jogos da API com o banco de dados
   async sincronizarJogos() {
@@ -45,9 +49,21 @@ class JogosService {
         return;
       }
 
-      console.log(`📡 Fonte dos dados: ${source === 'api' ? 'Football-Data.org' : 'dados de exemplo'}`);
+      const sourceLabel = {
+        'football-data': 'Football-Data.org',
+        'cartola': 'Cartola FC',
+        'fallback': 'dados de exemplo',
+        undefined: 'dados de exemplo',
+        null: 'dados de exemplo'
+      }[source] || 'dados de exemplo';
 
-      const isFallback = source !== 'api';
+      console.log(`📡 Fonte dos dados: ${sourceLabel}`);
+
+      const isFallback = source === 'fallback';
+
+      if (source === 'cartola') {
+        await pool.query("DELETE FROM jogos WHERE api_id LIKE '999%'");
+      }
 
       for (const [index, partida] of matches.entries()) {
         await this.salvarOuAtualizarJogo(partida, { isFallback, index });
@@ -70,10 +86,34 @@ class JogosService {
       const status = mapStatus(partida.status);
       const score = extractScore(partida.score);
       const local = partida.venue || 'Local a definir';
+      const linkStream = partida.link_stream || partida.linkStream || partida.transmissao?.url || null;
 
-      const dataHorario = isFallback
-        ? new Date(Date.now() + index * FALLBACK_INTERVAL_HOURS * 60 * 60 * 1000).toISOString()
-        : partida.utcDate;
+      let emissoraInfo = null;
+      let emissora = null;
+
+      if (!isFallback && linkStream) {
+        emissoraInfo = await broadcastService.fetchBroadcastInfo(linkStream).catch(() => null);
+      }
+
+      if (emissoraInfo?.nome) {
+        emissora = await this.obterOuCriarEmissora(emissoraInfo, client);
+      }
+
+      let dataHorario;
+
+      if (isFallback) {
+        if (typeof partida.fallbackOffsetHours === 'number') {
+          const reference = new Date();
+          reference.setUTCHours(12, 0, 0, 0);
+          dataHorario = new Date(reference.getTime() + partida.fallbackOffsetHours * 60 * 60 * 1000).toISOString();
+        } else if (partida.utcDate) {
+          dataHorario = partida.utcDate;
+        } else {
+          dataHorario = new Date(Date.now() + index * FALLBACK_INTERVAL_HOURS * 60 * 60 * 1000).toISOString();
+        }
+      } else {
+        dataHorario = partida.utcDate;
+      }
 
       const timeCasa = await this.obterOuCriarTime(partida.homeTeam, client);
       const timeVisitante = await this.obterOuCriarTime(partida.awayTeam, client);
@@ -91,7 +131,9 @@ class JogosService {
         timeVisitante ? timeVisitante.id : null,
         status,
         score.casa,
-        score.visitante
+        score.visitante,
+        linkStream,
+        emissora ? emissora.id : null
       ];
 
       if (jogoExistente.rows.length > 0) {
@@ -105,16 +147,18 @@ class JogosService {
               status = $6,
               placar_casa = $7,
               placar_visitante = $8,
+              link_stream = $9,
+              emissora_stream_id = $10,
               updated_at = CURRENT_TIMESTAMP
-          WHERE api_id = $9
+          WHERE api_id = $11
         `, [...parametrosBase, partida.id]);
       } else {
         await client.query(`
           INSERT INTO jogos (
             api_id, rodada, data_horario, local_nome,
             time_casa_id, time_visitante_id, status,
-            placar_casa, placar_visitante
-          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            placar_casa, placar_visitante, link_stream, emissora_stream_id
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
         `, [
           partida.id,
           ...parametrosBase
@@ -140,8 +184,8 @@ class JogosService {
     const apiId = dadosTime.id || null;
 
     const timeExistente = await client.query(
-      'SELECT id FROM times WHERE api_id = $1 OR nome = $2 LIMIT 1',
-      [apiId, nome]
+      'SELECT id FROM times WHERE api_id = $1 OR nome = $2 OR abreviacao = $3 LIMIT 1',
+      [apiId, nome, abreviacao || null]
     );
 
     if (timeExistente.rows.length > 0) {
@@ -175,6 +219,61 @@ class JogosService {
     ]);
 
     return novoTime.rows[0];
+  }
+
+  async obterOuCriarEmissora(dadosEmissora = {}, client) {
+    if (!dadosEmissora.nome) {
+      return null;
+    }
+
+    const nome = dadosEmissora.nome.trim();
+    const cacheKey = nome.toLowerCase();
+
+    if (this.emissoraCache.has(cacheKey)) {
+      return { id: this.emissoraCache.get(cacheKey) };
+    }
+
+    const emissoraExistente = await client.query(
+      'SELECT id, tipo, logo_url, url_stream FROM emissoras_streams WHERE LOWER(nome) = LOWER($1) LIMIT 1',
+      [nome]
+    );
+
+    if (emissoraExistente.rows.length > 0) {
+      const row = emissoraExistente.rows[0];
+      const needsUpdate =
+        (!row.tipo && dadosEmissora.tipo) ||
+        (!row.logo_url && dadosEmissora.logoUrl) ||
+        (!row.url_stream && dadosEmissora.urlStream);
+
+      if (needsUpdate) {
+        await client.query(
+          `
+            UPDATE emissoras_streams
+            SET tipo = COALESCE($2, tipo),
+                logo_url = COALESCE($3, logo_url),
+                url_stream = COALESCE($4, url_stream)
+            WHERE id = $1
+          `,
+          [row.id, dadosEmissora.tipo || null, dadosEmissora.logoUrl || null, dadosEmissora.urlStream || null]
+        );
+      }
+
+      this.emissoraCache.set(cacheKey, row.id);
+      return { id: row.id };
+    }
+
+    const novaEmissora = await client.query(
+      `
+        INSERT INTO emissoras_streams (nome, tipo, logo_url, url_stream)
+        VALUES ($1, $2, $3, $4)
+        RETURNING id
+      `,
+      [nome, dadosEmissora.tipo || null, dadosEmissora.logoUrl || null, dadosEmissora.urlStream || null]
+    );
+
+    const novoId = novaEmissora.rows[0].id;
+    this.emissoraCache.set(cacheKey, novoId);
+    return { id: novoId };
   }
 
   // Buscar jogos por data
@@ -225,7 +324,7 @@ class JogosService {
     }
   }
 
-  // Buscar próximos jogos (próximas 48h)
+  // Buscar jogos em janela de -1 a +3 dias (ontem até dois dias após amanhã)
   async buscarProximosJogos() {
     try {
       const result = await pool.query(`
@@ -238,10 +337,9 @@ class JogosService {
         LEFT JOIN times tc ON j.time_casa_id = tc.id
         LEFT JOIN times tv ON j.time_visitante_id = tv.id
         LEFT JOIN emissoras_streams e ON j.emissora_stream_id = e.id
-        WHERE j.data_horario >= NOW()
-          AND j.data_horario <= NOW() + INTERVAL '48 hours'
+        WHERE j.data_horario >= DATE_TRUNC('day', NOW()) - INTERVAL '1 day'
+          AND j.data_horario < DATE_TRUNC('day', NOW()) + INTERVAL '3 day'
         ORDER BY j.data_horario ASC
-        LIMIT 20
       `);
 
       return result.rows;

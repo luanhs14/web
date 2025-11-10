@@ -1,8 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { parseISO, differenceInCalendarDays, format, startOfToday } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import JogoCard from '../components/JogoCard';
 import Loading from '../components/Loading';
 import { apiService } from '../services/api';
 import '../styles/HomePage.css';
+
+const capitalizar = (texto) => texto.charAt(0).toUpperCase() + texto.slice(1);
+
+const formatarTituloDia = (dataISO) => {
+  const data = parseISO(dataISO);
+  const hoje = startOfToday();
+  const diff = differenceInCalendarDays(data, hoje);
+
+  let prefixo;
+  if (diff === -1) prefixo = 'Ontem';
+  else if (diff === 0) prefixo = 'Hoje';
+  else if (diff === 1) prefixo = 'Amanhã';
+  else if (diff === 2) prefixo = 'Em 2 dias';
+  else if (diff === 3) prefixo = 'Em 3 dias';
+  else if (diff < -1) prefixo = `Há ${Math.abs(diff)} dias`;
+  else prefixo = `Em ${diff} dias`;
+
+  const dataFormatada = capitalizar(format(data, "dd/MM (EEEE)", { locale: ptBR }));
+  return `${prefixo} · ${dataFormatada}`;
+};
+
+const agruparJogosPorDia = (lista) => {
+  const grupos = lista.reduce((acc, jogo) => {
+    const chave = format(parseISO(jogo.data_horario), 'yyyy-MM-dd');
+    if (!acc[chave]) acc[chave] = [];
+    acc[chave].push(jogo);
+    return acc;
+  }, {});
+
+  return Object.entries(grupos)
+    .sort((a, b) => new Date(a[0]) - new Date(b[0]))
+    .map(([chave, jogosDoDia]) => ({
+      chave,
+      titulo: formatarTituloDia(jogosDoDia[0].data_horario),
+      jogos: jogosDoDia.sort((a, b) => new Date(a.data_horario) - new Date(b.data_horario))
+    }));
+};
 
 function HomePage() {
   const [jogos, setJogos] = useState([]);
@@ -32,6 +71,8 @@ function HomePage() {
     }
   };
 
+  const jogosAgrupados = useMemo(() => agruparJogosPorDia(jogos), [jogos]);
+
   if (loading) {
     return <Loading />;
   }
@@ -57,22 +98,27 @@ function HomePage() {
         <div className="page-header">
           <h1 className="page-title">⚽ Próximos Jogos</h1>
           <p className="page-subtitle">
-            Confira os jogos do Brasileirão nas próximas 48 horas
+            Ontem, hoje, amanhã e os próximos 2 dias do Brasileirão em um só lugar
           </p>
         </div>
 
-        {jogos.length === 0 ? (
+        {jogosAgrupados.length === 0 ? (
           <div className="empty-state">
             <span className="empty-icon">📅</span>
             <h3>Nenhum jogo agendado</h3>
-            <p>Não há jogos programados para as próximas 48 horas.</p>
+            <p>Não encontramos jogos para o período de ontem até os próximos 2 dias.</p>
           </div>
         ) : (
-          <div className="jogos-grid">
-            {jogos.map((jogo) => (
-              <JogoCard key={jogo.id} jogo={jogo} />
-            ))}
-          </div>
+          jogosAgrupados.map((grupo) => (
+            <section key={grupo.chave} className="dia-section">
+              <h2 className="dia-titulo">{grupo.titulo}</h2>
+              <div className="jogos-grid">
+                {grupo.jogos.map((jogo) => (
+                  <JogoCard key={jogo.id} jogo={jogo} />
+                ))}
+              </div>
+            </section>
+          ))
         )}
       </div>
     </div>

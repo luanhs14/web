@@ -6,15 +6,6 @@ import '../styles/JogoCard.css';
 const placeholderLogo = '/placeholder-team.svg';
 
 function JogoCard({ jogo }) {
-  const formatarData = (dataString) => {
-    try {
-      const data = parseISO(dataString);
-      return format(data, 'dd/MM/yyyy', { locale: ptBR });
-    } catch (error) {
-      return 'Data inválida';
-    }
-  };
-
   const formatarHora = (dataString) => {
     try {
       const data = parseISO(dataString);
@@ -51,15 +42,21 @@ function JogoCard({ jogo }) {
   };
 
   const status = jogo.status || 'scheduled';
-  const streamUrl = jogo.link_stream || jogo.emissora_url || null;
+  const streamUrl = jogo.emissora_url || jogo.link_stream || null;
+  const horaFormatada = formatarHora(jogo.data_horario);
 
   return (
     <div className="jogo-card">
       <div className="jogo-header">
         <span className="jogo-rodada">Rodada {jogo.rodada || '--'}</span>
-        <span className={`jogo-status ${getStatusClass(status)}`}>
-          {getStatusText(status)}
-        </span>
+        <div className="jogo-meta">
+          <span className="hora-pill">
+            {horaFormatada}h
+          </span>
+          <span className={`jogo-status ${getStatusClass(status)}`}>
+            {getStatusText(status)}
+          </span>
+        </div>
       </div>
 
       <div className="jogo-times">
@@ -98,38 +95,29 @@ function JogoCard({ jogo }) {
         </div>
       </div>
 
-      <div className="jogo-info">
-        <div className="info-item">
-          <span className="info-icon">📅</span>
-          <span className="info-text">{formatarData(jogo.data_horario)}</span>
-        </div>
-        <div className="info-item">
-          <span className="info-icon">🕐</span>
-          <span className="info-text">{formatarHora(jogo.data_horario)}</span>
-        </div>
-        <div className="info-item">
-          <span className="info-icon">🏟️</span>
-          <span className="info-text">{jogo.local_nome || 'Local a definir'}</span>
-        </div>
-      </div>
-
       {jogo.emissora_nome ? (
         <div className="jogo-transmissao">
           <span className="transmissao-label">📺 Onde assistir:</span>
-          <div className="transmissao-info">
+          <div className="transmissao-tags">
             {jogo.emissora_logo && (
-              <img
-                src={jogo.emissora_logo}
-                alt={jogo.emissora_nome}
-                className="emissora-logo"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
+              <span className="transmissao-tag with-logo">
+                <img
+                  src={jogo.emissora_logo}
+                  alt={jogo.emissora_nome}
+                  className="emissora-logo"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement?.classList?.remove('with-logo');
+                  }}
+                />
+                <span>{jogo.emissora_nome}</span>
+              </span>
             )}
-            <span className="emissora-nome">{jogo.emissora_nome}</span>
+            {!jogo.emissora_logo && (
+              <span className="transmissao-tag">{jogo.emissora_nome}</span>
+            )}
             {jogo.emissora_tipo && (
-              <span className="emissora-tipo">({jogo.emissora_tipo})</span>
+              <span className="transmissao-tag emissora-tipo">{jogo.emissora_tipo}</span>
             )}
           </div>
           {streamUrl && (

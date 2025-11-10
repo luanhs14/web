@@ -14,12 +14,6 @@ const CATEGORIES = {
 // State
 let accounts = [];
 let settings = {
-    emailjs: {
-        serviceId: 'service_2fb61z6',
-        templateId: '',
-        publicKey: 'wP3d_D13ANE-Z2w-z',
-        emailTo: ''
-    },
     notifications: {
         daysAhead: 5,
         time: '09:00'
@@ -153,8 +147,7 @@ function setupEventListeners() {
     document.getElementById('exportData').addEventListener('click', exportToJSON);
     document.getElementById('exportPDF').addEventListener('click', exportToPDF);
 
-    // EmailJS
-    document.getElementById('emailjsForm').addEventListener('submit', saveEmailJSSettings);
+    // Email Test
     document.getElementById('testEmail').addEventListener('click', testEmail);
 
     // Notifications
@@ -381,88 +374,23 @@ function exportToPDF() {
     showAlert('success', 'PDF exportado!');
 }
 
-async function saveEmailJSSettings(e) {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-
-    const emailjs = {
-        serviceId: formData.get('serviceId').trim(),
-        templateId: formData.get('templateId').trim(),
-        publicKey: formData.get('publicKey').trim(),
-        emailTo: formData.get('emailTo').trim()
-    };
-
-    try {
-        await api.updateEmailjs(emailjs);
-        settings.emailjs = emailjs;
-        initializeEmailJS();
-        showAlert('success', 'Configurações do EmailJS salvas!');
-    } catch (error) {
-        showAlert('danger', 'Erro ao salvar: ' + error.message);
-    }
-}
-
-function initializeEmailJS() {
-    if (typeof emailjs === 'undefined') {
-        console.warn('⚠️ EmailJS não carregado');
-        return;
-    }
-
-    if (!window.emailjs || !settings.emailjs) return;
-
-    const { publicKey, templateId, emailTo } = settings.emailjs;
-
-    if (publicKey) {
-        try {
-            window.emailjs.init(publicKey);
-
-            const statusDiv = document.getElementById('emailjsStatus');
-            if (statusDiv) {
-                if (templateId && emailTo) {
-                    statusDiv.innerHTML = '<div class="alert success">✓ EmailJS configurado!</div>';
-                } else {
-                    statusDiv.innerHTML = '<div class="alert warning">⚠️ Configure Template ID e E-mail</div>';
-                }
-            }
-            console.log('✅ EmailJS inicializado');
-        } catch (error) {
-            console.error('❌ Erro ao inicializar EmailJS:', error);
-        }
-    }
-}
-
 async function testEmail() {
-    if (!settings.emailjs || !settings.emailjs.templateId) {
-        showAlert('warning', 'Configure o EmailJS primeiro.');
-        return;
-    }
-
-    const { serviceId, templateId, publicKey, emailTo } = settings.emailjs;
-
     try {
-        window.emailjs.init(publicKey);
+        // Envia email através do backend
+        const response = await fetch('/api/notifications/send', {
+            method: 'POST'
+        });
 
-        const upcoming = getUpcomingPayments(settings.notifications.daysAhead);
+        const result = await response.json();
 
-        if (upcoming.length === 0) {
-            showAlert('info', 'Nenhuma conta pendente para enviar.');
-            return;
+        if (result.success) {
+            showAlert('success', `Email enviado! ${result.count || 0} conta(s) notificada(s).`);
+            logNotification(`Email de teste enviado - ${result.message}`);
+        } else {
+            showAlert('warning', result.error || result.message);
         }
-
-        const templateParams = {
-            email_to: emailTo,
-            subject: '🔔 Lembrete de Contas - Money Planner',
-            message_html: upcoming.map(p => {
-                const monthData = p.months[MONTHS[new Date().getMonth()]];
-                return `<strong>${p.name}</strong><br>Dia: ${p.dueDay}<br>Valor: R$ ${monthData.amount.toFixed(2)}`;
-            }).join('<br><br>')
-        };
-
-        await window.emailjs.send(serviceId, templateId, templateParams);
-        showAlert('success', 'E-mail enviado!');
-        logNotification(`E-mail enviado para ${emailTo}`);
     } catch (error) {
-        showAlert('danger', 'Erro ao enviar: ' + error.message);
+        showAlert('danger', 'Erro ao enviar email: ' + error.message);
     }
 }
 
@@ -501,7 +429,6 @@ function renderAll() {
     renderAccountsList();
     renderDashboard();
     loadNotificationSettings();
-    loadEmailJSSettings();
 }
 
 function renderAccountsList() {
@@ -807,15 +734,6 @@ function loadNotificationSettings() {
     document.getElementById('notificationTime').value = settings.notifications.time;
 }
 
-function loadEmailJSSettings() {
-    const form = document.getElementById('emailjsForm');
-    form.querySelector('[name="serviceId"]').value = settings.emailjs.serviceId;
-    form.querySelector('[name="templateId"]').value = settings.emailjs.templateId;
-    form.querySelector('[name="publicKey"]').value = settings.emailjs.publicKey;
-    form.querySelector('[name="emailTo"]').value = settings.emailjs.emailTo;
-
-    initializeEmailJS();
-}
 
 // Global functions for onclick handlers
 window.togglePaid = async function(id) {

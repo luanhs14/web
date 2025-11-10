@@ -952,6 +952,14 @@ function e($text) {
             @page {
                 size: 26.7mm 120mm;
                 margin: 0;
+                padding: 0;
+            }
+
+            html, body {
+                width: 26.7mm;
+                height: 120mm;
+                margin: 0;
+                padding: 0;
             }
 
             body * {
@@ -964,19 +972,21 @@ function e($text) {
             }
 
             .qr-section {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 26.7mm;
-                height: 120mm;
-                margin: 0;
-                padding: 2mm;
-                box-shadow: none;
-                background: white;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 26.7mm !important;
+                height: 120mm !important;
+                margin: 0 !important;
+                padding: 1mm !important;
+                box-shadow: none !important;
+                background: white !important;
+                border-radius: 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                page-break-after: always;
             }
 
             /* Esconder botão e instruções na impressão */
@@ -984,32 +994,35 @@ function e($text) {
             .qr-section p,
             .qr-section h3 {
                 display: none !important;
+                visibility: hidden !important;
             }
 
             /* Nome da caixa em preto e branco */
             .qr-box-name {
-                font-size: 14pt !important;
+                font-size: 10pt !important;
                 font-weight: bold !important;
                 color: #000 !important;
                 background: white !important;
-                border: 2px solid #000 !important;
-                padding: 3mm !important;
-                margin: 0 0 3mm 0 !important;
-                width: 100%;
-                text-align: center;
-                box-sizing: border-box;
+                border: 1px solid #000 !important;
+                padding: 2mm !important;
+                margin: 0 0 2mm 0 !important;
+                width: 24mm !important;
+                text-align: center !important;
+                box-sizing: border-box !important;
+                border-radius: 0 !important;
             }
 
-            /* QR Code maior para melhor leitura */
+            /* QR Code otimizado para leitura */
             .qr-code-img {
-                max-width: 22mm !important;
-                width: 22mm !important;
-                height: 22mm !important;
+                max-width: 20mm !important;
+                width: 20mm !important;
+                height: 20mm !important;
                 margin: 0 !important;
                 border: none !important;
                 border-radius: 0 !important;
                 padding: 0 !important;
                 background: white !important;
+                display: block !important;
             }
         }
 
@@ -1235,7 +1248,16 @@ function e($text) {
             <div class="qr-box-name">#<?= e($box['box_number']) ?></div>
             <img src="qr.php?box=<?= $box['id'] ?>" alt="QR Code" class="qr-code-img">
             <br>
-            <button onclick="window.print()" class="btn btn-primary">🖨️ Imprimir QR Code</button>
+            <button onclick="printQRCode()" class="btn btn-primary">🖨️ Imprimir QR Code</button>
+            <div style="margin-top: 15px; padding: 10px; background: #fff3cd; border-radius: 6px; font-size: 13px; color: #856404;">
+                <strong>⚠️ Instruções de Impressão:</strong><br>
+                1. Clique no botão acima<br>
+                2. Na janela de impressão, configure:<br>
+                &nbsp;&nbsp;&nbsp;• Tamanho: Personalizado (26.7mm x 120mm)<br>
+                &nbsp;&nbsp;&nbsp;• Margens: Nenhuma<br>
+                &nbsp;&nbsp;&nbsp;• Orientação: Retrato<br>
+                3. Se não conseguir configurar o tamanho exato, use o menor disponível e corte o papel
+            </div>
         </div>
 
         <!-- ITENS -->
@@ -1385,6 +1407,25 @@ function openAddItemModal(boxId) {
 
 function closeModal(modalId) {
     document.getElementById(modalId).classList.remove('active');
+}
+
+// ========================================
+// FUNÇÃO DE IMPRESSÃO
+// ========================================
+
+function printQRCode() {
+    // Tenta abrir a janela de impressão
+    window.print();
+
+    // Mostra dica adicional após abrir a janela
+    setTimeout(function() {
+        alert('LEMBRE-SE:\n\n' +
+              '1. Configure o tamanho do papel como 26.7mm x 120mm\n' +
+              '2. Defina as margens como "Nenhuma" ou "0"\n' +
+              '3. Se seu navegador não permitir tamanho personalizado,\n' +
+              '   escolha o menor tamanho disponível e corte o papel\n\n' +
+              'Para melhores resultados, use Google Chrome ou Microsoft Edge.');
+    }, 500);
 }
 
 // Fechar modal ao clicar fora

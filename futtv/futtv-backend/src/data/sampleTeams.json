@@ -1,12 +1,12 @@
 {
   "teams": [
-    { "id": 1, "name": "Flamengo", "shortName": "Flamengo", "tla": "FLA", "crest": null },
-    { "id": 2, "name": "Palmeiras", "shortName": "Palmeiras", "tla": "PAL", "crest": null },
-    { "id": 3, "name": "Corinthians", "shortName": "Corinthians", "tla": "COR", "crest": null },
-    { "id": 4, "name": "São Paulo", "shortName": "São Paulo", "tla": "SAO", "crest": null },
-    { "id": 5, "name": "Atlético Mineiro", "shortName": "Atlético-MG", "tla": "CAM", "crest": null },
-    { "id": 6, "name": "Cruzeiro", "shortName": "Cruzeiro", "tla": "CRU", "crest": null },
-    { "id": 7, "name": "Internacional", "shortName": "Internacional", "tla": "INT", "crest": null },
-    { "id": 8, "name": "Grêmio", "shortName": "Grêmio", "tla": "GRE", "crest": null }
+    { "id": 1, "name": "Flamengo", "shortName": "Flamengo", "tla": "FLA", "crest": "/escudos/flamengo.svg" },
+    { "id": 2, "name": "Palmeiras", "shortName": "Palmeiras", "tla": "PAL", "crest": "/escudos/palmeiras.svg" },
+    { "id": 3, "name": "Corinthians", "shortName": "Corinthians", "tla": "COR", "crest": "/escudos/corinthians.svg" },
+    { "id": 4, "name": "São Paulo", "shortName": "São Paulo", "tla": "SAO", "crest": "/escudos/sao-paulo.svg" },
+    { "id": 5, "name": "Atlético Mineiro", "shortName": "Atlético-MG", "tla": "CAM", "crest": "/escudos/atletico-mg.svg" },
+    { "id": 6, "name": "Cruzeiro", "shortName": "Cruzeiro", "tla": "CRU", "crest": "/escudos/cruzeiro.svg" },
+    { "id": 7, "name": "Internacional", "shortName": "Internacional", "tla": "INT", "crest": "/escudos/internacional.svg" },
+    { "id": 8, "name": "Grêmio", "shortName": "Grêmio", "tla": "GRE", "crest": "/escudos/gremio.svg" }
   ]
 }

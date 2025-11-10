@@ -19,6 +19,17 @@
   color: var(--text-secondary);
 }
 
+.dia-section {
+  margin-bottom: 3rem;
+}
+
+.dia-titulo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+}
+
 .jogos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -103,6 +114,10 @@
   
   .page-subtitle {
     font-size: 1rem;
+  }
+
+  .dia-titulo {
+    font-size: 1.25rem;
   }
   
   .jogos-grid {

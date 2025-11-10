@@ -29,6 +29,22 @@
   text-transform: uppercase;
 }
 
+.jogo-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hora-pill {
+  background: rgba(0, 168, 89, 0.15);
+  color: var(--primary-color);
+  padding: 0.35rem 0.9rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+}
+
 .jogo-status {
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
@@ -116,28 +132,6 @@
   margin: 0.25rem 0;
 }
 
-.jogo-info {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  padding: 1rem;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-}
-
-.info-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-}
-
-.info-icon {
-  font-size: 1.1rem;
-}
-
 .jogo-transmissao {
   padding-top: 1rem;
   border-top: 1px solid var(--border-color);
@@ -151,26 +145,35 @@
   margin-bottom: 0.75rem;
 }
 
-.transmissao-info {
+.transmissao-tags {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-bottom: 0.75rem;
 }
 
-.emissora-logo {
-  height: 30px;
-  object-fit: contain;
-}
-
-.emissora-nome {
-  font-weight: 600;
+.transmissao-tag {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--text-primary);
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
-.emissora-tipo {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
+.transmissao-tag.with-logo {
+  padding-right: 1rem;
+}
+
+.emissora-logo {
+  height: 18px;
+  width: auto;
+  object-fit: contain;
 }
 
 .btn-assistir {
@@ -214,9 +217,8 @@
     font-size: 1rem;
     padding: 0.25rem 0.75rem;
   }
-  
-  .jogo-info {
-    flex-direction: column;
-    gap: 0.5rem;
+
+  .hora-pill {
+    font-size: 0.9rem;
   }
 }

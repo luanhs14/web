@@ -3,7 +3,7 @@
 API REST gratuita para o site FutTV - onde assistir jogos do Brasileirão Série A.
 
 ## ✅ O que foi configurado
-- Integração com a API gratuita [Football-Data.org](https://www.football-data.org/) (com fallback automático usando dados de exemplo)
+- Integração com a API pública do Cartola FC para tabela real (fallback automático usando dados de exemplo caso a API esteja indisponível ou rate limitada)
 - Cache dos jogos em PostgreSQL
 - Seeds automáticos de emissoras populares
 - Cron jobs para sincronização periódica
@@ -27,7 +27,7 @@ Principais variáveis:
 - `FOOTBALL_DATA_API_TOKEN` → chave gratuita obtida na Football-Data.org (opcional, porém recomendada)
 - Credenciais do PostgreSQL (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`)
 
-> 💡 Sem token a API utiliza dados fictícios atuais para manter o projeto funcional.
+> 💡 Sem token a API usa os dados públicos do Cartola FC; se o serviço estiver indisponível, caímos no fallback local para manter o site no ar.
 
 ### 3. Banco de dados gratuito
 Você pode usar um PostgreSQL local (Docker) sem custo:
@@ -54,7 +54,7 @@ A API ficará disponível em `http://localhost:3333` (ou na porta configurada).
 
 ## 📡 Endpoints Principais
 - `GET /api/health` → status da API
-- `GET /api/jogos/proximos` → próximos jogos (48h)
+- `GET /api/jogos/proximos` → ontem, hoje, amanhã e próximos 2 dias
 - `GET /api/jogos?data=YYYY-MM-DD` → jogos por data
 - `GET /api/jogos/rodada/:rodada` → jogos por rodada (1-38)
 - `GET /api/times` → lista de times armazenados
