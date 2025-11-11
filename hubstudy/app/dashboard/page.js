@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { PlanCard } from './components/PlanCard';
 
 const emptySubject = { name: '', color: '#3D5AFE', targetHours: 4 };
 const emptyTask = { title: '', subjectId: '', dueDate: '', status: 'pending' };
@@ -16,6 +17,12 @@ export default function DashboardPage() {
   const [taskForm, setTaskForm] = useState(emptyTask);
   const [examForm, setExamForm] = useState(emptyExam);
   const [user, setUser] = useState(null);
+  const [planModalOpen, setPlanModalOpen] = useState(false);
+  const [planOptions, setPlanOptions] = useState([]);
+  const [planOptionsLoading, setPlanOptionsLoading] = useState(false);
+  const [planModalError, setPlanModalError] = useState('');
+  const [selectedPlanId, setSelectedPlanId] = useState(null);
+  const [planActionId, setPlanActionId] = useState(null);
 
   const refresh = async () => {
     setLoading(true);
@@ -51,6 +58,41 @@ export default function DashboardPage() {
     refresh();
   }, []);
 
+  useEffect(() => {
+    if (data?.plan?.plan_id) {
+      setSelectedPlanId(data.plan.plan_id);
+    }
+  }, [data?.plan?.plan_id]);
+
+  useEffect(() => {
+    if (!planModalOpen) return;
+    let cancelled = false;
+    const loadPlans = async () => {
+      setPlanOptionsLoading(true);
+      setPlanModalError('');
+      try {
+        const response = await fetch('/api/plans');
+        if (!response.ok) throw new Error('Não foi possível carregar os planos.');
+        const payload = await response.json();
+        if (!cancelled) {
+          setPlanOptions(payload.plans ?? []);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setPlanModalError(err.message);
+        }
+      } finally {
+        if (!cancelled) {
+          setPlanOptionsLoading(false);
+        }
+      }
+    };
+    loadPlans();
+    return () => {
+      cancelled = true;
+    };
+  }, [planModalOpen]);
+
   const handleSubmit = async (event, endpoint, body, reset) => {
     event.preventDefault();
     try {
@@ -84,6 +126,34 @@ export default function DashboardPage() {
     refresh();
   };
 
+  const handlePlanChange = async (planId) => {
+    if (!planId || planActionId) return;
+    setPlanActionId(planId);
+    setPlanModalError('');
+    setSelectedPlanId(planId);
+    try {
+      const response = await fetch('/api/plans/change', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ planId }),
+      });
+      const payload = await response.json();
+      if (!response.ok) {
+        throw new Error(payload.error ?? 'Erro ao trocar de plano.');
+      }
+      if (payload.redirectUrl) {
+        window.location.href = payload.redirectUrl;
+        return;
+      }
+      setPlanModalOpen(false);
+      refresh();
+    } catch (err) {
+      setPlanModalError(err.message);
+    } finally {
+      setPlanActionId(null);
+    }
+  };
+
   const upcomingItems = useMemo(() => {
     const map = {};
     data.tasks?.forEach((task) => {
@@ -99,8 +169,29 @@ export default function DashboardPage() {
     return Object.entries(map).slice(0, 6);
   }, [data]);
 
+  const planInfo = data?.plan ?? {};
+  const statusLabels = {
+    active: 'Ativo',
+    pending: 'Pendente',
+    canceled: 'Cancelado',
+    expired: 'Expirado',
+    trial: 'Teste',
+    free: 'Gratuito',
+  };
+  const planStatusKey = (planInfo?.plan_status ?? user?.plan_status ?? '').toLowerCase();
+  const planStatusLabel = statusLabels[planStatusKey] ?? '—';
+  const planPriceValue = Number(planInfo?.price ?? 0);
+  const planCycle = planInfo?.billing_cycle === 'yearly' ? '/ano' : planInfo?.billing_cycle === 'monthly' ? '/mês' : '';
+  const planPriceLabel = planPriceValue
+    ? `R$ ${planPriceValue.toFixed(2).replace('.', ',')} ${planCycle}`
+    : 'Gratuito';
+  const planExpiresLabel = planInfo?.expires_at
+    ? new Date(planInfo.expires_at).toLocaleDateString('pt-BR')
+    : 'Sem validade';
+
   return (
-    <section className="container-shell space-y-10 py-12">
+    <>
+      <section className="container-shell space-y-10 py-12">
       <header>
         <p className="text-xs uppercase tracking-[0.4em] text-secondary">Seu hub</p>
         <h1 className="mt-4 text-3xl font-heading font-semibold text-white">Dashboard inteligente.</h1>
@@ -122,6 +213,34 @@ export default function DashboardPage() {
         </div>
       </header>
       {error && <p className="rounded-2xl border border-secondary/30 bg-secondary/10 px-4 py-3 text-sm text-secondary">{error}</p>}
+      <section className="rounded-4xl border border-white/10 bg-white/5 p-6 text-white">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-fog/60">Seu plano</p>
+            <h2 className="mt-2 text-2xl font-heading font-semibold">{planInfo?.name ?? 'Plano Free'}</h2>
+            <p className="text-sm text-fog/70">Status: {planStatusLabel}</p>
+          </div>
+          <div className="text-right">
+            <p className="text-sm text-fog/60">Investimento</p>
+            <p className="text-xl font-heading font-semibold">{planPriceLabel}</p>
+            <p className="text-xs text-fog/60">Expira em: {planExpiresLabel}</p>
+          </div>
+        </div>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <button
+            onClick={() => setPlanModalOpen(true)}
+            className="rounded-full border border-secondary/40 px-4 py-2 text-xs text-secondary hover:border-secondary"
+          >
+            Trocar plano
+          </button>
+          <button
+            onClick={() => router.push('/dashboard/plans')}
+            className="rounded-full border border-white/20 px-4 py-2 text-xs text-white hover:border-white/40"
+          >
+            Ver detalhes
+          </button>
+        </div>
+      </section>
       <div className="grid gap-6 md:grid-cols-3">
         {['totalSubjects', 'pendingTasks', 'upcomingExams'].map((key) => (
           <div key={key} className="rounded-3xl border border-white/10 bg-gradient-to-br from-primary/20 via-secondary/10 to-ink p-6 text-white shadow-card">
@@ -314,5 +433,43 @@ export default function DashboardPage() {
         </article>
       </div>
     </section>
+      {planModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
+          <div className="max-w-4xl w-full rounded-3xl border border-white/10 bg-ink p-8 text-white">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-fog/60">Planos</p>
+                <h3 className="mt-2 text-2xl font-heading font-semibold">Escolha o plano ideal</h3>
+              </div>
+              <button onClick={() => setPlanModalOpen(false)} className="text-sm text-fog/60 hover:text-white">
+                Fechar
+              </button>
+            </div>
+            {planModalError && (
+              <p className="mt-4 rounded-2xl border border-secondary/40 bg-secondary/10 px-4 py-3 text-sm text-secondary">
+                {planModalError}
+              </p>
+            )}
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              {planOptionsLoading && <p className="text-sm text-fog/60">Carregando planos...</p>}
+              {!planOptionsLoading && planOptions.length === 0 && (
+                <p className="text-sm text-fog/60">Nenhum plano disponível.</p>
+              )}
+              {!planOptionsLoading &&
+                planOptions.map((plan) => (
+                  <PlanCard
+                    key={plan.id}
+                    plan={plan}
+                    selected={selectedPlanId === plan.id}
+                    onSelect={handlePlanChange}
+                    actionLabel={planActionId === plan.id ? 'Atualizando...' : selectedPlanId === plan.id ? 'Plano atual' : 'Selecionar'}
+                    disabled={Boolean(planActionId)}
+                  />
+                ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import db from '../../../lib/db';
-import { getUserFromCookies } from '../../../lib/auth';
+import db from '@/lib/db';
+import { getUserFromCookies } from '@/lib/auth';
+import { getUserPlan } from '@/lib/plans';
 
 export async function GET() {
   const user = getUserFromCookies();
@@ -22,6 +23,8 @@ export async function GET() {
     .prepare('SELECT COUNT(*) as total FROM exams WHERE user_id = ? AND exam_date >= ? AND exam_date <= ?')
     .get(user.id, todayISO, weekAheadISO).total;
 
+  const plan = getUserPlan(user.id);
+
   return NextResponse.json({
     subjects,
     tasks,
@@ -31,5 +34,6 @@ export async function GET() {
       pendingTasks,
       upcomingExams: upcomingWeek,
     },
+    plan,
   });
 }

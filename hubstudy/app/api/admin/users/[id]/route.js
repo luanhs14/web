@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import db from '@/lib/db';
 import { requireAdmin } from '@/lib/auth';
+import { assignPlan } from '@/lib/plans';
 
 export async function PATCH(request, { params }) {
   const admin = requireAdmin();
@@ -14,7 +15,7 @@ export async function PATCH(request, { params }) {
 
   try {
     const body = await request.json();
-    const { name, email, role, password } = body;
+    const { name, email, role, password, planId, planStatus } = body;
 
     const user = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
 
@@ -22,7 +23,6 @@ export async function PATCH(request, { params }) {
       return NextResponse.json({ error: 'Usuário não encontrado' }, { status: 404 });
     }
 
-    // Construir query dinâmica baseada nos campos fornecidos
     const updates = [];
     const values = [];
 
@@ -47,15 +47,34 @@ export async function PATCH(request, { params }) {
       values.push(passwordHash);
     }
 
-    if (updates.length === 0) {
+    if (updates.length === 0 && planId === undefined && planStatus === undefined) {
       return NextResponse.json({ error: 'Nenhum campo para atualizar' }, { status: 400 });
     }
 
-    values.push(id);
+    if (updates.length > 0) {
+      values.push(id);
+      db.prepare(`UPDATE users SET ${updates.join(', ')} WHERE id = ?`).run(...values);
+    }
 
-    db.prepare(`UPDATE users SET ${updates.join(', ')} WHERE id = ?`).run(...values);
+    if (planId !== undefined || planStatus !== undefined) {
+      const targetPlanId = planId !== undefined ? Number(planId) : user.plan_id;
+      if (planId !== undefined && Number.isNaN(targetPlanId)) {
+        return NextResponse.json({ error: 'Plano inválido.' }, { status: 400 });
+      }
+      if (!targetPlanId) {
+        return NextResponse.json({ error: 'Informe um plano válido para atualizar.' }, { status: 400 });
+      }
+      try {
+        assignPlan(user.id, targetPlanId, planStatus ?? user.plan_status ?? 'active');
+      } catch (planError) {
+        console.error('ADMIN_UPDATE_ASSIGN_PLAN_ERROR', planError);
+        return NextResponse.json({ error: 'Não foi possível atualizar o plano do usuário.' }, { status: 500 });
+      }
+    }
 
-    const updatedUser = db.prepare('SELECT id, name, email, role, created_at FROM users WHERE id = ?').get(id);
+    const updatedUser = db
+      .prepare('SELECT id, name, email, role, plan_id, plan_status, created_at FROM users WHERE id = ?')
+      .get(id);
 
     return NextResponse.json({ user: updatedUser });
   } catch (error) {

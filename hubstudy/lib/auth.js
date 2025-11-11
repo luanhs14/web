@@ -1,14 +1,9 @@
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import db from './db';
+import { getAuthSecret } from './auth-secret';
 
-const AUTH_SECRET = (() => {
-  const secret = process.env.AUTH_SECRET;
-  if (!secret) {
-    throw new Error('AUTH_SECRET environment variable is required to issue or validate tokens');
-  }
-  return secret;
-})();
+const AUTH_SECRET = getAuthSecret();
 const TOKEN_NAME = 'hubstudy_token';
 
 export function signToken(payload) {
@@ -42,7 +37,25 @@ export function getUserFromCookies() {
   if (!token) return null;
   const decoded = verifyToken(token);
   if (!decoded) return null;
-  const user = db.prepare('SELECT id, name, email, role, created_at FROM users WHERE id = ?').get(decoded.id);
+  const user = db
+    .prepare(
+      `SELECT
+        u.id,
+        u.name,
+        u.email,
+        u.role,
+        u.goal,
+        u.plan_id,
+        u.plan_status,
+        u.created_at,
+        p.name AS plan_name,
+        p.price AS plan_price,
+        p.billing_cycle AS plan_billing_cycle
+      FROM users u
+      LEFT JOIN plans p ON p.id = u.plan_id
+      WHERE u.id = ?`
+    )
+    .get(decoded.id);
   return user ?? null;
 }
 

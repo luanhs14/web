@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { PlanCard } from '../dashboard/components/PlanCard';
 
 const benefits = [
   'Planner inteligente ilimitado',
@@ -19,6 +20,25 @@ export default function SignupPage() {
     password: '',
   });
   const [status, setStatus] = useState({ loading: false, error: '' });
+  const [plans, setPlans] = useState([]);
+  const [selectedPlanId, setSelectedPlanId] = useState(null);
+
+  useEffect(() => {
+    const loadPlans = async () => {
+      try {
+        const response = await fetch('/api/plans');
+        if (!response.ok) throw new Error('Não foi possível carregar os planos.');
+        const data = await response.json();
+        setPlans(data.plans ?? []);
+        if (data.plans?.length) {
+          setSelectedPlanId((prev) => prev ?? data.plans[0].id);
+        }
+      } catch (error) {
+        console.error('SIGNUP_PLAN_LOAD_ERROR', error);
+      }
+    };
+    loadPlans();
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,7 +47,13 @@ export default function SignupPage() {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: form.name, email: form.email, password: form.password, goal: form.goal }),
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          password: form.password,
+          goal: form.goal,
+          planId: selectedPlanId,
+        }),
       });
       if (!response.ok) {
         const payload = await response.json();
@@ -136,10 +162,31 @@ export default function SignupPage() {
               />
               <p className="mt-2 text-xs text-fog/50">Mínimo de 8 caracteres com letras e números.</p>
             </div>
+            <div>
+              <label className="text-sm font-semibold text-fog/80">Escolha seu plano</label>
+              <p className="mt-1 text-xs text-fog/60">Você pode mudar a qualquer momento no dashboard.</p>
+              <div className="mt-4 grid gap-4 md:grid-cols-2">
+                {plans.length === 0 && (
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-fog/70">
+                    Planos indisponíveis no momento.
+                  </div>
+                )}
+                {plans.map((plan) => (
+                  <PlanCard
+                    key={plan.id}
+                    plan={plan}
+                    selected={selectedPlanId === plan.id}
+                    onSelect={setSelectedPlanId}
+                    actionLabel={selectedPlanId === plan.id ? 'Selecionado' : 'Escolher plano'}
+                    disabled={status.loading}
+                  />
+                ))}
+              </div>
+            </div>
             {status.error && <p className="text-sm text-secondary">{status.error}</p>}
             <button
               type="submit"
-              disabled={status.loading}
+              disabled={status.loading || !selectedPlanId}
               className="w-full rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-glow disabled:opacity-50"
             >
               Criar conta gratuita

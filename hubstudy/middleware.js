@@ -1,13 +1,8 @@
 import { NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
+import { getAuthSecret } from './lib/auth-secret';
 
-const AUTH_SECRET = (() => {
-  const secret = process.env.AUTH_SECRET;
-  if (!secret) {
-    throw new Error('AUTH_SECRET environment variable is required to run protected routes');
-  }
-  return secret;
-})();
+const AUTH_SECRET = getAuthSecret();
 const TOKEN_NAME = 'hubstudy_token';
 
 async function verifyToken(token) {
