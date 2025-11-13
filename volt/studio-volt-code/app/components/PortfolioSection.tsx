@@ -2,53 +2,63 @@
 
 import { motion } from "framer-motion";
 import { Sparkles, Zap, Smartphone, ExternalLink } from "lucide-react";
+import { getWhatsAppLink } from "@/lib/env";
+import { useState } from "react";
+import { projects as defaultProjects } from "@/data";
+import type { PortfolioSectionProps, ProjectImageProps } from "./types";
 
-const projetos = [
-  {
-    title: "E-commerce Moderno",
-    categoria: "Site Institucional",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80",
-    features: ["Design moderno", "Carregamento <2s", "Mobile-first"],
-    color: "from-purple-600 to-blue-600",
-  },
-  {
-    title: "Landing Page SaaS",
-    categoria: "Landing Page",
-    image: "https://images.unsplash.com/photo-1517134191118-9d595e4c8c2b?w=800&auto=format&fit=crop&q=80",
-    features: ["Alta conversão", "Animações suaves", "SEO otimizado"],
-    color: "from-yellow-600 to-orange-600",
-  },
-  {
-    title: "Dashboard Analytics",
-    categoria: "Web App",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80",
-    features: ["Tempo real", "Gráficos interativos", "API integrada"],
-    color: "from-green-600 to-teal-600",
-  },
-  {
-    title: "Portfólio Criativo",
-    categoria: "Site Institucional",
-    image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&auto=format&fit=crop&q=80",
-    features: ["Design único", "Animações 3D", "Performance otimizada"],
-    color: "from-pink-600 to-purple-600",
-  },
-  {
-    title: "App de Reservas",
-    categoria: "Web App",
-    image: "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?w=800&auto=format&fit=crop&q=80",
-    features: ["Agenda integrada", "Pagamentos online", "Notificações"],
-    color: "from-blue-600 to-cyan-600",
-  },
-  {
-    title: "Site Restaurante",
-    categoria: "Landing Page",
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=80",
-    features: ["Menu digital", "Pedidos online", "Responsivo"],
-    color: "from-red-600 to-orange-600",
-  },
-];
+// Componente para imagem com tratamento de erro
+function ProjectImage({ src, alt, color }: ProjectImageProps) {
+  const [imageError, setImageError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-export default function PortfolioSection() {
+  return (
+    <>
+      {imageError ? (
+        // Fallback quando a imagem falha ao carregar
+        <div className={`absolute inset-0 bg-gradient-to-br ${color} flex items-center justify-center`}>
+          <Sparkles className="w-16 h-16 text-white/50" />
+        </div>
+      ) : (
+        <>
+          {/* Loading state */}
+          {isLoading && (
+            <div className={`absolute inset-0 bg-gradient-to-br ${color} animate-pulse`} />
+          )}
+
+          {/* Imagem real */}
+          <div
+            className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+            style={{
+              backgroundImage: `url(${src})`,
+              opacity: isLoading ? 0 : 1,
+              transition: 'opacity 0.3s ease-in-out'
+            }}
+            onError={() => setImageError(true)}
+            onLoad={() => setIsLoading(false)}
+          />
+
+          {/* Fallback via Image tag oculta para detectar erro */}
+          <img
+            src={src}
+            alt={alt}
+            onError={() => setImageError(true)}
+            onLoad={() => setIsLoading(false)}
+            className="hidden"
+          />
+        </>
+      )}
+    </>
+  );
+}
+
+export default function PortfolioSection({
+  title = "Projetos Recentes",
+  subtitle = "Trabalhos que fazem a diferença",
+  projects = defaultProjects,
+  showCTA = true,
+  ctaText = "Quero um Projeto Assim",
+}: PortfolioSectionProps = {}) {
   return (
     <section id="portfolio" className="relative py-20 sm:py-28 bg-gradient-to-br from-purple-950/40 via-black to-black overflow-hidden">
       {/* Background effects */}
@@ -63,15 +73,13 @@ export default function PortfolioSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-white mb-4 flex items-center justify-center gap-3">
-            Projetos Recentes <span className="text-primary-yellow">🎨</span>
+            {title} <span className="text-primary-yellow">🎨</span>
           </h2>
-          <p className="text-lg text-gray-400">
-            Trabalhos que fazem a diferença
-          </p>
+          <p className="text-lg text-gray-400">{subtitle}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projetos.map((projeto, index) => (
+          {projects.map((projeto, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
@@ -82,9 +90,10 @@ export default function PortfolioSection() {
             >
               {/* Image */}
               <div className="relative h-64 overflow-hidden">
-                <div
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                  style={{ backgroundImage: `url(${projeto.image})` }}
+                <ProjectImage
+                  src={projeto.image}
+                  alt={projeto.title}
+                  color={projeto.color}
                 />
 
                 {/* Gradient overlay */}
@@ -141,7 +150,8 @@ export default function PortfolioSection() {
         </div>
 
         {/* CTA */}
-        <motion.div
+        {showCTA && (
+          <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -149,15 +159,16 @@ export default function PortfolioSection() {
           className="text-center mt-16"
         >
           <a
-            href="https://wa.me/5521980191525?text=Olá!%20Vi%20o%20portfólio%20e%20quero%20um%20projeto%20assim!"
+            href={getWhatsAppLink("Olá! Vi o portfólio e quero um projeto assim!")}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-10 py-5 bg-primary-yellow text-black font-bold text-lg rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(255,217,61,0.6)]"
           >
-            <span>Quero um Projeto Assim</span>
+            <span>{ctaText}</span>
             <Zap className="w-5 h-5" />
           </a>
         </motion.div>
+        )}
       </div>
     </section>
   );

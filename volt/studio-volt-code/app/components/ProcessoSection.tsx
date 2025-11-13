@@ -1,52 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Search, Lightbulb, Palette, Code, Rocket } from "lucide-react";
+import { processSteps as defaultSteps } from "@/data";
+import type { ProcessoSectionProps } from "./types";
 
-const etapas = [
-  {
-    numero: 1,
-    icon: Search,
-    emoji: "1️⃣",
-    titulo: "DISCOVERY",
-    tempo: "Briefing completo (30-60 min)",
-    descricao: "Entendemos seu negócio e objetivos",
-  },
-  {
-    numero: 2,
-    icon: Lightbulb,
-    emoji: "2️⃣",
-    titulo: "ESTRATÉGIA",
-    tempo: "Definimos estrutura e funcionalidades",
-    descricao: "Aprovação de escopo e cronograma",
-  },
-  {
-    numero: 3,
-    icon: Palette,
-    emoji: "3️⃣",
-    titulo: "DESIGN",
-    tempo: "Criamos wireframe e layout",
-    descricao: "Você aprova antes de codarmos",
-  },
-  {
-    numero: 4,
-    icon: Code,
-    emoji: "4️⃣",
-    titulo: "DESENVOLVIMENTO",
-    tempo: "Código limpo com auxílio de IA",
-    descricao: "Updates diários via WhatsApp",
-  },
-  {
-    numero: 5,
-    icon: Rocket,
-    emoji: "5️⃣",
-    titulo: "ENTREGA",
-    tempo: "Deploy, testes, treinamento",
-    descricao: "Site no ar + você com autonomia",
-  },
-];
-
-export default function ProcessoSection() {
+export default function ProcessoSection({
+  title = "Nosso Processo",
+  subtitle = "Simples, transparente e eficiente",
+  steps = defaultSteps,
+  bottomText = "Do briefing ao site no ar, você acompanha cada etapa",
+}: ProcessoSectionProps = {}) {
+  const etapas = steps;
   return (
     <section id="processo" className="relative py-20 sm:py-28 bg-black overflow-hidden">
       {/* Background effects */}
@@ -61,11 +25,9 @@ export default function ProcessoSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-white mb-4">
-            Nosso Processo <span className="text-primary-yellow">⚡</span>
+            {title} <span className="text-primary-yellow">⚡</span>
           </h2>
-          <p className="text-lg text-gray-400">
-            Simples, transparente e eficiente
-          </p>
+          <p className="text-lg text-gray-400">{subtitle}</p>
         </motion.div>
 
         {/* Desktop Timeline */}
@@ -168,9 +130,7 @@ export default function ProcessoSection() {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="text-center mt-16 space-y-4"
         >
-          <p className="text-gray-400 text-lg">
-            Do briefing ao site no ar, você acompanha cada etapa
-          </p>
+          <p className="text-gray-400 text-lg">{bottomText}</p>
           <p className="text-primary-yellow font-semibold">
             Transparência total, sem surpresas
           </p>

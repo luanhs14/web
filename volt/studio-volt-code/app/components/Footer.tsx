@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Zap, Mail, Phone, Instagram, Github, Linkedin } from "lucide-react";
+import { getWhatsAppLink, env } from "@/lib/env";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -116,29 +117,29 @@ export default function Footer() {
             <ul className="space-y-3">
               <li>
                 <a
-                  href="mailto:studiovoltcode@gmail.com"
+                  href={`mailto:${env.contact.email}`}
                   className="text-gray-400 hover:text-primary-yellow transition-colors duration-300 flex items-center gap-3 group"
                 >
                   <Mail className="w-5 h-5 flex-shrink-0 group-hover:scale-110 transition-transform" />
-                  <span className="break-all">studiovoltcode@gmail.com</span>
+                  <span className="break-all">{env.contact.email}</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="https://wa.me/5521980191525"
+                  href={env.whatsapp.link}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-primary-yellow transition-colors duration-300 flex items-center gap-3 group"
                 >
                   <Phone className="w-5 h-5 flex-shrink-0 group-hover:scale-110 transition-transform" />
-                  <span>+55 (21) 98019-1525</span>
+                  <span>{env.contact.phoneDisplay}</span>
                 </a>
               </li>
             </ul>
 
             {/* WhatsApp quick CTA */}
             <a
-              href="https://wa.me/5521980191525?text=Olá!%20Vim%20pelo%20site"
+              href={getWhatsAppLink("Olá! Vim pelo site")}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 mt-4 px-6 py-3 bg-primary-purple/20 border border-primary-purple text-primary-purple rounded-lg font-semibold transition-all duration-300 hover:bg-primary-purple hover:text-white hover:shadow-[0_0_30px_rgba(107,70,193,0.4)]"

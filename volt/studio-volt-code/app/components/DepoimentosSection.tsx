@@ -2,33 +2,44 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Star, Quote } from "lucide-react";
+import { Star, Quote, User } from "lucide-react";
+import { getWhatsAppLink } from "@/lib/env";
+import { useState } from "react";
+import { testimonials as defaultTestimonials } from "@/data";
+import type { DepoimentosSectionProps, AvatarWithFallbackProps } from "./types";
 
-const depoimentos = [
-  {
-    texto: "O Studio Volt Code transformou minha ideia em realidade! Site ficou incrível, entrega super rápida e o atendimento foi impecável. Recomendo demais!",
-    nome: "Maria Silva",
-    empresa: "Boutique Fashion | São Paulo",
-    avatar: "https://ui-avatars.com/api/?name=Maria+Silva&background=6B46C1&color=fff&size=128",
-    rating: 5,
-  },
-  {
-    texto: "Precisava de um site urgente para o lançamento do meu produto. Em 5 dias estava no ar, profissional e funcionando perfeitamente. Superou minhas expectativas!",
-    nome: "Carlos Mendes",
-    empresa: "Startup Tech | Rio de Janeiro",
-    avatar: "https://ui-avatars.com/api/?name=Carlos+Mendes&background=FFD93D&color=000&size=128",
-    rating: 5,
-  },
-  {
-    texto: "Melhor investimento que fiz para meu negócio. O site trouxe mais credibilidade e já aumentou minhas vendas. Equipe muito profissional!",
-    nome: "Ana Rodrigues",
-    empresa: "Consultoria Online | Belo Horizonte",
-    avatar: "https://ui-avatars.com/api/?name=Ana+Rodrigues&background=4169E1&color=fff&size=128",
-    rating: 5,
-  },
-];
+// Componente para Avatar com tratamento de erro
+function AvatarWithFallback({ src, alt, size = 56 }: AvatarWithFallbackProps) {
+  const [hasError, setHasError] = useState(false);
 
-export default function DepoimentosSection() {
+  if (hasError) {
+    // Fallback quando a imagem falhar
+    return (
+      <div className="w-14 h-14 rounded-full border-2 border-primary-purple bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center">
+        <User className="w-7 h-7 text-white" />
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={size}
+      height={size}
+      className="w-14 h-14 rounded-full border-2 border-primary-purple object-cover"
+      onError={() => setHasError(true)}
+    />
+  );
+}
+
+export default function DepoimentosSection({
+  title = "O Que Nossos Clientes Dizem",
+  subtitle = "Satisfação do cliente é nossa prioridade",
+  testimonials = defaultTestimonials,
+  showCTA = true,
+  ctaText = "Solicitar Orçamento Agora",
+}: DepoimentosSectionProps = {}) {
   return (
     <section className="relative py-20 sm:py-28 bg-gray-dark overflow-hidden">
       {/* Background effects */}
@@ -43,15 +54,13 @@ export default function DepoimentosSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-white mb-4">
-            O Que Nossos Clientes Dizem <span className="text-primary-yellow">💬</span>
+            {title} <span className="text-primary-yellow">💬</span>
           </h2>
-          <p className="text-lg text-gray-400">
-            Satisfação do cliente é nossa prioridade
-          </p>
+          <p className="text-lg text-gray-400">{subtitle}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {depoimentos.map((depoimento, index) => (
+          {testimonials.map((depoimento, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
@@ -86,12 +95,10 @@ export default function DepoimentosSection() {
 
                 {/* Author */}
                 <div className="flex items-center gap-4">
-                  <Image
+                  <AvatarWithFallback
                     src={depoimento.avatar}
                     alt={depoimento.nome}
-                    width={56}
-                    height={56}
-                    className="w-14 h-14 rounded-full border-2 border-primary-purple object-cover"
+                    size={56}
                   />
                   <div className="flex-1 text-left">
                     <p className="font-bold text-gray-900">
@@ -111,7 +118,8 @@ export default function DepoimentosSection() {
         </div>
 
         {/* Call to action */}
-        <motion.div
+        {showCTA && (
+          <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -122,14 +130,15 @@ export default function DepoimentosSection() {
             Seja o próximo cliente satisfeito!
           </p>
           <a
-            href="https://wa.me/5521980191525?text=Olá!%20Vi%20os%20depoimentos%20e%20quero%20trabalhar%20com%20vocês!"
+            href={getWhatsAppLink("Olá! Vi os depoimentos e quero trabalhar com vocês!")}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 bg-primary-yellow text-black font-bold text-lg rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(255,217,61,0.6)]"
           >
-            Solicitar Orçamento Agora
+            {ctaText}
           </a>
         </motion.div>
+        )}
       </div>
     </section>
   );

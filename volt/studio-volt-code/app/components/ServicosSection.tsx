@@ -1,63 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Target, Globe, Settings, Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
+import { getWhatsAppLink } from "@/lib/env";
+import { services as defaultServices } from "@/data";
+import type { ServicosSectionProps } from "./types";
 
-const servicos = [
-  {
-    icon: Target,
-    emoji: "🎯",
-    title: "LANDING PAGE",
-    subtitle: "Página única focada em conversão",
-    idealPara: "campanhas, lançamentos, captura de leads",
-    features: [
-      "Design personalizado",
-      "100% responsivo",
-      "Otimizado para conversão",
-      "Integração WhatsApp",
-    ],
-    preco: "A partir de R$ 800",
-    prazo: "Entrega: 3-5 dias úteis",
-    whatsappText: "Olá!%20Tenho%20interesse%20em%20uma%20Landing%20Page.%20Podemos%20conversar?",
-    highlight: false,
-  },
-  {
-    icon: Globe,
-    emoji: "🌐",
-    title: "SITE INSTITUCIONAL",
-    subtitle: "5-8 páginas profissionais",
-    idealPara: "apresentar empresa, serviços, portfólio",
-    features: [
-      "Design moderno",
-      "SEO otimizado",
-      "Formulários de contato",
-      "Google Analytics",
-    ],
-    preco: "A partir de R$ 1.800",
-    prazo: "Entrega: 7-10 dias úteis",
-    whatsappText: "Olá!%20Preciso%20de%20um%20Site%20Institucional%20completo.%20Vamos%20conversar?",
-    highlight: true,
-  },
-  {
-    icon: Settings,
-    emoji: "⚙️",
-    title: "WEB APPS & SISTEMAS",
-    subtitle: "Soluções sob medida",
-    idealPara: "agendamentos, dashboards, automações",
-    features: [
-      "Funcionalidades customizadas",
-      "Integração com APIs",
-      "Banco de dados",
-      "Painel administrativo",
-    ],
-    preco: "Orçamento personalizado",
-    prazo: "Prazo: variável",
-    whatsappText: "Olá!%20Tenho%20interesse%20em%20um%20sistema%20web%20customizado.%20Podemos%20discutir%20o%20projeto?",
-    highlight: false,
-  },
-];
-
-export default function ServicosSection() {
+export default function ServicosSection({
+  title = "O Que Fazemos",
+  subtitle = "Soluções sob medida para cada necessidade",
+  services = defaultServices,
+  showCustomProjectCTA = true,
+}: ServicosSectionProps = {}) {
   return (
     <section id="servicos" className="relative py-20 sm:py-28 bg-black overflow-hidden">
       {/* Background texture */}
@@ -76,15 +30,13 @@ export default function ServicosSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-white mb-4 flex items-center justify-center gap-3">
-            O Que Fazemos <span className="text-primary-yellow">⚡</span>
+            {title} <span className="text-primary-yellow">⚡</span>
           </h2>
-          <p className="text-lg text-gray-400">
-            Soluções sob medida para cada necessidade
-          </p>
+          <p className="text-lg text-gray-400">{subtitle}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {servicos.map((servico, index) => {
+          {services.map((servico, index) => {
             return (
               <motion.div
                 key={index}
@@ -143,7 +95,7 @@ export default function ServicosSection() {
 
                     {/* CTA Button */}
                     <a
-                      href={`https://wa.me/5521980191525?text=${servico.whatsappText}`}
+                      href={getWhatsAppLink(decodeURIComponent(servico.whatsappText))}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`block w-full py-4 px-6 rounded-lg font-bold text-center transition-all duration-300 ${
@@ -165,7 +117,8 @@ export default function ServicosSection() {
         </div>
 
         {/* Bottom CTA */}
-        <motion.div
+        {showCustomProjectCTA && (
+          <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -176,7 +129,7 @@ export default function ServicosSection() {
             Não encontrou o que procura?
           </p>
           <a
-            href="https://wa.me/5521980191525?text=Olá!%20Tenho%20um%20projeto%20específico%20em%20mente.%20Podemos%20conversar?"
+            href={getWhatsAppLink("Olá! Tenho um projeto específico em mente. Podemos conversar?")}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-primary-yellow hover:text-primary-yellow/80 font-semibold transition-colors"
@@ -185,6 +138,7 @@ export default function ServicosSection() {
             <ArrowRight className="w-5 h-5" />
           </a>
         </motion.div>
+        )}
       </div>
     </section>
   );

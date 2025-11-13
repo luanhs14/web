@@ -2,9 +2,10 @@
 
 import { motion } from "framer-motion";
 import { Zap, Sparkles, Code2 } from "lucide-react";
+import { getWhatsAppLink } from "@/lib/env";
 
 export default function HeroSection() {
-  const whatsappLink = "https://wa.me/5521980191525?text=Olá!%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20orçamento";
+  const whatsappLink = getWhatsAppLink("Olá! Vim pelo site e gostaria de um orçamento");
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-black via-purple-950/20 to-black">

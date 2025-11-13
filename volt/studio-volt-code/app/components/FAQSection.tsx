@@ -3,39 +3,17 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { getWhatsAppLink } from "@/lib/env";
+import { faqs as defaultFaqs } from "@/data";
+import type { FAQSectionProps } from "./types";
 
-const faqs = [
-  {
-    pergunta: "Quanto tempo leva para fazer um site?",
-    resposta: "Landing pages: 3-5 dias úteis | Sites institucionais: 7-10 dias úteis | Sistemas customizados: 2-4 semanas. Tudo depende da complexidade e disponibilidade de conteúdo.",
-  },
-  {
-    pergunta: "Preciso ter o conteúdo pronto (textos e imagens)?",
-    resposta: "Não necessariamente! Podemos te ajudar com redação dos textos e usar bancos de imagens profissionais. Mas se você já tiver o conteúdo, acelera o processo.",
-  },
-  {
-    pergunta: "Como funciona o pagamento?",
-    resposta: "50% no início do projeto (após aprovação da proposta) e 50% na entrega final. Aceitamos PIX, transferência e cartão (via link de pagamento).",
-  },
-  {
-    pergunta: "Vocês fazem manutenção depois?",
-    resposta: "Sim! Oferecemos pacotes de manutenção mensal a partir de R$ 300. Inclui: atualizações, backup, pequenas alterações e suporte.",
-  },
-  {
-    pergunta: "O site vai funcionar no celular?",
-    resposta: "Com certeza! Todos os nossos projetos são 100% responsivos. Testamos em diversos dispositivos antes da entrega.",
-  },
-  {
-    pergunta: "Posso fazer alterações depois no site?",
-    resposta: "Sim! Fazemos treinamento para você conseguir editar conteúdos básicos. Para alterações mais técnicas, estamos sempre disponíveis.",
-  },
-  {
-    pergunta: "Usam IA pra fazer o site. Isso é confiável?",
-    resposta: "Sim! IA é nossa ferramenta para acelerar desenvolvimento, mas todas as decisões de design, arquitetura e código passam por revisão humana. Qualidade garantida!",
-  },
-];
-
-export default function FAQSection() {
+export default function FAQSection({
+  title = "Perguntas Frequentes",
+  subtitle = "Tudo o que você precisa saber",
+  faqs = defaultFaqs,
+  showCTA = true,
+  ctaText = "Fale Conosco no WhatsApp",
+}: FAQSectionProps = {}) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleFAQ = (index: number) => {
@@ -56,11 +34,9 @@ export default function FAQSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-white mb-4">
-            Perguntas Frequentes <span className="text-primary-yellow">❓</span>
+            {title} <span className="text-primary-yellow">❓</span>
           </h2>
-          <p className="text-lg text-gray-400">
-            Tudo o que você precisa saber
-          </p>
+          <p className="text-lg text-gray-400">{subtitle}</p>
         </motion.div>
 
         <div className="space-y-4">
@@ -118,7 +94,8 @@ export default function FAQSection() {
         </div>
 
         {/* Bottom CTA */}
-        <motion.div
+        {showCTA && (
+          <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -129,14 +106,15 @@ export default function FAQSection() {
             Ainda tem dúvidas?
           </p>
           <a
-            href="https://wa.me/5521980191525?text=Olá!%20Tenho%20algumas%20dúvidas%20sobre%20os%20serviços"
+            href={getWhatsAppLink("Olá! Tenho algumas dúvidas sobre os serviços")}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 border-2 border-primary-purple text-primary-purple font-bold text-lg rounded-lg transition-all duration-300 hover:bg-primary-purple hover:text-white hover:shadow-[0_0_40px_rgba(107,70,193,0.4)]"
           >
-            Fale Conosco no WhatsApp
+            {ctaText}
           </a>
         </motion.div>
+        )}
       </div>
     </section>
   );

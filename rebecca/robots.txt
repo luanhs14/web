@@ -1,0 +1,47 @@
+# robots.txt - Rebecca Henrique - Biomédica Esteta
+# Permite indexação completa do site
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://rebeccahenrique.com.br/sitemap.xml
+
+# Crawl-delay para bots (opcional - evita sobrecarga)
+Crawl-delay: 1
+
+# Bloquear arquivos desnecessários
+Disallow: /site.webmanifest
+Disallow: /*.min.html$
+Disallow: /*.min.css$
+
+# Permitir recursos importantes para renderização
+Allow: /styles.css
+Allow: /styles.min.css
+Allow: /favicon.ico
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.svg
+
+# Bots específicos
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Bloquear bots maliciosos conhecidos
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /

@@ -1,33 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Zap, Gem, DollarSign } from "lucide-react";
+import { diferenciais as defaultDiferenciais } from "@/data";
+import type { DiferenciaisSectionProps } from "./types";
 
-const diferenciais = [
-  {
-    icon: Zap,
-    title: "VELOCIDADE",
-    subtitle: "Sites prontos em dias, não meses",
-    description: "Usamos IA para acelerar o desenvolvimento",
-    color: "primary-yellow",
-  },
-  {
-    icon: Gem,
-    title: "QUALIDADE PREMIUM",
-    subtitle: "Design profissional e código limpo",
-    description: "IA ajuda, mas craft é 100% humano",
-    color: "primary-purple",
-  },
-  {
-    icon: DollarSign,
-    title: "PREÇO JUSTO",
-    subtitle: "Tecnologia permite eficiência",
-    description: "Você paga menos, recebe mais",
-    color: "blue-accent",
-  },
-];
-
-export default function DiferenciaisSection() {
+export default function DiferenciaisSection({
+  title = "Por Que Escolher o Studio Volt Code?",
+  subtitle = "Combinamos o melhor da tecnologia com expertise humana",
+  diferenciais = defaultDiferenciais,
+}: DiferenciaisSectionProps = {}) {
   return (
     <section className="relative py-20 sm:py-28 bg-gray-dark overflow-hidden">
       {/* Background pattern */}
@@ -42,12 +23,17 @@ export default function DiferenciaisSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-white mb-4">
-            Por Que Escolher o{" "}
-            <span className="text-primary-yellow">Studio Volt Code</span>?
+            {title.includes("Studio Volt Code") ? (
+              <>
+                {title.split("Studio Volt Code")[0]}
+                <span className="text-primary-yellow">Studio Volt Code</span>
+                {title.split("Studio Volt Code")[1]}
+              </>
+            ) : (
+              title
+            )}
           </h2>
-          <p className="text-lg text-gray-400">
-            Combinamos o melhor da tecnologia com expertise humana
-          </p>
+          <p className="text-lg text-gray-400">{subtitle}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

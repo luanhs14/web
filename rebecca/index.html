@@ -3,54 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Rebecca Henrique - Biomédica Esteta | Serviços de estética facial em Freguesia, Rio de Janeiro. Limpeza de pele, hidratação, peeling e drenagem.">
-    <title>Rebecca Henrique | Biomédica Esteta</title>
+
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline';
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        font-src 'self' https://fonts.gstatic.com;
+        img-src 'self' https: data:;
+        connect-src 'self' https://wa.me;
+        frame-ancestors 'none';
+        base-uri 'self';
+        form-action 'self' https://wa.me;
+        upgrade-insecure-requests;
+    ">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Rebecca Henrique - Biomédica Esteta especializada em tratamentos faciais em Freguesia, Rio de Janeiro. Limpeza de pele, hidratação facial, peeling químico e drenagem linfática facial. Agende sua consulta!">
+    <meta name="keywords" content="biomédica esteta, estética facial, Freguesia RJ, limpeza de pele, hidratação facial, peeling, drenagem linfática, tratamento facial Rio de Janeiro">
+    <meta name="author" content="Rebecca Henrique">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://rebeccahenrique.com.br/">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rebeccahenrique.com.br/">
+    <meta property="og:title" content="Rebecca Henrique | Biomédica Esteta - Freguesia RJ">
+    <meta property="og:description" content="Tratamentos estéticos faciais personalizados em Freguesia, Rio de Janeiro. Limpeza de pele, hidratação, peeling e drenagem linfática facial com técnicas baseadas em ciência.">
+    <meta property="og:image" content="https://rebeccahenrique.com.br/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Rebecca Henrique - Biomédica Esteta realizando tratamento facial">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="Rebecca Henrique - Biomédica Esteta">
+
+    <!-- Open Graph - Business Info -->
+    <meta property="business:contact_data:street_address" content="Freguesia">
+    <meta property="business:contact_data:locality" content="Rio de Janeiro">
+    <meta property="business:contact_data:region" content="RJ">
+    <meta property="business:contact_data:country_name" content="Brasil">
+    <meta property="business:contact_data:phone_number" content="+55 21 98195-0495">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://rebeccahenrique.com.br/">
+    <meta name="twitter:title" content="Rebecca Henrique | Biomédica Esteta - Freguesia RJ">
+    <meta name="twitter:description" content="Tratamentos estéticos faciais personalizados em Freguesia, Rio de Janeiro. Limpeza de pele, hidratação, peeling e drenagem linfática facial.">
+    <meta name="twitter:image" content="https://rebeccahenrique.com.br/og-image.jpg">
+    <meta name="twitter:image:alt" content="Rebecca Henrique - Biomédica Esteta">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#9F7CB3">
+
+    <title>Rebecca Henrique | Biomédica Esteta - Freguesia RJ</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" crossorigin="anonymous">
+
+    <!-- Schema.org Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "LocalBusiness",
+                "@id": "https://rebeccahenrique.com.br/#business",
+                "name": "Rebecca Henrique - Biomédica Esteta",
+                "image": "https://rebeccahenrique.com.br/og-image.jpg",
+                "description": "Biomédica esteta especializada em tratamentos faciais personalizados em Freguesia, Rio de Janeiro. Oferecemos limpeza de pele, hidratação facial, peeling químico e drenagem linfática facial.",
+                "url": "https://rebeccahenrique.com.br/",
+                "telephone": "+55-21-98195-0495",
+                "priceRange": "$$",
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Freguesia",
+                    "addressRegion": "RJ",
+                    "addressCountry": "BR"
+                },
+                "geo": {
+                    "@type": "GeoCoordinates",
+                    "latitude": "-22.9319",
+                    "longitude": "-43.3456"
+                },
+                "openingHoursSpecification": [
+                    {
+                        "@type": "OpeningHoursSpecification",
+                        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                        "opens": "09:00",
+                        "closes": "18:00"
+                    }
+                ],
+                "sameAs": [
+                    "https://wa.me/5521981950495"
+                ],
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "5.0",
+                    "reviewCount": "1"
+                }
+            },
+            {
+                "@type": "Person",
+                "@id": "https://rebeccahenrique.com.br/#person",
+                "name": "Rebecca Henrique",
+                "jobTitle": "Biomédica Esteta",
+                "description": "Biomédica esteta dedicada a realçar a beleza natural de cada pessoa através de tratamentos faciais personalizados e baseados em evidências científicas.",
+                "url": "https://rebeccahenrique.com.br/",
+                "image": "https://rebeccahenrique.com.br/og-image.jpg",
+                "telephone": "+55-21-98195-0495",
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Freguesia",
+                    "addressRegion": "RJ",
+                    "addressCountry": "BR"
+                },
+                "alumniOf": {
+                    "@type": "EducationalOrganization",
+                    "name": "Formação em Biomedicina"
+                },
+                "knowsAbout": [
+                    "Estética Facial",
+                    "Limpeza de Pele",
+                    "Hidratação Facial",
+                    "Peeling Químico",
+                    "Drenagem Linfática Facial",
+                    "Biomedicina Estética"
+                ]
+            },
+            {
+                "@type": "Service",
+                "@id": "https://rebeccahenrique.com.br/#service-limpeza",
+                "serviceType": "Limpeza de Pele",
+                "provider": {
+                    "@id": "https://rebeccahenrique.com.br/#business"
+                },
+                "areaServed": {
+                    "@type": "City",
+                    "name": "Rio de Janeiro"
+                },
+                "description": "Procedimento profundo que remove impurezas, cravos e células mortas, promovendo uma pele limpa, saudável e revitalizada."
+            },
+            {
+                "@type": "Service",
+                "@id": "https://rebeccahenrique.com.br/#service-hidratacao",
+                "serviceType": "Hidratação Facial",
+                "provider": {
+                    "@id": "https://rebeccahenrique.com.br/#business"
+                },
+                "areaServed": {
+                    "@type": "City",
+                    "name": "Rio de Janeiro"
+                },
+                "description": "Tratamento que repõe a umidade natural da pele, combatendo ressecamento e proporcionando luminosidade e maciez."
+            },
+            {
+                "@type": "Service",
+                "@id": "https://rebeccahenrique.com.br/#service-peeling",
+                "serviceType": "Peeling Químico",
+                "provider": {
+                    "@id": "https://rebeccahenrique.com.br/#business"
+                },
+                "areaServed": {
+                    "@type": "City",
+                    "name": "Rio de Janeiro"
+                },
+                "description": "Renovação celular que trata manchas, melasma, acne e sinais de envelhecimento, revelando uma pele mais uniforme e rejuvenescida."
+            },
+            {
+                "@type": "Service",
+                "@id": "https://rebeccahenrique.com.br/#service-drenagem",
+                "serviceType": "Drenagem Linfática Facial",
+                "provider": {
+                    "@id": "https://rebeccahenrique.com.br/#business"
+                },
+                "areaServed": {
+                    "@type": "City",
+                    "name": "Rio de Janeiro"
+                },
+                "description": "Massagem suave que reduz inchaço, elimina toxinas e promove um contorno facial mais definido e aspecto descansado."
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://rebeccahenrique.com.br/#website",
+                "url": "https://rebeccahenrique.com.br/",
+                "name": "Rebecca Henrique - Biomédica Esteta",
+                "description": "Site oficial de Rebecca Henrique, biomédica esteta especializada em tratamentos faciais em Freguesia, Rio de Janeiro.",
+                "publisher": {
+                    "@id": "https://rebeccahenrique.com.br/#person"
+                },
+                "inLanguage": "pt-BR"
+            }
+        ]
+    }
+    </script>
 </head>
 <body>
+    <!-- Skip to main content link for keyboard navigation -->
+    <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
+    <!-- SVG Sprite -->
+    <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <!-- WhatsApp Icon -->
+            <symbol id="icon-whatsapp" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 1.856.001 3.598.723 4.907 2.034 1.31 1.311 2.031 3.054 2.03 4.908-.001 3.825-3.113 6.938-6.937 6.938z"/>
+            </symbol>
+
+            <!-- Arrow Right Icon -->
+            <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+            </symbol>
+
+            <!-- Check Icon -->
+            <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </symbol>
+
+            <!-- Location Icon -->
+            <symbol id="icon-location" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+            </symbol>
+        </defs>
+    </svg>
+
     <!-- Header -->
-    <header class="header">
+    <header class="header" role="banner">
         <div class="container">
             <div class="logo">Rebecca Henrique</div>
-            <nav class="nav">
+            <nav class="nav" role="navigation" aria-label="Navegação principal">
                 <a href="#sobre">Sobre</a>
                 <a href="#servicos">Serviços</a>
                 <a href="#contato">Contato</a>
             </nav>
-            <a href="https://wa.me/5521981950495?text=Olá! Gostaria de agendar um horário." class="btn-whatsapp-header" target="_blank">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 1.856.001 3.598.723 4.907 2.034 1.31 1.311 2.031 3.054 2.03 4.908-.001 3.825-3.113 6.938-6.937 6.938z"/>
-                </svg>
+            <a href="https://wa.me/5521981950495?text=Olá! Gostaria de agendar um horário." class="btn-whatsapp-header" target="_blank" rel="noopener noreferrer" aria-label="Agendar horário pelo WhatsApp">
+                <svg width="20" height="20" aria-hidden="true"><use href="#icon-whatsapp"/></svg>
                 Agendar
             </a>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="main-content" role="main" aria-labelledby="hero-title">
         <div class="container">
             <div class="hero-content">
                 <span class="hero-tag">Biomédica Esteta</span>
-                <h1 class="hero-title">Rebecca Henrique</h1>
+                <h1 class="hero-title" id="hero-title">Rebecca Henrique</h1>
                 <p class="hero-subtitle">Realce sua beleza natural com tratamentos estéticos faciais personalizados</p>
                 <div class="hero-buttons">
-                    <a href="https://wa.me/5521981950495?text=Olá! Gostaria de agendar um horário." class="btn-primary" target="_blank">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 1.856.001 3.598.723 4.907 2.034 1.31 1.311 2.031 3.054 2.03 4.908-.001 3.825-3.113 6.938-6.937 6.938z"/>
-                        </svg>
+                    <a href="https://wa.me/5521981950495?text=Olá! Gostaria de agendar um horário." class="btn-primary" target="_blank" rel="noopener noreferrer" aria-label="Agendar consulta pelo WhatsApp">
+                        <svg width="20" height="20" aria-hidden="true"><use href="#icon-whatsapp"/></svg>
                         Agendar Consulta
                     </a>
                     <a href="#servicos" class="btn-secondary">Conhecer Serviços</a>
                 </div>
                 <div class="hero-info">
-                    <div class="info-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
+                    <div class="info-item" role="contentinfo">
+                        <svg width="20" height="20" aria-hidden="true"><use href="#icon-location"/></svg>
                         <span>Freguesia - Rio de Janeiro</span>
                     </div>
                 </div>
@@ -59,46 +279,35 @@
     </section>
 
     <!-- Sobre Section -->
-    <section id="sobre" class="about">
+    <section id="sobre" class="about" aria-labelledby="about-title">
         <div class="container">
             <div class="about-content">
                 <div class="about-image">
-                    <div class="image-placeholder">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </div>
+                    <!-- Quando adicionar foto real, use: -->
+                    <!-- <img src="foto-rebecca.jpg" alt="Rebecca Henrique - Biomédica Esteta sorrindo" loading="lazy" width="400" height="533"> -->
+                    <img src="https://images.pexels.com/photos/14996838/pexels-photo-14996838.jpeg" alt="Procedimento estético realizado por Rebecca Henrique" loading="lazy" width="400" height="533">
+                    
                 </div>
                 <div class="about-text">
                     <span class="section-tag">Sobre</span>
-                    <h2 class="section-title">Cuidado profissional com a sua pele</h2>
+                    <h2 class="section-title" id="about-title">Cuidado profissional com a sua pele</h2>
                     <p class="about-description">
                         Sou Rebecca Henrique, biomédica esteta dedicada a realçar a beleza natural de cada pessoa através de tratamentos faciais personalizados e baseados em evidências científicas.
                     </p>
                     <p class="about-description">
                         Com uma abordagem moderna e cuidadosa, ofereço procedimentos estéticos que respeitam as características únicas da sua pele, promovendo saúde, bem-estar e autoestima.
                     </p>
-                    <div class="about-features">
-                        <div class="feature-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                            </svg>
+                    <div class="about-features" role="list">
+                        <div class="feature-item" role="listitem">
+                            <svg width="24" height="24" aria-hidden="true"><use href="#icon-check"/></svg>
                             <span>Formação em Biomedicina</span>
                         </div>
-                        <div class="feature-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                            </svg>
+                        <div class="feature-item" role="listitem">
+                            <svg width="24" height="24" aria-hidden="true"><use href="#icon-check"/></svg>
                             <span>Atendimento personalizado</span>
                         </div>
-                        <div class="feature-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                            </svg>
+                        <div class="feature-item" role="listitem">
+                            <svg width="24" height="24" aria-hidden="true"><use href="#icon-check"/></svg>
                             <span>Protocolos baseados em ciência</span>
                         </div>
                     </div>
@@ -108,11 +317,11 @@
     </section>
 
     <!-- Serviços Section -->
-    <section id="servicos" class="services">
+    <section id="servicos" class="services" aria-labelledby="services-title">
         <div class="container">
             <div class="services-header">
                 <span class="section-tag">Serviços</span>
-                <h2 class="section-title">Tratamentos Estéticos Faciais</h2>
+                <h2 class="section-title" id="services-title">Tratamentos Estéticos Faciais</h2>
                 <p class="section-description">Procedimentos especializados para cuidar da saúde e beleza da sua pele</p>
             </div>
             <div class="services-grid">
@@ -126,12 +335,9 @@
                     </div>
                     <h3 class="service-title">Limpeza de Pele</h3>
                     <p class="service-description">Procedimento profundo que remove impurezas, cravos e células mortas, promovendo uma pele limpa, saudável e revitalizada.</p>
-                    <a href="https://wa.me/5521981950495?text=Olá! Gostaria de saber mais sobre Limpeza de Pele." class="service-link" target="_blank">
+                    <a href="https://wa.me/5521981950495?text=Olá! Gostaria de saber mais sobre Limpeza de Pele." class="service-link" target="_blank" rel="noopener noreferrer" aria-label="Saiba mais sobre Limpeza de Pele pelo WhatsApp">
                         Saiba mais
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
+                        <svg width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
                     </a>
                 </div>
 
@@ -143,12 +349,9 @@
                     </div>
                     <h3 class="service-title">Hidratação Facial</h3>
                     <p class="service-description">Tratamento que repõe a umidade natural da pele, combatendo ressecamento e proporcionando luminosidade e maciez.</p>
-                    <a href="https://wa.me/5521981950495?text=Olá! Gostaria de saber mais sobre Hidratação Facial." class="service-link" target="_blank">
+                    <a href="https://wa.me/5521981950495?text=Olá! Gostaria de saber mais sobre Hidratação Facial." class="service-link" target="_blank" rel="noopener noreferrer" aria-label="Saiba mais sobre Hidratação Facial pelo WhatsApp">
                         Saiba mais
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
+                        <svg width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
                     </a>
                 </div>
 
@@ -160,12 +363,9 @@
                     </div>
                     <h3 class="service-title">Peeling</h3>
                     <p class="service-description">Renovação celular que trata manchas, melasma, acne e sinais de envelhecimento, revelando uma pele mais uniforme e rejuvenescida.</p>
-                    <a href="https://wa.me/5521981950495?text=Olá! Gostaria de saber mais sobre Peeling." class="service-link" target="_blank">
+                    <a href="https://wa.me/5521981950495?text=Olá! Gostaria de saber mais sobre Peeling." class="service-link" target="_blank" rel="noopener noreferrer" aria-label="Saiba mais sobre Peeling pelo WhatsApp">
                         Saiba mais
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
+                        <svg width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
                     </a>
                 </div>
 
@@ -178,12 +378,9 @@
                     </div>
                     <h3 class="service-title">Drenagem Linfática Facial</h3>
                     <p class="service-description">Massagem suave que reduz inchaço, elimina toxinas e promove um contorno facial mais definido e aspecto descansado.</p>
-                    <a href="https://wa.me/5521981950495?text=Olá! Gostaria de saber mais sobre Drenagem Linfática Facial." class="service-link" target="_blank">
+                    <a href="https://wa.me/5521981950495?text=Olá! Gostaria de saber mais sobre Drenagem Linfática Facial." class="service-link" target="_blank" rel="noopener noreferrer" aria-label="Saiba mais sobre Drenagem Linfática Facial pelo WhatsApp">
                         Saiba mais
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
+                        <svg width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
                     </a>
                 </div>
             </div>
@@ -191,15 +388,13 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="cta">
+    <section class="cta" aria-labelledby="cta-title">
         <div class="container">
             <div class="cta-content">
-                <h2 class="cta-title">Pronta para transformar sua pele?</h2>
+                <h2 class="cta-title" id="cta-title">Pronta para transformar sua pele?</h2>
                 <p class="cta-description">Agende sua consulta e descubra o tratamento ideal para você</p>
-                <a href="https://wa.me/5521981950495?text=Olá! Gostaria de agendar uma consulta." class="btn-primary" target="_blank">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 1.856.001 3.598.723 4.907 2.034 1.31 1.311 2.031 3.054 2.03 4.908-.001 3.825-3.113 6.938-6.937 6.938z"/>
-                    </svg>
+                <a href="https://wa.me/5521981950495?text=Olá! Gostaria de agendar uma consulta." class="btn-primary" target="_blank" rel="noopener noreferrer" aria-label="Agendar consulta agora pelo WhatsApp">
+                    <svg width="20" height="20" aria-hidden="true"><use href="#icon-whatsapp"/></svg>
                     Agendar Agora pelo WhatsApp
                 </a>
             </div>
@@ -207,20 +402,18 @@
     </section>
 
     <!-- Contato Section -->
-    <section id="contato" class="contact">
+    <section id="contato" class="contact" aria-labelledby="contact-title">
         <div class="container">
             <div class="contact-content">
                 <div class="contact-info">
                     <span class="section-tag">Contato</span>
-                    <h2 class="section-title">Vamos conversar?</h2>
+                    <h2 class="section-title" id="contact-title">Vamos conversar?</h2>
                     <p class="contact-description">Entre em contato para agendar sua consulta ou tirar dúvidas sobre os tratamentos.</p>
 
-                    <div class="contact-items">
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 1.856.001 3.598.723 4.907 2.034 1.31 1.311 2.031 3.054 2.03 4.908-.001 3.825-3.113 6.938-6.937 6.938z"/>
-                                </svg>
+                    <div class="contact-items" role="list">
+                        <div class="contact-item" role="listitem">
+                            <div class="contact-icon" aria-hidden="true">
+                                <svg width="24" height="24"><use href="#icon-whatsapp"/></svg>
                             </div>
                             <div>
                                 <h4>WhatsApp</h4>
@@ -228,12 +421,9 @@
                             </div>
                         </div>
 
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                    <circle cx="12" cy="10" r="3"></circle>
-                                </svg>
+                        <div class="contact-item" role="listitem">
+                            <div class="contact-icon" aria-hidden="true">
+                                <svg width="24" height="24"><use href="#icon-location"/></svg>
                             </div>
                             <div>
                                 <h4>Localização</h4>
@@ -247,7 +437,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">Rebecca Henrique</div>
@@ -258,10 +448,45 @@
     </footer>
 
     <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/5521981950495?text=Olá! Gostaria de agendar um horário." class="whatsapp-float" target="_blank" title="Fale conosco no WhatsApp">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 1.856.001 3.598.723 4.907 2.034 1.31 1.311 2.031 3.054 2.03 4.908-.001 3.825-3.113 6.938-6.937 6.938z"/>
-        </svg>
+    <a href="https://wa.me/5521981950495?text=Olá! Gostaria de agendar um horário." class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Fale conosco no WhatsApp" title="Fale conosco no WhatsApp">
+        <svg width="32" height="32" aria-hidden="true"><use href="#icon-whatsapp"/></svg>
     </a>
+
+    <!-- Active Navigation Script -->
+    <script>
+        // Highlight active navigation link based on scroll position
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav a[href^="#"]');
+
+            function highlightNavigation() {
+                let scrollY = window.scrollY;
+
+                sections.forEach(section => {
+                    const sectionHeight = section.offsetHeight;
+                    const sectionTop = section.offsetTop - 100;
+                    const sectionId = section.getAttribute('id');
+
+                    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                        navLinks.forEach(link => {
+                            link.removeAttribute('aria-current');
+                            link.classList.remove('active');
+
+                            if (link.getAttribute('href') === '#' + sectionId) {
+                                link.setAttribute('aria-current', 'true');
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Run on scroll
+            window.addEventListener('scroll', highlightNavigation);
+
+            // Run on load
+            highlightNavigation();
+        });
+    </script>
 </body>
 </html>
