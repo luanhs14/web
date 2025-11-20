@@ -15,8 +15,8 @@ const config: Config = {
         "blue-accent": "#4169E1",
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
-        heading: ["Montserrat", "Inter", "system-ui", "-apple-system", "sans-serif"],
+        sans: ["var(--font-inter)", "system-ui", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        heading: ["var(--font-montserrat)", "var(--font-inter)", "system-ui", "-apple-system", "sans-serif"],
       },
     },
   },

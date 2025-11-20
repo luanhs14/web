@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Zap, Mail, Phone, MapPin, Sparkles } from "lucide-react";
-import { getWhatsAppLink, env } from "@/lib/env";
+import { env } from "@/lib/env";
+import { WhatsAppButton } from "./ui";
 
 export default function CTASection() {
   return (
@@ -77,15 +78,15 @@ export default function CTASection() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="pt-8"
           >
-            <a
-              href={getWhatsAppLink("Olá! Quero solicitar um orçamento")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-12 py-6 bg-primary-yellow text-black font-black text-xl sm:text-2xl rounded-xl shadow-2xl transition-all duration-300 hover:scale-110 hover:shadow-[0_0_60px_rgba(255,217,61,0.8)] group"
+            <WhatsAppButton
+              message="Olá! Quero solicitar um orçamento"
+              variant="primary"
+              size="lg"
+              className="text-xl sm:text-2xl font-black px-12 py-6 rounded-xl shadow-2xl hover:scale-110 hover:shadow-[0_0_60px_rgba(255,217,61,0.8)]"
+              icon={<Zap className="w-7 h-7 group-hover:rotate-12 transition-transform" />}
             >
-              <span>Solicitar Orçamento Agora</span>
-              <Zap className="w-7 h-7 group-hover:rotate-12 transition-transform" />
-            </a>
+              Solicitar Orçamento Agora
+            </WhatsAppButton>
           </motion.div>
 
           {/* Contact info */}

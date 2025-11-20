@@ -38,8 +38,7 @@ describe('Environment Variables', () => {
       expect(env.site.url).toBe('https://test.com')
 
       // TypeScript will catch this at compile time:
-      // @ts-expect-error - This should fail TypeScript compilation
-      // env.site.url = 'new-url' // <-- Would fail to compile
+      // env.site.url = 'new-url' // <-- Would fail to compile with "as const"
     })
   })
 

@@ -19,6 +19,16 @@ import type {
   ProcessStep,
 } from "@/data";
 
+// Re-export tipos de dados para uso nos sub-componentes
+export type {
+  Service,
+  Project,
+  FAQ,
+  Testimonial,
+  Diferencial,
+  ProcessStep,
+};
+
 /**
  * Props para componentes de seção que podem receber dados customizados
  */

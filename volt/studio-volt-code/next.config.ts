@@ -60,6 +60,25 @@ const nextConfig: NextConfig = {
             key: "X-XSS-Protection",
             value: "1; mode=block",
           },
+          // Content Security Policy (CSP) - Previne XSS e code injection
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline'", // unsafe-inline necessário para Next.js
+              "style-src 'self' 'unsafe-inline'", // unsafe-inline necessário para CSS-in-JS
+              "img-src 'self' data: blob: https://images.unsplash.com https://ui-avatars.com",
+              "font-src 'self' data:",
+              "connect-src 'self'",
+              "media-src 'self'",
+              "object-src 'none'",
+              "frame-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "frame-ancestors 'none'",
+              "upgrade-insecure-requests",
+            ].join("; "),
+          },
           // Referrer policy
           {
             key: "Referrer-Policy",

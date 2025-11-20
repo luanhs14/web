@@ -33,9 +33,9 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative bg-black border-t border-gray-900">
+    <footer role="contentinfo" className="relative bg-black border-t border-gray-900">
       {/* Top gradient line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-purple to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-purple to-transparent" aria-hidden="true" />
 
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
@@ -58,7 +58,7 @@ export default function Footer() {
               <br />
               Velocidade sem comprometer qualidade
             </p>
-            <div className="flex gap-4 pt-4">
+            <div className="flex gap-4 pt-4" role="group" aria-label="Redes sociais">
               {socialLinks.map((social, index) => {
                 const Icon = social.icon;
                 return (
@@ -67,10 +67,10 @@ export default function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={social.label}
-                    className="w-10 h-10 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-primary-yellow hover:border-primary-yellow transition-all duration-300 hover:scale-110"
+                    aria-label={`${social.label} - Abre em nova aba`}
+                    className="w-10 h-10 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-primary-yellow hover:border-primary-yellow transition-all duration-300 hover:scale-110 focus-visible-ring"
                   >
-                    <Icon className="w-5 h-5" />
+                    <Icon className="w-5 h-5" aria-hidden="true" />
                   </a>
                 );
               })}
@@ -88,19 +88,21 @@ export default function Footer() {
             <h4 className="text-lg font-heading font-bold text-white uppercase tracking-wide">
               Menu
             </h4>
-            <ul className="space-y-3">
-              {menuLinks.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-gray-400 hover:text-primary-yellow transition-colors duration-300 flex items-center gap-2 group"
-                  >
-                    <span className="w-0 h-px bg-primary-yellow group-hover:w-4 transition-all duration-300" />
-                    {link.nome}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <nav aria-label="Links rápidos do rodapé">
+              <ul className="space-y-3">
+                {menuLinks.map((link, index) => (
+                  <li key={index}>
+                    <a
+                      href={link.href}
+                      className="text-gray-400 hover:text-primary-yellow transition-colors duration-300 flex items-center gap-2 group focus-visible-ring rounded"
+                    >
+                      <span className="w-0 h-px bg-primary-yellow group-hover:w-4 transition-all duration-300" aria-hidden="true" />
+                      {link.nome}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </motion.div>
 
           {/* Column 3: Contact */}

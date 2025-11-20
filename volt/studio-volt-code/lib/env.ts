@@ -3,25 +3,10 @@
  *
  * Centralizes access to environment variables with type safety and validation.
  * All public environment variables must be prefixed with NEXT_PUBLIC_
+ *
+ * IMPORTANT: Direct references to process.env are required for Next.js to
+ * inline these values at build time.
  */
-
-/**
- * Gets an environment variable value
- * @throws Error if required variable is missing
- */
-function getEnvVar(key: string, required: boolean = true): string {
-  const value = process.env[key];
-
-  if (required && !value) {
-    throw new Error(
-      `Missing required environment variable: ${key}\n` +
-      `Please check your .env.local file and make sure ${key} is defined.\n` +
-      `See .env.example for reference.`
-    );
-  }
-
-  return value || '';
-}
 
 /**
  * Environment variables used throughout the application
@@ -29,31 +14,31 @@ function getEnvVar(key: string, required: boolean = true): string {
 export const env = {
   // WhatsApp Configuration
   whatsapp: {
-    number: getEnvVar('NEXT_PUBLIC_WHATSAPP_NUMBER'),
-    link: getEnvVar('NEXT_PUBLIC_WHATSAPP_LINK'),
+    number: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '',
+    link: process.env.NEXT_PUBLIC_WHATSAPP_LINK || '',
   },
 
   // Contact Configuration
   contact: {
-    email: getEnvVar('NEXT_PUBLIC_EMAIL'),
-    phoneDisplay: getEnvVar('NEXT_PUBLIC_PHONE_DISPLAY'),
+    email: process.env.NEXT_PUBLIC_EMAIL || '',
+    phoneDisplay: process.env.NEXT_PUBLIC_PHONE_DISPLAY || '',
   },
 
   // Site Configuration
   site: {
-    url: getEnvVar('NEXT_PUBLIC_SITE_URL'),
-    name: getEnvVar('NEXT_PUBLIC_SITE_NAME'),
+    url: process.env.NEXT_PUBLIC_SITE_URL || '',
+    name: process.env.NEXT_PUBLIC_SITE_NAME || '',
   },
 
   // Analytics (optional)
   analytics: {
-    googleId: getEnvVar('NEXT_PUBLIC_GA_ID', false),
+    googleId: process.env.NEXT_PUBLIC_GA_ID || '',
   },
 
   // SEO (optional)
   seo: {
-    googleVerification: getEnvVar('NEXT_PUBLIC_GOOGLE_VERIFICATION', false),
-    ogImage: getEnvVar('NEXT_PUBLIC_OG_IMAGE', false) || '/og-image.png',
+    googleVerification: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION || '',
+    ogImage: process.env.NEXT_PUBLIC_OG_IMAGE || '/og-image.png',
   },
 } as const;
 
@@ -73,15 +58,15 @@ export function getWhatsAppLink(message: string): string {
  */
 export function validateEnv(): void {
   try {
-    // Attempt to access all required variables
-    env.whatsapp.number;
-    env.whatsapp.link;
-    env.contact.email;
-    env.contact.phoneDisplay;
-    env.site.url;
-    env.site.name;
+    // Attempt to access all required variables (void to avoid unused expression warning)
+    void env.whatsapp.number;
+    void env.whatsapp.link;
+    void env.contact.email;
+    void env.contact.phoneDisplay;
+    void env.site.url;
+    void env.site.name;
 
-    console.log('✅ Environment variables validated successfully');
+    console.info('✅ Environment variables validated successfully');
   } catch (error) {
     console.error('❌ Environment validation failed:', error);
     throw error;

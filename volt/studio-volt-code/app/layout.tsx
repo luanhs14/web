@@ -1,7 +1,23 @@
 import type { Metadata } from "next";
+import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import { env } from "@/lib/env";
 import ErrorBoundary from "./components/ErrorBoundary";
+
+// Configuração otimizada de fontes com next/font
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["700", "800", "900"],
+  variable: "--font-montserrat",
+  display: "swap",
+});
 
 // Gera metadata dinamicamente a partir das variáveis de ambiente
 export const metadata: Metadata = {
@@ -63,7 +79,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={`${inter.variable} ${montserrat.variable}`}>
       <head>
         {/*
           ⚠️ ATENÇÃO: Os arquivos de ícones abaixo estão faltando!

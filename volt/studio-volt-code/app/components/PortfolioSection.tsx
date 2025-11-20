@@ -4,13 +4,13 @@ import { motion } from "framer-motion";
 import { Sparkles, Zap, Smartphone, ExternalLink } from "lucide-react";
 import { getWhatsAppLink } from "@/lib/env";
 import { useState } from "react";
+import Image from "next/image";
 import { projects as defaultProjects } from "@/data";
 import type { PortfolioSectionProps, ProjectImageProps } from "./types";
 
-// Componente para imagem com tratamento de erro
+// Componente otimizado para imagem com next/image
 function ProjectImage({ src, alt, color }: ProjectImageProps) {
   const [imageError, setImageError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   return (
     <>
@@ -20,33 +20,19 @@ function ProjectImage({ src, alt, color }: ProjectImageProps) {
           <Sparkles className="w-16 h-16 text-white/50" />
         </div>
       ) : (
-        <>
-          {/* Loading state */}
-          {isLoading && (
-            <div className={`absolute inset-0 bg-gradient-to-br ${color} animate-pulse`} />
-          )}
-
-          {/* Imagem real */}
-          <div
-            className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-            style={{
-              backgroundImage: `url(${src})`,
-              opacity: isLoading ? 0 : 1,
-              transition: 'opacity 0.3s ease-in-out'
-            }}
-            onError={() => setImageError(true)}
-            onLoad={() => setIsLoading(false)}
-          />
-
-          {/* Fallback via Image tag oculta para detectar erro */}
-          <img
-            src={src}
-            alt={alt}
-            onError={() => setImageError(true)}
-            onLoad={() => setIsLoading(false)}
-            className="hidden"
-          />
-        </>
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-110"
+          onError={() => setImageError(true)}
+          placeholder="blur"
+          blurDataURL={`data:image/svg+xml;base64,${Buffer.from(
+            `<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="300" fill="${color.includes('purple') ? '#6B46C1' : color.includes('yellow') ? '#FFD93D' : color.includes('blue') ? '#4169E1' : color.includes('green') ? '#10B981' : color.includes('pink') ? '#EC4899' : '#6B46C1'}"/></svg>`
+          ).toString('base64')}`}
+          loading="lazy"
+        />
       )}
     </>
   );

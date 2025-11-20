@@ -1,0 +1,24 @@
+/**
+ * EXEMPLO DE ERRO ESLint
+ *
+ * Se você tentar usar console.log no código, verá este erro:
+ */
+
+// ❌ Este código causaria erro de lint:
+// console.log('Debug info');
+
+// Erro ESLint:
+// error  Unexpected console statement  no-console
+
+// ✅ Use o logger ao invés:
+// import logger from '@/lib/logger';
+// logger.log('Debug info');
+
+/**
+ * Para testar localmente:
+ *
+ * 1. Crie um arquivo .tsx
+ * 2. Adicione: console.log('test');
+ * 3. Execute: npm run lint
+ * 4. Verá o erro!
+ */

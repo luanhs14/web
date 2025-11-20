@@ -16,7 +16,7 @@ export const processSteps: ProcessStep[] = [
     icon: Search,
     emoji: "1️⃣",
     titulo: "DISCOVERY",
-    tempo: "Briefing completo (30-60 min)",
+    tempo: "Briefing completo",
     descricao: "Entendemos seu negócio e objetivos",
   },
   {
